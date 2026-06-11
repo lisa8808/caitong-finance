@@ -55,17 +55,17 @@ export default function HotspotTable({ data }: Props) {
               <td className="py-2 px-2 align-top">
                 <div className="flex gap-1 flex-wrap">
                   <span className={`px-1.5 py-0.5 text-[10px] rounded border ${item.情感打分 < 0 ? 'text-red-400 border-red-500/30 bg-red-500/10' : 'text-blue-400 border-blue-500/30 bg-blue-500/10'}`}>
-                    {item.情感打分}分
+                    情绪分：{item.情感打分}分
                   </span>
                   <span className={`px-1.5 py-0.5 text-[10px] rounded border ${tagColors['行业']} ${tagBgColors['行业']}`}>
-                    {item.行业名称}
+                    行业：{item.行业名称}
                   </span>
                   <span className={`px-1.5 py-0.5 text-[10px] rounded border ${tagColors['概念']} ${tagBgColors['概念']}`}>
-                    {item.概念名称}
+                    概念：{item.概念名称}
                   </span>
                   {item.标的名称 && (
                     <span className={`px-1.5 py-0.5 text-[10px] rounded border ${tagColors['标的']} ${tagBgColors['标的']}`}>
-                      {item.标的名称}
+                      标的：{item.标的名称}{item.标的代码 ? `（${item.标的代码}）` : ''}
                     </span>
                   )}
                 </div>

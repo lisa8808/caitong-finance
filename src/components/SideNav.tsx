@@ -1,6 +1,6 @@
-import { BarChart3, Star, MessageCircle, ArrowLeftRight, Flame, Activity } from 'lucide-react';
+import { BarChart3, Star, MessageCircle, ArrowLeftRight, Flame, Activity, BadgeDollarSign, UserCircle } from 'lucide-react';
 
-export type SideNavItem = '智询' | '市场' | '自选' | '热度' | '信号' | '策略';
+export type SideNavItem = '智询' | '市场' | '自选' | '热度' | '信号' | '策略' | '交易' | '账户';
 
 interface Props {
   active: SideNavItem;
@@ -8,12 +8,14 @@ interface Props {
 }
 
 const navItems: { id: SideNavItem; icon: typeof BarChart3 }[] = [
-  { id: '市场', icon: BarChart3 },
+  { id: '智询', icon: MessageCircle },
   { id: '自选', icon: Star },
+  { id: '市场', icon: BarChart3 },
   { id: '热度', icon: Flame },
   { id: '信号', icon: Activity },
-  { id: '智询', icon: MessageCircle },
   { id: '策略', icon: ArrowLeftRight },
+  { id: '交易', icon: BadgeDollarSign },
+  { id: '账户', icon: UserCircle },
 ];
 
 export default function SideNav({ active, onSelect }: Props) {

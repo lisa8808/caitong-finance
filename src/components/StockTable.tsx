@@ -5,12 +5,14 @@ import { StockItem } from '../types';
 interface Props {
   onSelectStock: (stock: StockItem) => void;
   selectedCode?: string;
+  stocks?: StockItem[];
 }
 
 const columns = ['序号', '证券代码', '证券名称', '现价', '涨幅%', '涨跌', '涨速%', '换手%', '最高', '最低', '今开', '昨收', '量比'];
 
-export default function StockTable({ onSelectStock, selectedCode }: Props) {
+export default function StockTable({ onSelectStock, selectedCode, stocks }: Props) {
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+  const data = stocks ?? mockStocks;
 
   const formatNumber = (value: number, decimals: number = 2) => {
     return value.toFixed(decimals);
@@ -42,7 +44,7 @@ export default function StockTable({ onSelectStock, selectedCode }: Props) {
           </tr>
         </thead>
         <tbody>
-          {mockStocks.map((stock, idx) => (
+          {data.map((stock, idx) => (
             <tr
               key={stock.证券代码}
               onClick={() => onSelectStock(stock)}

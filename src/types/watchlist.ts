@@ -30,3 +30,16 @@ export interface FundFlowItem {
   color: string;
   label: string;
 }
+
+export interface HoldingStock {
+  序号: number;
+  证券代码: string;
+  证券名称: string;
+  现价: number;
+  持仓数量: number;
+  成本价: number;
+  市值: number;
+  盈亏: number;
+  盈亏率: number;
+  今日涨幅: number;
+}

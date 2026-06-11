@@ -1,13 +1,13 @@
 import { ChevronDown } from 'lucide-react';
 
-export type MobilePage = '智询' | '市场' | '自选' | '热度' | '信号' | '策略';
+export type MobilePage = '智询' | '市场' | '自选' | '热度' | '信号' | '策略' | '交易' | '账户';
 
 interface Props {
   active: MobilePage;
   onSelect: (page: MobilePage) => void;
 }
 
-const tabs: MobilePage[] = ['市场', '自选', '热度', '信号', '智询', '策略'];
+const tabs: MobilePage[] = ['智询', '自选', '市场', '热度', '信号', '策略', '交易', '账户'];
 
 export default function MobileTabBar({ active, onSelect }: Props) {
   return (

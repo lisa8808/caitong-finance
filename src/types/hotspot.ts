@@ -7,6 +7,7 @@ export interface HotspotItem {
   行业名称: string;
   概念名称: string;
   标的名称?: string;
+  标的代码?: string;
   是否重复: boolean;
   来源: string;
 }

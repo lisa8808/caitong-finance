@@ -4,6 +4,8 @@ import HeatPage from '../components/heat/HeatPage';
 import SignalNewsPage from '../components/SignalNewsPage';
 import AiChatPage from '../components/ai/AiChatPage';
 import TradePage from '../components/trade/TradePage';
+import TradingPage from '../components/trade/TradingPage';
+import AccountPage from '../components/account/AccountPage';
 import WatchlistPage from '../components/watchlist/WatchlistPage';
 import StockTable from '../components/StockTable';
 import StockDetail from '../components/StockDetail';
@@ -47,6 +49,8 @@ export default function MobileApp() {
         {activePage === '信号' && <SignalNewsPage />}
         {activePage === '智询' && <AiChatPage />}
         {activePage === '策略' && <TradePage />}
+        {activePage === '交易' && <TradingPage />}
+        {activePage === '账户' && <AccountPage />}
       </div>
 
       {activePage === '市场' && <BottomStatusBar />}
