@@ -74,7 +74,7 @@ export default function AiChatPage() {
   const [selectedReport, setSelectedReport] = useState<ReportRecord | null>(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedAction, setSelectedAction] = useState('筛选');
-  const [logoImage, setLogoImage] = useState<string | null>('/logo.jpg');
+  const [logoImage, setLogoImage] = useState<string | null>('/caitong-finance/logo.jpg');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const quickPrompts: Record<string, string> = {
