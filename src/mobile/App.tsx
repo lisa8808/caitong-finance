@@ -46,7 +46,7 @@ export default function MobileApp() {
         )}
         {activePage === '自选' && <WatchlistPage />}
         {activePage === '热度' && <HeatPage />}
-        {activePage === '信号' && <SignalNewsPage />}
+        {activePage === '舆情' && <SignalNewsPage />}
         {activePage === '智询' && <AiChatPage />}
         {activePage === '策略' && <TradePage />}
         {activePage === '交易' && <TradingPage />}

@@ -3,7 +3,7 @@
 ## Commands
 
 - Install deps from the lockfile with `npm install`; there is no separate workspace or package manager config.
-- Start local dev with `npm run dev -- --host 0.0.0.0`. Vite uses port `5173` by default.
+- Start local dev with `npm run dev -- --host 0.0.0.0`. Vite uses port `8686`.
 - Verify changes with `npm run build`. This runs `tsc -b` before `vite build`; there are no lint or test scripts.
 - Preview the production build with `npm run preview` after `npm run build`.
 

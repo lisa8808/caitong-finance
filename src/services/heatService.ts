@@ -3,6 +3,13 @@ import { HeatStock, SentimentData, SimilarStock, SubjectBlock } from '../types/h
 
 export interface HeatDataBundle {
   tradeDate?: string;
+  source: {
+    provider: 'eastmoney' | 'tushare' | 'local';
+    label: string;
+    isFallback: boolean;
+    detail: string;
+    updatedAt?: string;
+  };
   heatStocks: HeatStock[];
   sentimentHistory: SentimentData[];
   subjectBlocks: SubjectBlock[];
@@ -10,6 +17,12 @@ export interface HeatDataBundle {
 }
 
 const fallbackHeatData: HeatDataBundle = {
+  source: {
+    provider: 'local',
+    label: '本地样例（兜底）',
+    isFallback: true,
+    detail: '实时数据源不可用，当前展示项目内置样例数据。',
+  },
   heatStocks,
   sentimentHistory,
   subjectBlocks,

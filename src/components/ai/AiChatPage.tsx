@@ -1,13 +1,22 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Send, Bot, User, BarChart3, TrendingUp, Activity, ClipboardList, Target, ShieldAlert, Loader2, FileText, X } from 'lucide-react';
+import { Send, Bot, User, TrendingUp, Activity, ClipboardList, Target, ShieldAlert, Loader2, FileText, X, BadgeDollarSign, Share2, MessageCircle, MessageSquare, Copy, NotebookPen } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import html2canvas from 'html2canvas';
 import AiReviewModal, { ReviewOption } from './AiReviewModal';
+import StockSelectionTemplates, { StockSelectionTemplate } from './StockSelectionTemplates';
 import { StockItem } from '../../types';
 import { holdingStocks } from '../../data/watchlistData';
 import { AbnormalMovementData, AbnormalMovementStock, loadAbnormalMovementData } from '../../services/abnormalMovementService';
-import abnormalMovementSkill from '../../../skills/abnormal_movement/SKILL.md?raw';
-import abnormalReportTemplate from '../../../skills/abnormal_movement/assets/abnormal-report-template.md?raw';
+import { loadValueInvestingCommitteeReport } from '../../services/valueInvestingCommitteeService';
+import { loadHoldingStocks } from '../../services/watchlistService';
+import { loadStockSelectionReport } from '../../services/stockSelectionService';
+import { loadMarketQuickInsights, MarketQuickInsights } from '../../services/marketQuickInsightService';
+
+const ABNORMAL_MOVEMENT_SKILL_NAME = 'fi_abnormal_movement';
+const ABNORMAL_MOVEMENT_SKILL_TITLE = 'A股异动解读与归因分析 Skill';
+const ABNORMAL_REPORT_TITLE = '异动解读报告';
+const SAVED_NOTES_KEY = 'caitong-ai-saved-notes';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -39,6 +48,21 @@ const initialRecords: ReportRecord[] = [
   { summary: '消费电池产业链趋势研判', time: '2026-05-19 15:00', content: '' },
 ];
 
+function loadSavedNotes(): ReportRecord[] {
+  try {
+    const value = window.localStorage.getItem(SAVED_NOTES_KEY);
+    return value ? JSON.parse(value) as ReportRecord[] : [];
+  } catch {
+    return [];
+  }
+}
+
+function getNoteSummary(content: string) {
+  const firstLine = content.split('\n').map((line) => line.trim()).find(Boolean) || 'AI回答';
+  const plainText = firstLine.replace(/^#+\s*/, '').replace(/[*_`>]/g, '').trim();
+  return `智询笔记：${plainText.slice(0, 22)}${plainText.length > 22 ? '…' : ''}`;
+}
+
 const botReplies: Record<string, string> = {
   default: '这是一个很好的问题。基于当前市场数据和量化模型分析，我为您梳理了相关信息。市场整体情绪偏暖，建议关注业绩确定性较强的细分赛道。',
   筛选: '根据您的筛选条件，目前共匹配到6只标的。从估值角度看，隆基绿能PE仅12.5倍，处于历史低位；立讯精密PE16.8倍，具备消费电子+汽车电子双轮驱动逻辑。建议重点关注PE低于20且营收增速超过20%的标的。',
@@ -54,8 +78,8 @@ const quickActions = [
   { icon: Target, label: '标的筛选', key: '筛选' },
   { icon: Activity, label: '异动解读', key: '异动' },
   { icon: TrendingUp, label: '趋势判断', key: '趋势' },
+  { icon: BadgeDollarSign, label: '价值分析', key: '价值' },
   { icon: ClipboardList, label: '复盘总结', key: '复盘' },
-  { icon: BarChart3, label: '策略选择', key: '策略' },
   { icon: ShieldAlert, label: '风控提示', key: '风控' },
 ];
 
@@ -68,6 +92,331 @@ function getDateTime() {
   const d = new Date();
   const pad = (value: number) => String(value).padStart(2, '0');
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+}
+
+function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function formatReportValue(value: unknown, digits = 2) {
+  if (typeof value === 'number' && Number.isFinite(value)) return value.toFixed(digits);
+  return value === null || value === undefined || value === '' ? '缺失' : String(value);
+}
+
+function formatMarketAmount(value: number) {
+  const amountInYi = value / 100_000_000;
+  return `${amountInYi >= 0 ? '+' : ''}${amountInYi.toFixed(2)}亿元`;
+}
+
+function buildMarketQuickAnswer(prompt: string, data: MarketQuickInsights) {
+  const generatedAt = new Date(data.updatedAt).toLocaleString('zh-CN', { hour12: false });
+  const meta = `\n\n- 数据来源：${data.source}\n- 更新时间：${generatedAt}\n- 覆盖范围：${data.stockCount}只A股`;
+
+  if (prompt.includes('板块')) {
+    const rows = data.topBoards.slice(0, 5).map((board, index) => (
+      `| ${index + 1} | ${board.name} | ${board.avgChange >= 0 ? '+' : ''}${board.avgChange.toFixed(2)}% | ${formatMarketAmount(board.mainNetFlow)} | ${board.stockCount} |`
+    ));
+    return `# 今日涨幅居前板块\n\n| 排名 | 板块 | 平均涨幅 | 主力净流入 | 覆盖股票 |\n| --- | --- | --- | --- | --- |\n${rows.join('\n')}${meta}\n\n以上为实时行情聚合结果，盘中数据会持续变化。`;
+  }
+
+  if (prompt.includes('资金流')) {
+    const flow = data.market.mainNetFlow;
+    const direction = flow > 0 ? '净流入' : flow < 0 ? '净流出' : '基本持平';
+    const boardRows = [...data.topBoards]
+      .sort((a, b) => b.mainNetFlow - a.mainNetFlow)
+      .slice(0, 5)
+      .map((board, index) => `| ${index + 1} | ${board.name} | ${formatMarketAmount(board.mainNetFlow)} | ${board.avgChange >= 0 ? '+' : ''}${board.avgChange.toFixed(2)}% |`);
+    return `# 当前市场资金流向\n\n- 全市场主力资金：${direction} ${formatMarketAmount(Math.abs(flow)).replace('+', '')}\n- 上涨 / 下跌 / 平盘：${data.market.riseCount} / ${data.market.fallCount} / ${data.market.flatCount}\n- 全市场成交额：${formatMarketAmount(data.market.totalAmount).replace('+', '')}\n\n| 排名 | 资金流入居前板块 | 主力净流入 | 平均涨幅 |\n| --- | --- | --- | --- |\n${boardRows.join('\n')}${meta}\n\n资金流为实时截面数据，仅用于描述当前市场状态。`;
+  }
+
+  const stockRows = data.activeStocks.slice(0, 3).map((stock, index) => (
+    `| ${index + 1} | ${stock.code} | ${stock.name} | ${stock.industry || '未分类'} | ${stock.price.toFixed(2)} | ${stock.pctChange >= 0 ? '+' : ''}${stock.pctChange.toFixed(2)}% | ${formatMarketAmount(stock.mainNetFlow)} |`
+  ));
+  return `# 短线活跃标的关注清单\n\n| 排名 | 代码 | 名称 | 行业 | 最新价 | 涨跌幅 | 主力净流入 |\n| --- | --- | --- | --- | --- | --- | --- |\n${stockRows.join('\n')}${meta}\n\n筛选逻辑：按实时涨幅与成交活跃度综合排序，并剔除ST、退市风险名称。本内容仅为实时量化筛选结果，不构成任何投资建议。`;
+}
+
+function safeCell(value: unknown) {
+  return formatReportValue(value).replace(/\|/g, '/').replace(/\s*\n+\s*/g, '；').replace(/\s{2,}/g, ' ');
+}
+
+function tableRows(rows: Array<Array<unknown>>) {
+  return rows.map((row) => `| ${row.map(safeCell).join(' |')} |`);
+}
+
+function buildExpertConclusion(key: string, metrics: Record<string, any>, chair: Record<string, any>, profile: ReturnType<typeof getReportBusinessProfile>) {
+  const verdict = chair.verdict || '观察 / 需要验证';
+  const pe = formatReportValue(metrics.pe);
+  const pb = formatReportValue(metrics.pb);
+  const cash = metrics.operating_cash_flow
+    ? `经营现金流总额 ${formatReportValue(metrics.operating_cash_flow, 0)}`
+    : `仅有每股经营现金流 proxy ${formatReportValue(metrics.operating_cash_flow_per_share)}，经营现金流总额待补`;
+  const firstRisk = profile.risks[0] || '关键风险待验证';
+  const firstMoat = profile.moats[0] || '护城河待验证';
+  const firstSegment = profile.segments[0]?.[0] || '核心业务';
+
+  if (key === 'buffett') {
+    return `${verdict}。认可的前提是 ${firstMoat} 能转化为稳定现金流；当前 PE ${pe}、PB ${pb}，${cash}，资本开支仍需补齐后才能确认 owner earnings 和安全边际。`;
+  }
+  if (key === 'munger') {
+    return `核心结论是先防错：最大反证来自 ${firstRisk}。若利润不能持续转化为自由现金流，或资本开支拖累回报，应降低估值倍数和仓位。`;
+  }
+  if (key === 'duan_yongping') {
+    return `核心结论是先判断 ${firstSegment} 是否是好生意、管理层是否值得托付。只有产品需求、用户口碑、现金流和价格同时过关，才适合进入买入讨论。`;
+  }
+  if (key === 'li_lu') {
+    return `核心结论是验证十年确定性：公司必须在产业趋势、组织能力和复利再投资上持续变强；若关键验证节点无法兑现，长期情景估值需要下修。`;
+  }
+  return verdict;
+}
+
+function getReportBusinessProfile(data: { company: string; symbol: string; result?: Record<string, any> }) {
+  if (data.symbol === '01810.HK' || data.company.includes('小米')) {
+    return {
+      archetype: '消费电子 + AIoT + 智能电动车平台型制造公司',
+      segments: [
+        ['智能手机', '核心规模入口，贡献硬件收入和全球渠道基础', '出货量、ASP、毛利率、高端化占比、库存周转'],
+        ['IoT与生活消费产品', '扩展用户场景和硬件生态，提高用户黏性', '品类增长、毛利率、渠道效率、生态联动'],
+        ['互联网服务', '高毛利利润池，验证硬件用户规模能否转化为现金流', 'MAU、ARPU、广告/游戏/金融科技收入、毛利率'],
+        ['智能电动车', '第二增长曲线，但资本开支和竞争强度高', '交付量、单车毛利、订单持续性、研发和工厂投入回报'],
+        ['AI与操作系统生态', '提高终端体验和多设备协同，决定长期差异化', '澎湃OS活跃设备、AI功能留存、生态开发者与服务收入'],
+      ],
+      moats: [
+        '全球消费电子品牌与渠道规模',
+        '手机 + IoT + 汽车的多终端生态协同',
+        '互联网服务高毛利利润池',
+        '供应链效率和性价比心智',
+        '创始人长期投入与组织执行力',
+      ],
+      risks: [
+        '智能手机行业成熟、竞争激烈，硬件毛利率受压',
+        '汽车业务仍处投入期，若规模或毛利不达预期会拖累自由现金流',
+        'IoT品类扩张可能带来库存和渠道效率压力',
+        '互联网服务增长依赖设备活跃与用户时长',
+        '资本开支、研发投入和股东回报之间需要持续平衡',
+      ],
+      validationNodes: [
+        '分部收入和毛利率',
+        '智能手机高端化与海外份额',
+        'IoT库存和周转',
+        '互联网服务ARPU和毛利',
+        '汽车交付量、单车毛利和订单持续性',
+        '经营现金流、资本开支、自由现金流',
+      ],
+    };
+  }
+
+  const profile = data.result?.profile || {};
+  return {
+    archetype: profile.archetype || '待验证的上市公司',
+    segments: (profile.segments || []).map((segment: string, index: number) => [
+      segment,
+      '判断是否能持续贡献现金流和再投资机会',
+      (profile.validation_nodes || [])[index % Math.max((profile.validation_nodes || []).length, 1)] || '收入结构、毛利率、现金流',
+    ]),
+    moats: profile.moats || [],
+    risks: profile.risks || [],
+    validationNodes: profile.validation_nodes || [],
+  };
+}
+
+function buildCompactValueReport(data: { company: string; symbol: string; market: string; result?: Record<string, any>; report: string }) {
+  const result = data.result || {};
+  const metrics = result.metrics || {};
+  const valuation = result.valuation || {};
+  const chair = result.chair || {};
+  const audit = result.audit || chair.audit || {};
+  const valuationMetrics = valuation.valuation_metrics || {};
+  const threeYear = Array.isArray(valuation.three_year_scenarios) ? valuation.three_year_scenarios : [];
+  const tenYear = Array.isArray(valuation.ten_year_scenarios) ? valuation.ten_year_scenarios : [];
+  const sources = Array.isArray(result.sources) ? result.sources : [];
+  const gaps = Array.isArray(result.data_gaps) ? result.data_gaps : [];
+  const consensus = Array.isArray(chair.consensus) ? chair.consensus : [];
+  const contradictions = Array.isArray(chair.contradictions) ? chair.contradictions : [];
+  const redLines = Array.isArray(chair.red_lines) ? chair.red_lines : [];
+  const actions = Array.isArray(chair.actions) ? chair.actions : [];
+  const actionFramework = Array.isArray(chair.action_framework) ? chair.action_framework : [];
+  const priceDiscipline = Array.isArray(chair.price_discipline) ? chair.price_discipline : [];
+  const thesisBroken = Array.isArray(chair.thesis_broken) ? chair.thesis_broken : [];
+  const diligenceQuestions = Array.isArray(chair.diligence_questions) ? chair.diligence_questions : [];
+  const auditItems = Array.isArray(audit.items) ? audit.items : [];
+  const committee = result.committee || {};
+  const profile = getReportBusinessProfile(data);
+  const filteredGaps = gaps.filter((gap: string) => !(
+    gap.includes('经营现金流总额') && metrics.operating_cash_flow_per_share
+  ));
+
+  const sourceLines = sources.map((source: any) => (
+    `- ${source.kind || 'source'} / ${source.provider || 'unknown'}${source.statement ? ` / ${source.statement}` : ''}${source.endpoint ? ` / ${source.endpoint}` : ''}${source.ok === false ? ` / 未命中：${source.warning || 'unknown'}` : ''}`
+  ));
+  const searchEvidence = Array.isArray(result.sources)
+    ? sources.filter((source: any) => source.kind === 'search' && source.ok !== false)
+    : [];
+  const sentimentRows = searchEvidence.length
+    ? searchEvidence.map((source: any) => [source.provider || 'search', source.query || '舆情/公告/研报搜索', '已命中', source.endpoint || source.url || '见 evidence.search'])
+    : [
+      ['公告', 'HKEX 披露易 / 公司公告', '待接入解析', '用于识别回购、分红、股权激励、重大合同、诉讼与监管事件'],
+      ['年报/业绩会', '公司 IR / 年报 / 中报 / 业绩演示', '待接入解析', '用于补充管理层口径、业务分部、资本开支、经营现金流解释'],
+      ['研报', '券商研报 / 行业研究', '待接入解析', '用于补充行业格局、竞争强度、估值假设和风险事件'],
+      ['新闻舆情', '新闻源 / 搜索源', '当前缺少可用搜索源', '用于识别近期负面事件、产品口碑、监管变化和市场情绪'],
+    ];
+  const metricRows = [
+    ['latest_date', '最新交易日', metrics.latest_date],
+    ['latest_price', '最新价格', metrics.latest_price],
+    ['period_return', '样本期涨跌', typeof metrics.period_return === 'number' ? `${formatReportValue(metrics.period_return * 100)}%` : metrics.period_return],
+    ['eps', 'EPS（估值口径）', metrics.eps],
+    ['eps_reported', 'EPS（原始口径）', metrics.eps_reported],
+    ['bvps', 'BVPS（估值口径）', metrics.bvps],
+    ['bvps_reported', 'BVPS（原始口径）', metrics.bvps_reported],
+    ['financial_currency', '财报币种', metrics.financial_currency],
+    ['fx_to_price_currency', '估值换算系数', metrics.fx_to_price_currency],
+    ['pe', 'PE', metrics.pe],
+    ['pb', 'PB', metrics.pb],
+    ['revenue', '收入', typeof metrics.revenue === 'number' ? `${formatReportValue(metrics.revenue / 100000000)}亿` : metrics.revenue],
+    ['net_profit', '净利润', typeof metrics.net_profit === 'number' ? `${formatReportValue(metrics.net_profit / 100000000)}亿` : metrics.net_profit],
+    ['operating_cash_flow', '经营现金流总额', metrics.operating_cash_flow],
+    ['operating_cash_flow_per_share', '每股经营现金流', metrics.operating_cash_flow_per_share],
+    ['operating_cash_flow_per_share_reported', '每股经营现金流（原始口径）', metrics.operating_cash_flow_per_share_reported],
+    ['capex', '资本开支', metrics.capex],
+    ['owner_earnings_proxy', 'Owner earnings proxy', metrics.owner_earnings_proxy],
+    ['fcf_per_share_proxy', 'FCF/share proxy', metrics.fcf_per_share_proxy],
+    ['report_marker', '财报标记', metrics.report_marker],
+    ['market_rows', '行情样本行数', metrics.market_rows],
+  ];
+  const valuationRows = Object.entries(valuationMetrics).map(([key, value]) => [key, value]);
+  const marketSource = sources.find((source: any) => source.kind === 'market_data' && source.ok !== false);
+  const financialSources = sources.filter((source: any) => source.kind === 'financials' && source.ok !== false);
+  const financialSourceNames = [...new Set(financialSources.map((source: any) => source.provider || 'unknown'))].join('、');
+  const scenarioEvidenceRows = [
+    ['估值基准日', metrics.latest_date, marketSource?.provider || '缺失', '行情序列最新交易日'],
+    ['当前股价', metrics.latest_price, marketSource?.provider || '缺失', '目标价与回报率计算基准'],
+    ['起始 EPS', metrics.eps, financialSourceNames || '缺失', `财报期 ${metrics.report_marker || '缺失'}；${metrics.financial_currency || '币种缺失'}${metrics.fx_to_price_currency && metrics.fx_to_price_currency !== 1 ? ` × 汇率系数 ${formatReportValue(metrics.fx_to_price_currency)}` : ''}`],
+    ['当前 PE', metrics.pe, '由股价与EPS计算', '当前股价 ÷ 起始EPS'],
+    ['当前 PB', metrics.pb, '由股价与BVPS计算', '当前股价 ÷ BVPS'],
+    ['情景增长率', '牛/基/熊为模型假设', '本地估值模型', '不是第三方数据源预测；用于压力测试'],
+    ['退出 PE', '牛/基/熊为模型假设', '本地估值模型', '不是券商目标价；用于估值敏感性分析'],
+  ];
+  const scenarioRows = [...threeYear, ...tenYear].map((row: any) => [
+    `${row.years}年-${row.scenario}`,
+    typeof row.eps_cagr === 'number' ? `${formatReportValue(row.eps_cagr * 100)}%` : row.eps_cagr,
+    row.exit_pe,
+    row.future_eps,
+    row.target_price,
+    typeof row.total_return === 'number' ? `${formatReportValue(row.total_return * 100)}%` : row.total_return,
+    typeof row.annualized_return === 'number' ? `${formatReportValue(row.annualized_return * 100)}%` : row.annualized_return,
+  ]);
+  const committeeRows = ['buffett', 'munger', 'duan_yongping', 'li_lu']
+    .map((key) => [key, committee[key]])
+    .filter(([, item]) => Boolean(item))
+    .map(([key, item]: any[]) => {
+      const dimensions: Record<string, string> = {
+        buffett: '护城河、Owner Earnings、安全边际',
+        munger: '逆向思考、失败路径、永久亏损风险',
+        duan_yongping: '生意模式、管理层、企业文化、价格',
+        li_lu: '十年确定性、产业趋势、复利能力',
+      };
+      return [
+        item.title,
+        dimensions[key] || item.stance || '专家维度',
+        buildExpertConclusion(key, metrics, chair, profile),
+      ];
+    });
+  const cashFlowLine = metrics.operating_cash_flow
+    ? `经营现金流总额 ${formatReportValue(metrics.operating_cash_flow, 0)}`
+    : `经营现金流总额缺失；每股经营现金流 proxy ${formatReportValue(metrics.operating_cash_flow_per_share)} 已取得`;
+
+  return [
+    `# ${data.company}（${data.symbol}）价值分析记录`,
+    '',
+    '## 客观结论',
+    `- 结论：${result.verdict || chair.verdict || '缺失'}`,
+    `- 置信度：${result.confidence || chair.confidence || '缺失'}`,
+    `- 市场：${data.market}`,
+    `- 评估日：${result.as_of || '缺失'}`,
+    `- 公司类型：${profile.archetype}`,
+    ...(actions.length ? actions.map((item: string) => `- 动作建议：${item}`) : []),
+    '',
+    '## 估值情景证据',
+    '| 情景 | EPS CAGR | 退出PE | 未来EPS | 目标价 | 总回报 | 年化 |',
+    '| --- | --- | --- | --- | --- | --- | --- |',
+    ...(scenarioRows.length ? tableRows(scenarioRows) : ['| 缺失 | 缺失 | 缺失 | 缺失 | 缺失 | 缺失 | 缺失 |']),
+    '',
+    '### 情景输入与证据来源',
+    '| 输入项 | 数值/口径 | 数据来源 | 用途与说明 |',
+    '| --- | --- | --- | --- |',
+    ...tableRows(scenarioEvidenceRows),
+    '',
+    '> 计算公式：未来EPS = 起始EPS × (1 + EPS CAGR)^年数；目标价 = 未来EPS × 退出PE；总回报 = 目标价 ÷ 当前股价 − 1；年化回报 = (目标价 ÷ 当前股价)^(1/年数) − 1。情景增长率和退出PE是本地压力测试假设，不是行情源提供的预测结论。',
+    '',
+    '## 核心数据举证',
+    `- 最新价格：${formatReportValue(metrics.latest_price)}`,
+    `- PE / PB：${formatReportValue(metrics.pe)} / ${formatReportValue(metrics.pb)}`,
+    `- EPS / BVPS：${formatReportValue(metrics.eps)} / ${formatReportValue(metrics.bvps)}`,
+    `- 收入：${typeof metrics.revenue === 'number' ? `${formatReportValue(metrics.revenue / 100000000)}亿` : '缺失'}`,
+    `- 现金流：${cashFlowLine}`,
+    `- 资本开支：${metrics.capex ? formatReportValue(metrics.capex, 0) : '缺失，需年报现金流量表/附注继续核验'}`,
+    `- 审计门：${audit.verdict || '缺失'}（pass ${audit.pass_count ?? 0} / warn ${audit.warn_count ?? 0} / fail ${audit.fail_count ?? 0}）`,
+    `- 估值证据：盈利收益率 ${formatReportValue(valuationMetrics.earnings_yield_pct)}%，P/FCF proxy ${formatReportValue(valuationMetrics.P_FCF_proxy)}`,
+    '',
+    '### 完整指标底稿',
+    '| 字段 | 指标 | 数值 |',
+    '| --- | --- | --- |',
+    ...tableRows(metricRows),
+    '',
+    '### 估值指标底稿',
+    '| 指标 | 数值 |',
+    '| --- | --- |',
+    ...(valuationRows.length ? tableRows(valuationRows) : ['| 缺失 | 缺失 |']),
+    '',
+    '### 审计明细',
+    '| 检查项 | 标签 | 值 | 要求 | 结论 |',
+    '| --- | --- | --- | --- | --- |',
+    ...(auditItems.length ? tableRows(auditItems.map((item: any) => [item.id, item.label, item.value, item.required ? '必需' : '可选', item.verdict])) : ['| 缺失 | 缺失 | 缺失 | 缺失 | 缺失 |']),
+    '## 业务/利润池结论',
+    '| 业务/利润池 | 结论 | 关键验证 |',
+    '| --- | --- | --- |',
+    ...profile.segments.map(([segment, conclusion, verification]: string[]) => `| ${segment} | ${conclusion} | ${verification} |`),
+    '',
+    '## 护城河与风险',
+    ...(profile.moats.length ? profile.moats.map((item: string) => `- 护城河：${item}`) : ['- 护城河：缺失']),
+    ...(profile.risks.length ? profile.risks.map((item: string) => `- 风险：${item}`) : ['- 风险：缺失']),
+    '',
+    '## 舆情/事件证据',
+    '| 来源类型 | 数据源/检索方向 | 当前状态 | 投研用途 |',
+    '| --- | --- | --- | --- |',
+    ...tableRows(sentimentRows),
+    '',
+    '## 委员会结论与举证',
+    ...(consensus.length ? consensus.map((item: string) => `- 共识：${item}`) : ['- 共识：缺失']),
+    ...(contradictions.length ? contradictions.map((item: string) => `- 矛盾：${item}`) : ['- 矛盾：缺失']),
+    ...(redLines.length ? redLines.map((item: string) => `- 红线：${item}`) : []),
+    '',
+    '### 四委员逐项判断',
+    '| 专家 | 分析维度 | 结论 |',
+    '| --- | --- | --- |',
+    ...(committeeRows.length ? tableRows(committeeRows) : ['| 缺失 | 缺失 | 缺失 |']),
+    '',
+    '### 主席执行框架',
+    ...(actionFramework.length ? actionFramework.map((item: string) => `- ${item}`) : ['- 缺失']),
+    '',
+    '### 价格纪律',
+    ...(priceDiscipline.length ? priceDiscipline.map((item: string) => `- ${item}`) : ['- 缺失']),
+    '',
+    '## 证据来源',
+    ...(sourceLines.length ? sourceLines : ['- 缺失']),
+    '',
+    '## 待验证',
+    ...(filteredGaps.length ? filteredGaps.map((item: string) => `- ${item}`) : ['- 暂无显式数据缺口']),
+    ...(profile.validationNodes.length ? profile.validationNodes.map((item: string) => `- 验证节点：${item}`) : []),
+    ...(thesisBroken.length ? thesisBroken.map((item: string) => `- 投资假设击穿：${item}`) : []),
+    ...(diligenceQuestions.length ? diligenceQuestions.map((item: string) => `- 尽调问题：${item}`) : []),
+  ].join('\n');
 }
 
 function getStockSeed(stock: StockItem) {
@@ -136,7 +485,7 @@ function renderChatContent(content: string) {
         h2: ({ children }) => <h2 className="mb-2 mt-5 border-l-2 border-blue-400 pl-2 text-sm font-semibold text-blue-200 first:mt-0">{children}</h2>,
         h3: ({ children }) => <h3 className="mb-1.5 mt-4 text-xs font-semibold text-blue-100">{children}</h3>,
         h4: ({ children }) => <h4 className="mb-1 mt-3 font-semibold text-[#E6EDF7]">{children}</h4>,
-        p: ({ children }) => <p className="my-2 leading-6 first:mt-0 last:mb-0">{children}</p>,
+        p: ({ children }) => <p className="my-2 max-w-full [overflow-wrap:anywhere] leading-6 first:mt-0 last:mb-0">{children}</p>,
         ul: ({ children }) => <ul className="my-2 list-disc space-y-1 pl-5 marker:text-blue-400">{children}</ul>,
         ol: ({ children }) => <ol className="my-2 list-decimal space-y-1 pl-5 marker:text-blue-300">{children}</ol>,
         li: ({ children }) => <li className="pl-1 leading-5">{children}</li>,
@@ -144,12 +493,12 @@ function renderChatContent(content: string) {
         blockquote: ({ children }) => <blockquote className="my-3 border-l-2 border-blue-400/70 bg-blue-500/5 px-3 py-1 text-gray-300">{children}</blockquote>,
         a: ({ children, href }) => <a href={href} target="_blank" rel="noreferrer" className="text-blue-400 underline underline-offset-2 hover:text-blue-300">{children}</a>,
         hr: () => <hr className="my-4 border-gray-700" />,
-        pre: ({ children }) => <pre className="my-3 max-w-full overflow-x-auto rounded-lg bg-[#11141B] p-3 text-[11px] leading-5 text-gray-200">{children}</pre>,
+        pre: ({ children }) => <pre className="my-3 max-w-full overflow-x-auto whitespace-pre-wrap rounded-lg bg-[#11141B] p-3 text-[11px] leading-5 text-gray-200">{children}</pre>,
         code: ({ children, className }) => className
           ? <code className={className}>{children}</code>
           : <code className="rounded bg-black/30 px-1.5 py-0.5 font-mono text-[11px] text-blue-200">{children}</code>,
         table: ({ children }) => (
-          <div className="my-3 max-w-full overflow-x-auto rounded-lg border border-gray-600/70">
+          <div className="my-3 w-full max-w-full overflow-x-auto rounded-lg border border-gray-600/70">
             <table className="min-w-max w-full border-collapse text-[11px]">{children}</table>
           </div>
         ),
@@ -195,8 +544,8 @@ function buildAbnormalMovementReport(movementData: AbnormalMovementData, scope: 
   const abnormalStocks = [...movementData.stocks]
     .sort((a, b) => Math.abs(b.涨幅) - Math.abs(a.涨幅))
     .slice(0, 5);
-  const skillTitle = abnormalMovementSkill.match(/^#\s+(.+)$/m)?.[1] || 'A股异动解读与归因分析 Skill';
-  const templateTitle = abnormalReportTemplate.match(/^#\s+(.+)$/m)?.[1] || '异动解读报告';
+  const skillTitle = ABNORMAL_MOVEMENT_SKILL_TITLE;
+  const templateTitle = ABNORMAL_REPORT_TITLE;
 
   if (abnormalStocks.length === 0) {
     return '【当前全市场无涨跌幅异常标的，无异动解读内容】';
@@ -234,7 +583,7 @@ function buildAbnormalMovementReport(movementData: AbnormalMovementData, scope: 
 - 交易日期：${movementData.tradeDate || '最新可用交易日'}
 - 数据来源：${movementData.source}${movementData.isRealData ? '' : '（接口不可用时回退）'}
 - 触发来源：智询界面 / 异动解读快捷动作
-- 调用技能：skills/abnormal_movement（${skillTitle}）
+- 调用技能：${ABNORMAL_MOVEMENT_SKILL_NAME}（${skillTitle}）
 - 用户输入：${userInput}
 - 生成说明：优先动态拉取真实行情、成交额、换手率、量比和资金流字段，再按 ${templateTitle} 模板生成；接口不可用时才回退到当前页面行情。
 
@@ -382,23 +731,31 @@ interface Props {
   stocks?: StockItem[];
 }
 
-export default function AiChatPage({ stocks }: Props) {
-  const defaultStocks: StockItem[] = holdingStocks.map((h) => ({
-    序号: h.序号,
-    证券代码: h.证券代码,
-    证券名称: h.证券名称,
-    现价: h.现价,
-    涨幅: h.今日涨幅,
+function holdingToStockItem(holding: typeof holdingStocks[number]): StockItem {
+  return {
+    序号: holding.序号,
+    证券代码: holding.证券代码,
+    证券名称: holding.证券名称,
+    现价: holding.现价,
+    涨幅: holding.今日涨幅,
     涨跌: 0,
     涨速: 0,
     换手: 0,
-    最高: h.现价,
-    最低: h.现价,
-    今开: h.现价,
-    昨收: h.现价,
+    最高: holding.现价,
+    最低: holding.现价,
+    今开: holding.现价,
+    昨收: holding.现价,
     量比: 0,
-  }));
-  const displayStocks = useMemo(() => stocks && stocks.length > 0 ? [...stocks] : [...defaultStocks], [stocks]);
+  };
+}
+
+export default function AiChatPage({ stocks }: Props) {
+  const defaultStocks = useMemo(() => holdingStocks.map(holdingToStockItem), []);
+  const [liveHoldingStocks, setLiveHoldingStocks] = useState<StockItem[]>(defaultStocks);
+  const displayStocks = useMemo(
+    () => stocks && stocks.length > 0 ? [...stocks] : liveHoldingStocks,
+    [liveHoldingStocks, stocks],
+  );
   const isFiltered = !!stocks;
 
   const [messages, setMessages] = useState<Message[]>([
@@ -411,10 +768,16 @@ export default function AiChatPage({ stocks }: Props) {
   const [reviewGeneratingTitle, setReviewGeneratingTitle] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const streamTimerRef = useRef<number | null>(null);
-  const [historyRecords, setHistoryRecords] = useState<ReportRecord[]>(initialRecords);
+  const [historyRecords, setHistoryRecords] = useState<ReportRecord[]>(() => [...loadSavedNotes(), ...initialRecords]);
   const [selectedReport, setSelectedReport] = useState<ReportRecord | null>(null);
   const [showReviewModal, setShowReviewModal] = useState(false);
+  const [showStockSelectionTemplates, setShowStockSelectionTemplates] = useState(false);
   const [selectedAction, setSelectedAction] = useState('筛选');
+  const [shareMessageIndex, setShareMessageIndex] = useState<number | null>(null);
+  const [savedMessageIndexes, setSavedMessageIndexes] = useState<Set<number>>(() => new Set());
+  const [recordShareId, setRecordShareId] = useState<string | null>(null);
+  const [isSharingReport, setIsSharingReport] = useState(false);
+  const [shareNotice, setShareNotice] = useState('');
   const [logoImage, setLogoImage] = useState<string | null>('/caitong-finance/logo.jpg');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resultColumns = useMemo(() => getResultColumns(input.trim() || resultQuery), [input, resultQuery]);
@@ -423,6 +786,7 @@ export default function AiChatPage({ stocks }: Props) {
     筛选: '帮我筛选PE低于20的高成长电子股',
     异动: '今天券商板块为什么异动？',
     趋势: '分析一下当前大盘趋势和支撑位',
+    价值: '分析腾讯(00700.HK):巴菲特看护城河和价格、芒格做逆向、段永平看生意和人、李录看十年确定性,主席综合共识和矛盾',
     复盘: '帮我复盘今天的市场情况',
     策略: '给我一个当前市场的配置策略建议',
     风控: '当前市场有哪些风险需要注意？',
@@ -432,9 +796,188 @@ export default function AiChatPage({ stocks }: Props) {
     bottomRef.current?.scrollIntoView({ behavior: isStreaming ? 'auto' : 'smooth' });
   }, [messages, isTyping, isStreaming, reviewGeneratingTitle]);
 
+  useEffect(() => {
+    if (stocks && stocks.length > 0) return undefined;
+    let active = true;
+    const refreshHoldings = async () => {
+      const holdings = await loadHoldingStocks(holdingStocks.map((holding) => ({
+        证券代码: holding.证券代码,
+        证券名称: holding.证券名称,
+        持仓数量: holding.持仓数量,
+        成本价: holding.成本价,
+      })));
+      if (active) setLiveHoldingStocks(holdings.map(holdingToStockItem));
+    };
+    void refreshHoldings();
+    const refreshTimer = window.setInterval(refreshHoldings, 30000);
+    return () => {
+      active = false;
+      window.clearInterval(refreshTimer);
+    };
+  }, [stocks]);
+
   useEffect(() => () => {
     if (streamTimerRef.current !== null) window.clearInterval(streamTimerRef.current);
   }, []);
+
+  const copyShareContent = async (content: string) => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(content);
+      return;
+    }
+    const textarea = document.createElement('textarea');
+    textarea.value = content;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+  };
+
+  const handleShare = async (platform: 'wechat' | 'feishu', content: string) => {
+    const platformName = platform === 'wechat' ? '微信' : '飞书';
+    try {
+      await copyShareContent(content);
+      setShareMessageIndex(null);
+
+      if (typeof navigator.share === 'function' && navigator.maxTouchPoints > 0) {
+        try {
+          await navigator.share({ title: '财瞳金融 AI 回答', text: content });
+          setShareNotice(`分享面板已打开，请选择${platformName}`);
+        } catch (error) {
+          const isCancelled = error instanceof DOMException && error.name === 'AbortError';
+          setShareNotice(isCancelled ? '已取消分享，回答内容仍已复制' : `回答已复制，请打开${platformName}粘贴发送`);
+        }
+        window.setTimeout(() => setShareNotice(''), 3500);
+        return;
+      }
+
+      setShareNotice(`回答已复制，正在尝试打开${platformName}，请在聊天中粘贴发送`);
+      window.setTimeout(() => setShareNotice(''), 3500);
+
+      const link = document.createElement('a');
+      link.href = platform === 'wechat' ? 'weixin://' : 'feishu://';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch {
+      setShareNotice('复制失败，请检查浏览器剪贴板权限后重试');
+      window.setTimeout(() => setShareNotice(''), 3500);
+    }
+  };
+
+  const handleCopyAnswer = async (content: string) => {
+    try {
+      await copyShareContent(content);
+      setShareNotice('回答内容已复制');
+    } catch {
+      setShareNotice('复制失败，请检查浏览器剪贴板权限');
+    }
+    window.setTimeout(() => setShareNotice(''), 2500);
+  };
+
+  const handleSaveNote = (messageIndex: number, content: string) => {
+    if (savedMessageIndexes.has(messageIndex)) {
+      setShareNotice('这条回答已保存为笔记');
+      window.setTimeout(() => setShareNotice(''), 2500);
+      return;
+    }
+
+    const note: ReportRecord = {
+      id: `note-${Date.now()}`,
+      summary: getNoteSummary(content),
+      time: getDateTime(),
+      content,
+      status: 'done',
+    };
+    setHistoryRecords((records) => {
+      const nextRecords = [note, ...records];
+      const savedNotes = nextRecords.filter((record) => record.id?.startsWith('note-'));
+      window.localStorage.setItem(SAVED_NOTES_KEY, JSON.stringify(savedNotes));
+      return nextRecords;
+    });
+    setSavedMessageIndexes((indexes) => new Set(indexes).add(messageIndex));
+    setShareNotice('已保存笔记，右侧记录已更新');
+    window.setTimeout(() => setShareNotice(''), 2500);
+  };
+
+  const handleReportImageShare = async (platform: 'wechat' | 'feishu', report: ReportRecord) => {
+    if (!report.content || isSharingReport) return;
+    const platformName = platform === 'wechat' ? '微信' : '飞书';
+    setIsSharingReport(true);
+    setRecordShareId(null);
+    setShareNotice('正在生成报告长图…');
+
+    const renderTarget = document.createElement('article');
+    renderTarget.style.cssText = 'position:fixed;left:-10000px;top:0;width:820px;padding:42px 52px;background:#121722;color:#d8deea;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",Arial,sans-serif;line-height:1.72;';
+    renderTarget.innerHTML = `
+      <style>
+        .share-report h1{font-size:26px;color:#fff;border-bottom:3px solid #3b82f6;padding-bottom:14px}
+        .share-report h2{font-size:18px;color:#60a5fa;margin-top:24px;border-left:4px solid #3b82f6;padding-left:10px}
+        .share-report h3{font-size:15px;color:#d8deea;margin-top:18px}
+        .share-report p,.share-report li{font-size:13px}.share-report table{border-collapse:collapse;width:100%;margin:12px 0;font-size:12px}
+        .share-report th{background:#1e3a5f;color:#bfdbfe}.share-report th,.share-report td{border:1px solid #374151;padding:7px 9px;text-align:left}
+      </style>
+      <div class="share-report">
+        <div style="font-size:11px;color:#60a5fa;letter-spacing:.08em">财瞳金融 · 智询报告</div>
+        <div style="font-size:22px;font-weight:700;color:#fff;margin-top:6px">${escapeHtml(report.summary)}</div>
+        <div style="font-size:11px;color:#6b7280;margin:4px 0 22px">${escapeHtml(report.time)}</div>
+        ${markdownToPrintHtml(report.content)}
+      </div>`;
+    document.body.appendChild(renderTarget);
+
+    try {
+      const canvas = await html2canvas(renderTarget, {
+        backgroundColor: '#121722',
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        width: renderTarget.scrollWidth,
+        height: renderTarget.scrollHeight,
+        windowWidth: renderTarget.scrollWidth,
+        windowHeight: renderTarget.scrollHeight,
+      });
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((result) => result ? resolve(result) : reject(new Error('图片生成失败')), 'image/png');
+      });
+      const safeTitle = report.summary.replace(/[\\/:*?"<>|]/g, '-');
+      const file = new File([blob], `${safeTitle}.png`, { type: 'image/png' });
+      const canNativeShare = typeof navigator.share === 'function'
+        && typeof navigator.canShare === 'function'
+        && navigator.canShare({ files: [file] });
+
+      if (canNativeShare) {
+        try {
+          await navigator.share({ title: report.summary, files: [file] });
+          setShareNotice(`报告图片已调起系统分享，请选择${platformName}`);
+        } catch (error) {
+          const isCancelled = error instanceof DOMException && error.name === 'AbortError';
+          setShareNotice(isCancelled ? '已取消分享' : '系统分享失败，正在下载报告图片');
+          if (!isCancelled) downloadBlob(blob, `${safeTitle}.png`);
+        }
+      } else if (navigator.clipboard?.write && typeof ClipboardItem !== 'undefined') {
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        setShareNotice(`报告图片已复制，正在尝试打开${platformName}，请粘贴发送`);
+        const link = document.createElement('a');
+        link.href = platform === 'wechat' ? 'weixin://' : 'feishu://';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      } else {
+        downloadBlob(blob, `${safeTitle}.png`);
+        setShareNotice(`报告图片已下载，请在${platformName}中发送`);
+      }
+    } catch {
+      setShareNotice('报告图片生成失败，请稍后重试');
+    } finally {
+      renderTarget.remove();
+      setIsSharingReport(false);
+      window.setTimeout(() => setShareNotice(''), 4000);
+    }
+  };
 
   const addMessage = (role: 'user' | 'assistant', content: string) => {
     setMessages((prev) => [...prev, { role, content, time: now() }]);
@@ -469,6 +1012,56 @@ export default function AiChatPage({ stocks }: Props) {
     setIsTyping(true);
     setReviewGeneratingTitle(null);
 
+    if (trimmedText.includes('价值分析') || trimmedText.includes('巴菲特') || trimmedText.includes('芒格') || trimmedText.includes('段永平') || trimmedText.includes('李录')) {
+      setTimeout(async () => {
+        try {
+          const data = await loadValueInvestingCommitteeReport(trimmedText);
+          await streamAssistantMessage(data.report);
+          const compactReport = buildCompactValueReport(data);
+          const record: ReportRecord = {
+            summary: `${data.company}价值投资委员会报告`,
+            time: getDateTime(),
+            content: compactReport,
+          };
+          setHistoryRecords((prev) => [record, ...prev]);
+          setSelectedReport(record);
+        } catch (error) {
+          await streamAssistantMessage(`价值分析生成失败：${error instanceof Error ? error.message : '未知错误'}`);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 300);
+      return;
+    }
+
+    if (/涨幅最高的板块|市场资金流向|短线关注/.test(trimmedText)) {
+      setTimeout(async () => {
+        try {
+          const data = await loadMarketQuickInsights();
+          await streamAssistantMessage(buildMarketQuickAnswer(trimmedText, data));
+        } catch (error) {
+          await streamAssistantMessage(`实时市场数据加载失败：${error instanceof Error ? error.message : '未知错误'}`);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 300);
+      return;
+    }
+
+    if (/筛选|选股|找.*股|低估值|高成长/.test(trimmedText)) {
+      setTimeout(async () => {
+        try {
+          const data = await loadStockSelectionReport(trimmedText);
+          await streamAssistantMessage(data.content);
+        } catch (error) {
+          await streamAssistantMessage(`标的筛选失败：${error instanceof Error ? error.message : '未知错误'}`);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 300);
+      return;
+    }
+
     const matchedKey = Object.keys(botReplies).find((k) => trimmedText.includes(k));
     const reply = botReplies[matchedKey || ''] || botReplies.default;
 
@@ -492,7 +1085,11 @@ export default function AiChatPage({ stocks }: Props) {
 
   const handleQuickAction = (key: string) => {
     setSelectedAction(key);
-    if (key === '复盘') {
+    if (key === '筛选') {
+      setShowReviewModal(false);
+      setShowStockSelectionTemplates(true);
+    } else if (key === '复盘') {
+      setShowStockSelectionTemplates(false);
       setShowReviewModal(true);
     } else if (key === '异动') {
       const prompt = quickPrompts[key] || '生成异动解读报告';
@@ -535,6 +1132,13 @@ export default function AiChatPage({ stocks }: Props) {
       setInput(prompt);
       setResultQuery(prompt);
     }
+  };
+
+  const handleStockSelectionTemplate = (template: StockSelectionTemplate) => {
+    setShowStockSelectionTemplates(false);
+    setInput(template.prompt);
+    setResultQuery(template.prompt);
+    handleSend(template.prompt);
   };
 
   const handleReviewSelect = (review: ReviewOption) => {
@@ -591,9 +1195,17 @@ export default function AiChatPage({ stocks }: Props) {
   };
 
   return (
-    <div className="flex-1 flex overflow-hidden">
-      <div className="flex-1 flex flex-col bg-gradient-to-br from-indigo-900/20 via-gray-900 to-blue-900/20">
-        <div className={`flex-1 p-4 ${messages.length > 1 ? 'overflow-auto scrollbar-thin space-y-4' : 'overflow-hidden'}`}>
+    <div className="flex-1 flex min-w-0 overflow-hidden">
+      {shareNotice && (
+        <div
+          role="status"
+          className="fixed left-1/2 top-12 z-[10000] -translate-x-1/2 rounded-lg border border-blue-500/30 bg-[#202638] px-4 py-2 text-xs text-[#E6EDF7] shadow-xl shadow-black/30"
+        >
+          {shareNotice}
+        </div>
+      )}
+      <div className="min-w-0 flex-1 flex flex-col bg-gradient-to-br from-indigo-900/20 via-gray-900 to-blue-900/20">
+        <div className={`min-w-0 flex-1 p-4 ${messages.length > 1 ? 'overflow-auto scrollbar-thin space-y-4' : 'overflow-hidden'}`}>
           {messages.length <= 1 ? (
             <div className="flex flex-col items-center justify-center h-full gap-6 -mt-8">
               {/* Logo */}
@@ -641,25 +1253,81 @@ export default function AiChatPage({ stocks }: Props) {
             </div>
           ) : (
             messages.map((msg, idx) => (
-              <div key={idx} className={`flex gap-2.5 ${msg.role === 'user' ? 'justify-end' : ''}`}>
+              <div key={idx} className={`flex min-w-0 gap-2.5 ${msg.role === 'user' ? 'justify-end' : ''}`}>
                 {msg.role === 'assistant' && (
                   <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-md shadow-blue-500/20">
                     <Bot size={13} className="text-white" />
                   </div>
                 )}
-                <div className={`${msg.role === 'user' ? 'items-end' : ''} max-w-[78%]`}>
+                <div className={`${msg.role === 'user' ? 'items-end' : ''} min-w-0 max-w-[78%]`}>
                   <div className="flex items-center gap-1.5 mb-1">
                     <span className="text-[10px] text-gray-500">{msg.role === 'assistant' ? 'AI助手' : '我'}</span>
                   </div>
                   <div
-                    className={`px-4 py-2.5 text-xs leading-relaxed animate-[fadeIn_0.3s_ease] ${
+                    className={`max-w-full overflow-hidden px-4 py-2.5 text-xs leading-relaxed animate-[fadeIn_0.3s_ease] ${
                       msg.role === 'user'
-                        ? 'whitespace-pre-wrap bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-2xl rounded-tr-md shadow-md shadow-blue-500/20'
-                        : 'whitespace-normal bg-[#1E2230] text-[#E6EDF7] rounded-2xl rounded-tl-md border border-[#2C303A]/50'
+                        ? 'whitespace-pre-wrap break-words bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-2xl rounded-tr-md shadow-md shadow-blue-500/20'
+                        : 'whitespace-normal break-words bg-[#1E2230] text-[#E6EDF7] rounded-2xl rounded-tl-md border border-[#2C303A]/50'
                     }`}
                   >
                     {msg.role === 'assistant' ? renderChatContent(msg.content) : msg.content}
                   </div>
+                  {msg.role === 'assistant' && msg.content && !(isStreaming && idx === messages.length - 1) && (
+                    <div className="mt-1 flex min-h-6 items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => void handleCopyAnswer(msg.content)}
+                        aria-label="复制这条回答"
+                        className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] text-gray-500 transition-colors hover:bg-white/5 hover:text-blue-400"
+                      >
+                        <Copy size={11} />
+                        复制
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSaveNote(idx, msg.content)}
+                        aria-label="保存这条回答为笔记"
+                        className={`flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] transition-colors ${
+                          savedMessageIndexes.has(idx)
+                            ? 'bg-emerald-500/10 text-emerald-400'
+                            : 'text-gray-500 hover:bg-white/5 hover:text-blue-400'
+                        }`}
+                      >
+                        <NotebookPen size={11} />
+                        {savedMessageIndexes.has(idx) ? '已保存' : '保存笔记'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShareMessageIndex((current) => current === idx ? null : idx)}
+                        aria-expanded={shareMessageIndex === idx}
+                        aria-label="分享这条回答"
+                        className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[10px] text-gray-500 transition-colors hover:bg-white/5 hover:text-blue-400"
+                      >
+                        <Share2 size={11} />
+                        分享
+                      </button>
+                      {shareMessageIndex === idx && (
+                        <div className="flex items-center gap-1 rounded-lg border border-gray-700/70 bg-[#191D29] p-1 shadow-lg shadow-black/20">
+                          <button
+                            type="button"
+                            onClick={() => void handleShare('wechat', msg.content)}
+                            className="flex items-center gap-1 rounded-md px-2 py-1 text-[10px] text-gray-300 transition-colors hover:bg-emerald-500/10 hover:text-emerald-400"
+                          >
+                            <MessageCircle size={11} />
+                            微信
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => void handleShare('feishu', msg.content)}
+                            className="flex items-center gap-1 rounded-md px-2 py-1 text-[10px] text-gray-300 transition-colors hover:bg-blue-500/10 hover:text-blue-400"
+                          >
+                            <MessageSquare size={11} />
+                            飞书
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <span className="text-[10px] text-gray-600 mt-0.5 block">{msg.time}</span>
                 </div>
                 {msg.role === 'user' && (
@@ -696,8 +1364,14 @@ export default function AiChatPage({ stocks }: Props) {
           <div ref={bottomRef} />
         </div>
 
-        <div className="px-4 py-3 border-t border-gray-700/50 relative">
+        <div className="relative min-w-0 border-t border-gray-700/50 px-4 py-3">
           {showReviewModal && <AiReviewModal onClose={() => setShowReviewModal(false)} onSelect={handleReviewSelect} />}
+          {showStockSelectionTemplates && (
+            <StockSelectionTemplates
+              onClose={() => setShowStockSelectionTemplates(false)}
+              onSelect={handleStockSelectionTemplate}
+            />
+          )}
           <div className="flex justify-between mb-3">
             {quickActions.map(({ icon: Icon, label, key }) => (
               <button
@@ -729,7 +1403,7 @@ export default function AiChatPage({ stocks }: Props) {
         </div>
       </div>
 
-      <div className="w-72 bg-gradient-to-br from-indigo-900/20 via-gray-900 to-blue-900/20 border-l border-gray-700/50 flex flex-col overflow-hidden">
+      <div className="w-72 flex-none bg-gradient-to-br from-indigo-900/20 via-gray-900 to-blue-900/20 border-l border-gray-700/50 flex flex-col overflow-hidden">
         {selectedReport ? (
           <>
             <div className="p-3 border-b border-gray-700/50 flex items-center justify-between">
@@ -737,12 +1411,28 @@ export default function AiChatPage({ stocks }: Props) {
                 <FileText size={16} className="text-blue-400 flex-shrink-0" />
                 <h3 className="text-white text-xs font-semibold truncate">{selectedReport.summary}</h3>
               </div>
-              <button onClick={() => setSelectedReport(null)} className="text-gray-500 hover:text-white transition-colors ml-2">
-                <X size={16} />
-              </button>
+              <div className="ml-2 flex items-center">
+                <button
+                  type="button"
+                  aria-label="关闭报告"
+                  onClick={() => {
+                    setSelectedReport(null);
+                  }}
+                  className="text-gray-500 hover:text-white transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
-            <div className="flex-1 overflow-hidden scrollbar-thin p-3">
-              <pre className="text-xs text-neutral/90 leading-relaxed whitespace-pre-wrap font-sans">{selectedReport.content}</pre>
+            <div className="flex-1 min-w-0 overflow-auto scrollbar-thin bg-[#121722]">
+              <div className="min-w-0 bg-[#121722] p-3 text-xs text-neutral/90">
+                <div className="mb-3 border-b border-gray-700/70 pb-3">
+                  <div className="text-[10px] tracking-wider text-blue-400">财瞳金融 · 智询报告</div>
+                  <h2 className="mt-1 text-sm font-semibold text-white">{selectedReport.summary}</h2>
+                  <div className="mt-1 text-[10px] text-gray-500">{selectedReport.time}</div>
+                </div>
+                {renderChatContent(selectedReport.content)}
+              </div>
             </div>
           </>
         ) : (
@@ -792,23 +1482,61 @@ export default function AiChatPage({ stocks }: Props) {
                 {historyRecords.map((rec, idx) => (
                   <div
                     key={rec.id || idx}
+                    role={rec.status !== 'generating' && rec.content ? 'button' : undefined}
+                    tabIndex={rec.status !== 'generating' && rec.content ? 0 : undefined}
                     onClick={() => {
-                      if (rec.status === 'generating') return;
-                      if (rec.content) {
+                      if (rec.status !== 'generating' && rec.content) printReviewPdf(rec.summary, rec.content);
+                    }}
+                    onKeyDown={(event) => {
+                      if ((event.key === 'Enter' || event.key === ' ') && rec.status !== 'generating' && rec.content) {
+                        event.preventDefault();
                         printReviewPdf(rec.summary, rec.content);
                       }
                     }}
-                    className={`p-2 rounded bg-[#242730] transition-colors group ${rec.status === 'generating' ? 'cursor-not-allowed opacity-80' : 'cursor-pointer hover:bg-gray-700/50'}`}
+                    className={`relative rounded bg-[#242730] p-2 transition-colors ${
+                      rec.status === 'generating'
+                        ? 'opacity-80'
+                        : rec.content
+                          ? 'cursor-pointer hover:bg-gray-700/50 focus:outline-none focus:ring-1 focus:ring-blue-500/60'
+                          : 'opacity-60'
+                    }`}
                   >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-neutral text-xs group-hover:text-blue-400 transition-colors truncate">{rec.summary}</p>
-                      <span className={`text-[10px] px-1.5 py-0.5 rounded flex-shrink-0 ${rec.status === 'generating' ? 'bg-blue-500/15 text-blue-300' : 'bg-gray-700/60 text-gray-400'}`}>
-                        {rec.status === 'generating' ? '生成中' : '点击打开'}
-                      </span>
+                    <div>
+                      <p className="truncate text-xs text-neutral">{rec.summary}</p>
                     </div>
-                    <div className="flex items-center gap-1 mt-1">
-                      {rec.status === 'generating' && <Loader2 size={10} className="text-blue-400 animate-spin" />}
-                      <span className="text-gray-500 text-xs">{rec.time}</span>
+                    <div className="mt-1 flex items-center justify-between gap-2">
+                      <span className="min-w-0 truncate text-xs text-gray-500">{rec.time}</span>
+                      {rec.status === 'generating' ? (
+                        <span className="flex flex-shrink-0 items-center gap-1 rounded bg-blue-500/15 px-1.5 py-0.5 text-[10px] text-blue-300">
+                          <Loader2 size={10} className="animate-spin" />生成中
+                        </span>
+                      ) : (
+                        <div className="relative flex flex-shrink-0 items-center gap-1">
+                          <button
+                            type="button"
+                            disabled={!rec.content || isSharingReport}
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setRecordShareId((current) => current === (rec.id || String(idx)) ? null : (rec.id || String(idx)));
+                            }}
+                            aria-expanded={recordShareId === (rec.id || String(idx))}
+                            className="flex items-center gap-1 rounded border border-white/80 bg-white/10 px-2 py-1 text-[10px] font-semibold text-white shadow-sm shadow-white/10 ring-1 ring-white/20 transition-all hover:border-white hover:bg-white/20 hover:shadow-white/20 disabled:cursor-not-allowed disabled:border-white/40 disabled:bg-white/5 disabled:text-white disabled:opacity-60 disabled:shadow-none disabled:ring-0"
+                          >
+                            {isSharingReport ? <Loader2 size={9} className="animate-spin" /> : <Share2 size={9} />}
+                            分享
+                          </button>
+                          {recordShareId === (rec.id || String(idx)) && (
+                            <div onClick={(event) => event.stopPropagation()} className="absolute right-0 top-6 z-30 w-24 rounded-lg border border-gray-700 bg-[#191D29] p-1 shadow-xl shadow-black/30">
+                              <button type="button" onClick={() => void handleReportImageShare('wechat', rec)} className="flex w-full items-center gap-1.5 rounded px-2 py-1.5 text-[10px] text-gray-300 hover:bg-emerald-500/10 hover:text-emerald-400">
+                                <MessageCircle size={11} />微信
+                              </button>
+                              <button type="button" onClick={() => void handleReportImageShare('feishu', rec)} className="flex w-full items-center gap-1.5 rounded px-2 py-1.5 text-[10px] text-gray-300 hover:bg-blue-500/10 hover:text-blue-400">
+                                <MessageSquare size={11} />飞书
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}

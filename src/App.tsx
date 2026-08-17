@@ -58,7 +58,7 @@ function App() {
           <WatchlistPage />
         ) : activePage === '热度' ? (
           <HeatPage />
-        ) : activePage === '信号' ? (
+        ) : activePage === '舆情' ? (
           <SignalNewsPage />
         ) : activePage === '策略' ? (
           <TradePage />

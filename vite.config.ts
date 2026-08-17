@@ -9,6 +9,8 @@ export default defineConfig({
   plugins: [react()],
   base: '/caitong-finance/',
   server: {
+    port: 8686,
+    strictPort: true,
     allowedHosts: ['.ngrok-free.dev'],
   },
   build: {

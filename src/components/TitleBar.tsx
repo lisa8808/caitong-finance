@@ -1,6 +1,6 @@
 import { useState, ReactNode } from 'react';
 import { UserCircle, LogOut, X } from 'lucide-react';
-import { AuthUser, demoUser, getAuthUsers, getCurrentUser, saveCurrentUser } from '../services/authStorage';
+import { AuthUser, getAuthUsers, getCurrentUser, saveAuthUsers, saveCurrentUser } from '../services/authStorage';
 
 interface Props {
   rightContent?: ReactNode;
@@ -8,25 +8,32 @@ interface Props {
 
 export default function TitleBar({ rightContent }: Props) {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(() => !getCurrentUser());
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(() => getCurrentUser());
+  const [nickname, setNickname] = useState('');
   const [loginAccount, setLoginAccount] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [authMessage, setAuthMessage] = useState('');
 
   const resetAuthForms = () => {
+    setNickname('');
     setLoginAccount('');
     setLoginPassword('');
+    setConfirmPassword('');
     setAuthMessage('');
   };
 
   const openLoginModal = () => {
     resetAuthForms();
+    setAuthMode('login');
     setShowLoginModal(true);
     setShowUserMenu(false);
   };
 
-  const closeAuthModal = () => {
+  const closeAuthModal = (force = false) => {
+    if (!force && !currentUser) return;
     setShowLoginModal(false);
     resetAuthForms();
   };
@@ -48,13 +55,58 @@ export default function TitleBar({ rightContent }: Props) {
 
     setCurrentUser(user);
     saveCurrentUser(user);
-    closeAuthModal();
+    closeAuthModal(true);
+  };
+
+  const switchAuthMode = (mode: 'login' | 'register') => {
+    resetAuthForms();
+    setAuthMode(mode);
+  };
+
+  const handleRegister = () => {
+    const displayName = nickname.trim();
+    const account = loginAccount.trim();
+    const password = loginPassword.trim();
+
+    if (!displayName || !account || !password || !confirmPassword) {
+      setAuthMessage('请完整填写注册信息');
+      return;
+    }
+    if (password.length < 6) {
+      setAuthMessage('密码至少需要 6 位');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setAuthMessage('两次输入的密码不一致');
+      return;
+    }
+    const users = getAuthUsers();
+    if (users.some((item) => item.account.toLowerCase() === account.toLowerCase())) {
+      setAuthMessage('该账号已注册，请直接登录');
+      return;
+    }
+
+    const user: AuthUser = {
+      id: typeof crypto !== 'undefined' && 'randomUUID' in crypto ? crypto.randomUUID() : `user-${Date.now()}`,
+      nickname: displayName,
+      account,
+      password,
+      level: '免费版',
+      createdAt: new Date().toISOString(),
+    };
+    saveAuthUsers([...users, user]);
+    saveCurrentUser(user);
+    setCurrentUser(user);
+    closeAuthModal(true);
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
     saveCurrentUser(null);
     setShowUserMenu(false);
+    resetAuthForms();
+    setAuthMode('login');
+    setShowLoginModal(true);
   };
 
   return (
@@ -69,9 +121,12 @@ export default function TitleBar({ rightContent }: Props) {
         {rightContent}
         <button
           onClick={() => currentUser ? setShowUserMenu(!showUserMenu) : openLoginModal()}
-          className="text-secondary hover:text-white transition-colors"
+          className="flex max-w-40 items-center gap-1.5 rounded px-1.5 py-1 text-secondary transition-colors hover:bg-gray-700/50 hover:text-white"
+          aria-label={currentUser ? `当前用户：${currentUser.nickname}` : '登录'}
+          title={currentUser ? `${currentUser.nickname}（${currentUser.account}）` : '登录'}
         >
           <UserCircle size={18} />
+          <span className="truncate text-xs">{currentUser?.nickname || '登录'}</span>
         </button>
 
         {currentUser && showUserMenu && (
@@ -109,22 +164,39 @@ export default function TitleBar({ rightContent }: Props) {
           <div className="w-full max-w-[360px] rounded-xl border border-[#2C303A] bg-[#1A1D23] shadow-2xl">
             <div className="flex items-center justify-between border-b border-gray-700/50 px-5 py-4">
               <div>
-                <div className="text-base font-semibold text-white">登录财瞳金融</div>
-                <div className="mt-1 text-xs text-secondary">请输入账号和密码继续使用</div>
+                <div className="text-base font-semibold text-white">{authMode === 'login' ? '登录财瞳金融' : '注册财瞳金融'}</div>
+                <div className="mt-1 text-xs text-secondary">
+                  {authMode === 'login' ? '请输入账号和密码继续使用' : '创建免费账号，注册后自动登录'}
+                </div>
               </div>
-              <button onClick={closeAuthModal} className="text-secondary hover:text-white">
-                <X size={18} />
-              </button>
+              {currentUser && (
+                <button onClick={() => closeAuthModal()} aria-label="关闭登录窗口" className="text-secondary hover:text-white">
+                  <X size={18} />
+                </button>
+              )}
             </div>
 
             <div className="space-y-3 px-5 py-4">
+              {authMode === 'register' && (
+                <label className="block">
+                  <span className="text-xs text-secondary">昵称</span>
+                  <input
+                    value={nickname}
+                    onChange={(event) => setNickname(event.target.value)}
+                    className="mt-1 w-full rounded-lg border border-gray-700 bg-primary-bg px-3 py-2 text-sm text-white outline-none focus:border-blue-500"
+                    placeholder="请输入昵称"
+                    autoComplete="name"
+                  />
+                </label>
+              )}
               <label className="block">
                 <span className="text-xs text-secondary">账号</span>
                 <input
                   value={loginAccount}
                   onChange={(event) => setLoginAccount(event.target.value)}
                   className="mt-1 w-full rounded-lg border border-gray-700 bg-primary-bg px-3 py-2 text-sm text-white outline-none focus:border-blue-500"
-                  placeholder="mx_9hgz3w3knx"
+                  placeholder="请输入登录账号"
+                  autoComplete="username"
                 />
               </label>
               <label className="block">
@@ -134,23 +206,38 @@ export default function TitleBar({ rightContent }: Props) {
                   value={loginPassword}
                   onChange={(event) => setLoginPassword(event.target.value)}
                   className="mt-1 w-full rounded-lg border border-gray-700 bg-primary-bg px-3 py-2 text-sm text-white outline-none focus:border-blue-500"
-                  placeholder="demo123"
+                  placeholder="请输入密码"
+                  autoComplete={authMode === 'login' ? 'current-password' : 'new-password'}
                 />
               </label>
-              <div className="rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-2 text-xs text-blue-100">
-                Demo 账号：<span className="font-mono text-white">{demoUser.account}</span>
-                <span className="mx-2 text-secondary">|</span>
-                密码：<span className="font-mono text-white">{demoUser.password}</span>
-              </div>
+              {authMode === 'register' && (
+                <label className="block">
+                  <span className="text-xs text-secondary">确认密码</span>
+                  <input
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    className="mt-1 w-full rounded-lg border border-gray-700 bg-primary-bg px-3 py-2 text-sm text-white outline-none focus:border-blue-500"
+                    placeholder="请再次输入密码"
+                    autoComplete="new-password"
+                  />
+                </label>
+              )}
               {authMessage && <div className="rounded-lg bg-red-500/10 px-3 py-2 text-xs text-red-300">{authMessage}</div>}
             </div>
 
             <div className="border-t border-gray-700/50 px-5 py-4">
               <button
-                onClick={handleLogin}
+                onClick={authMode === 'login' ? handleLogin : handleRegister}
                 className="w-full rounded-lg bg-blue-600 py-2 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
               >
-                登录
+                {authMode === 'login' ? '登录' : '立即注册'}
+              </button>
+              <button
+                onClick={() => switchAuthMode(authMode === 'login' ? 'register' : 'login')}
+                className="mt-2 w-full rounded-lg border border-gray-600 py-2 text-sm font-medium text-secondary transition-colors hover:border-blue-500 hover:text-white"
+              >
+                {authMode === 'login' ? '注册账号' : '返回登录'}
               </button>
             </div>
           </div>

@@ -30,7 +30,7 @@ const sections: FeatureSection[] = [
       { name: '自选数据', free: '免费体验', advance: '全部权益', pro: '全部权限' },
       { name: '市场数据', free: '免费体验', advance: '全部权益', pro: '全部权限' },
       { name: '热度数据', free: '×', advance: '全部权益', pro: '全部权限' },
-      { name: '信号数据', free: '×', advance: '全部权益', pro: '全部权限' },
+      { name: '舆情数据', free: '×', advance: '全部权益', pro: '全部权限' },
       { name: '策略选股', free: '×', advance: '全部权益', pro: '全部权限' },
     ],
   },

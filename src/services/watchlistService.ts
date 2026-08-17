@@ -12,6 +12,13 @@ export interface ChartPoint {
   time: string;
   price: number;
   vol: number;
+  open?: number;
+  close?: number;
+  high?: number;
+  low?: number;
+  pctChange?: number;
+  amplitude?: number;
+  amount?: number;
 }
 
 export interface RelatedBoardItem {

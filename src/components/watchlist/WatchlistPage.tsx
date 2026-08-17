@@ -18,6 +18,53 @@ type AccountHoldingStock = HoldingStock & {
   accountId: string;
 };
 
+function toApiChartPeriod(period: string) {
+  const periodMap: Record<string, string> = {
+    分时: '1min',
+    五日: '5日',
+    日线: '日',
+    周线: '周',
+    月线: '月',
+    年线: '年',
+    '60分': '60min',
+    '30分': '30min',
+    '15分': '15min',
+    '5分': '5min',
+  };
+  return periodMap[period] || '1min';
+}
+
+function SparklineCell({ stock }: { stock: WatchStock }) {
+  const [points, setPoints] = useState<ChartPoint[]>([]);
+
+  useEffect(() => {
+    let active = true;
+    loadStockChart(stock.证券代码, '日').then((rows) => {
+      if (active) setPoints(rows.slice(-24));
+    });
+    return () => { active = false; };
+  }, [stock.证券代码]);
+
+  if (points.length < 2) return <span className="text-secondary">--</span>;
+
+  const prices = points.map((point) => point.price);
+  const min = Math.min(...prices);
+  const max = Math.max(...prices);
+  const range = max - min || 1;
+  const polyline = prices.map((price, index) => {
+    const x = index / (prices.length - 1) * 64;
+    const y = 16 - (price - min) / range * 14;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(' ');
+  const isUp = prices[prices.length - 1] >= prices[0];
+
+  return (
+    <svg width="64" height="18" viewBox="0 0 64 18" role="img" aria-label={`${stock.证券名称}近期K线走势`}>
+      <polyline points={polyline} fill="none" stroke={isUp ? '#FF4D4F' : '#36C98C'} strokeWidth="1.5" />
+    </svg>
+  );
+}
+
 export default function WatchlistPage() {
   const [storedWatchlist, setStoredWatchlist] = useState<StoredWatchItem[]>(() => getStoredWatchlist());
   const [watchlist, setWatchlist] = useState<WatchStock[]>([]);
@@ -71,7 +118,7 @@ export default function WatchlistPage() {
     setIsDetailLoading(true);
     Promise.all([
       loadStockDetail(selectedStock.证券代码),
-      loadStockChart(selectedStock.证券代码),
+      loadStockChart(selectedStock.证券代码, toApiChartPeriod(activeChart)),
       loadStockMoneyflow(selectedStock.证券代码),
       loadRelatedBoards(selectedStock.证券代码),
       loadBoardMembers(selectedStock.证券代码),
@@ -86,7 +133,7 @@ export default function WatchlistPage() {
       if (!ignore) setIsDetailLoading(false);
     });
     return () => { ignore = true; };
-  }, [selectedStock]);
+  }, [activeChart, selectedStock]);
 
   useEffect(() => {
     if (!showAddModal) return;
@@ -192,7 +239,7 @@ export default function WatchlistPage() {
                   <tbody>
                     {watchlist.map((s,idx)=>(
                       <tr key={s.证券代码} onClick={()=>setDetailStock({ code: s.证券代码, name: s.证券名称 })} className={`cursor-pointer border-b border-gray-800 ${idx%2===0?'bg-primary-bg':'bg-primary-chart'} hover:bg-gray-700/50 ${selectedStock?.证券代码===s.证券代码?'bg-primary-chart border-l-2 border-l-yellow-500':''}`}>
-                        <td className="py-1.5 px-1.5 text-secondary font-mono">{s.序号}</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.证券代码}</td><td className="py-1.5 px-1.5 text-neutral">{s.证券名称}</td><td className="py-1.5 px-1.5 text-secondary text-[9px]">▁▃▅▇▆</td><td className={`py-1.5 px-1.5 font-mono font-semibold ${s.涨幅>=0?'text-up':'text-down'}`}>{s.现价.toFixed(2)}</td><td className={`py-1.5 px-1.5 font-mono ${s.涨幅>=0?'text-up':'text-down'}`}>{s.涨幅>=0?'+':''}{s.涨幅.toFixed(2)}%</td><td className={`py-1.5 px-1.5 font-mono ${s.涨跌>=0?'text-up':'text-down'}`}>{s.涨跌>=0?'+':''}{s.涨跌.toFixed(2)}</td><td className={`py-1.5 px-1.5 font-mono ${s.涨速>=0?'text-up':'text-down'}`}>{s.涨速>=0?'+':''}{s.涨速.toFixed(2)}%</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.换手.toFixed(2)}%</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.自选日}</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.自选价格.toFixed(2)}</td><td className={`py-1.5 px-1.5 font-mono ${s.自选收益>=0?'text-up':'text-down'}`}>{s.自选收益>=0?'+':''}{s.自选收益.toFixed(2)}%</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.最高.toFixed(2)}</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.最低.toFixed(2)}</td></tr>
+                        <td className="py-1.5 px-1.5 text-secondary font-mono">{s.序号}</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.证券代码}</td><td className="py-1.5 px-1.5 text-neutral">{s.证券名称}</td><td className="py-1.5 px-1.5"><SparklineCell stock={s} /></td><td className={`py-1.5 px-1.5 font-mono font-semibold ${s.涨幅>=0?'text-up':'text-down'}`}>{s.现价.toFixed(2)}</td><td className={`py-1.5 px-1.5 font-mono ${s.涨幅>=0?'text-up':'text-down'}`}>{s.涨幅>=0?'+':''}{s.涨幅.toFixed(2)}%</td><td className={`py-1.5 px-1.5 font-mono ${s.涨跌>=0?'text-up':'text-down'}`}>{s.涨跌>=0?'+':''}{s.涨跌.toFixed(2)}</td><td className={`py-1.5 px-1.5 font-mono ${s.涨速>=0?'text-up':'text-down'}`}>{s.涨速>=0?'+':''}{s.涨速.toFixed(2)}%</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.换手.toFixed(2)}%</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.自选日}</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.自选价格.toFixed(2)}</td><td className={`py-1.5 px-1.5 font-mono ${s.自选收益>=0?'text-up':'text-down'}`}>{s.自选收益>=0?'+':''}{s.自选收益.toFixed(2)}%</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.最高.toFixed(2)}</td><td className="py-1.5 px-1.5 text-neutral font-mono">{s.最低.toFixed(2)}</td></tr>
                     ))}
                   </tbody>
                 </table>
@@ -202,7 +249,7 @@ export default function WatchlistPage() {
               <div className="p-3 border-b border-gray-700">
                 <div className="flex items-center gap-2 mb-2"><span className="text-white font-semibold">{detail.名称}</span><span className="text-secondary text-xs font-mono">{detail.代码}</span>{detail.市场标识.map(t=>(<span key={t} className="px-1 text-[9px] rounded bg-gray-600 text-secondary">{t}</span>))}</div>
                 <div className="flex items-end gap-3"><span className={`${detail.涨跌幅>=0?'text-up':'text-down'} text-2xl font-bold font-mono`}>{detail.现价.toFixed(2)}</span><div className="flex flex-col"><span className={`${detail.涨跌>=0?'text-up':'text-down'} text-xs font-mono`}>{detail.涨跌>=0?'+':''}{detail.涨跌.toFixed(2)}</span><span className={`${detail.涨跌幅>=0?'text-up':'text-down'} text-xs font-mono`}>{detail.涨跌幅>=0?'+':''}{detail.涨跌幅.toFixed(2)}%</span></div></div>
-                <p className="text-secondary text-[10px] mt-1">{isDetailLoading ? '正在同步Tushare最新数据...' : detail.行情说明}</p>
+                <p className="text-secondary text-[10px] mt-1">{isDetailLoading ? '正在同步东方财富最新数据...' : detail.行情说明}</p>
               </div>
               <div className="flex flex-wrap gap-1 px-3 py-2 border-b border-gray-700">
                 {chartTabs.slice(0,5).map(t=>(<button key={t} onClick={()=>setActiveChart(t)} className={`px-2 py-0.5 text-[10px] rounded ${activeChart===t?'bg-gray-600 text-white':'text-secondary hover:text-white'}`}>{t}</button>))}

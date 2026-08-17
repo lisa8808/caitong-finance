@@ -9,6 +9,8 @@ const periods = ['日线', '周线', '月线', '季线', '年线'];
 
 const COLORS = { bg: '#1A1E26', nav: '#1A1E26', divider: '#2A2E36', text: '#E6E9EF', secondary: '#8A919E', up: '#FF4D4F', down: '#36C98C', yellow: '#FFC53D', blue: '#4096FF', fill: 'rgba(64,150,255,0.2)' };
 
+type NormalizedPoint = ReturnType<typeof normalizeChartData>[number];
+
 function toApiPeriod(period: string) {
   const map: Record<string, string> = {
     分时: '1min',
@@ -37,10 +39,46 @@ function normalizeChartData(points: ChartPoint[]) {
       time: point.time,
       label: index % Math.max(1, Math.floor(points.length / 4)) === 0 ? point.time : '',
       price: point.price,
+      open: point.open,
+      close: point.close ?? point.price,
+      high: point.high,
+      low: point.low,
+      pctChange: point.pctChange,
+      amplitude: point.amplitude,
       avg: volume ? amount / volume : point.price,
       vol: point.vol,
+      amount: point.amount,
     };
   });
+}
+
+function formatCompact(value?: number) {
+  if (value === undefined || !Number.isFinite(value)) return '--';
+  if (Math.abs(value) >= 100_000_000) return `${(value / 100_000_000).toFixed(2)}亿`;
+  if (Math.abs(value) >= 10_000) return `${(value / 10_000).toFixed(2)}万`;
+  return value.toLocaleString('zh-CN', { maximumFractionDigits: 0 });
+}
+
+function ChartHoverTip({ active, payload }: { active?: boolean; payload?: Array<{ payload: NormalizedPoint }> }) {
+  const point = payload?.[0]?.payload;
+  if (!active || !point) return null;
+  const pctColor = (point.pctChange || 0) >= 0 ? COLORS.up : COLORS.down;
+  const priceColor = (point.close || point.price) >= (point.open || point.price) ? COLORS.up : COLORS.down;
+  const price = (value?: number) => value ? value.toFixed(2) : '--';
+
+  return (
+    <div className="min-w-[142px] rounded-sm border border-[#3A404B] bg-[#20242B]/95 px-2 py-1.5 text-[11px] leading-[1.65] shadow-2xl">
+      <div className="flex justify-between gap-4 font-semibold text-[#D6DAE1]"><span>时间</span><span>{point.time}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">开盘</span><span className="font-mono" style={{ color: priceColor }}>{price(point.open)}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">收盘</span><span className="font-mono" style={{ color: priceColor }}>{price(point.close)}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">最高</span><span className="font-mono" style={{ color: COLORS.up }}>{price(point.high)}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">最低</span><span className="font-mono" style={{ color: COLORS.down }}>{price(point.low)}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">涨幅</span><span className="font-mono" style={{ color: pctColor }}>{point.pctChange === undefined ? '--' : `${point.pctChange.toFixed(2)}%`}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">振幅</span><span className="font-mono text-[#D6DAE1]">{point.amplitude === undefined ? '--' : `${point.amplitude.toFixed(2)}%`}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">成交量</span><span className="font-mono text-[#D6DAE1]">{formatCompact(point.vol)}</span></div>
+      <div className="flex justify-between gap-4"><span className="text-[#D6DAE1]">成交额</span><span className="font-mono text-[#D6DAE1]">{formatCompact(point.amount)}</span></div>
+    </div>
+  );
 }
 
 function MiniChart({ stock, period }: { stock: WatchStock; period: string }) {
@@ -87,7 +125,7 @@ function MiniChart({ stock, period }: { stock: WatchStock; period: string }) {
               <CartesianGrid strokeDasharray="3 3" stroke="#2A2E36" />
               <XAxis dataKey="label" tick={{ fill: '#8A919E', fontSize: 8 }} axisLine={{ stroke: '#2A2E36' }} tickLine={false} />
               <YAxis yAxisId="price" domain={[yBot, yTop]} hide />
-              <Tooltip contentStyle={{ backgroundColor: '#1A1E26', border: '1px solid #2A2E36', fontSize: 9, color: '#E6E9EF' }} />
+              <Tooltip content={<ChartHoverTip />} />
               <ReferenceLine yAxisId="price" y={data[0]?.price || stock.现价} stroke="#2A2E36" strokeDasharray="3 3" />
               <Area yAxisId="price" type="monotone" dataKey="price" stroke={COLORS.blue} fill={COLORS.fill} strokeWidth={1.2} dot={false} name="现价" />
               <Area yAxisId="price" type="monotone" dataKey="avg" stroke={COLORS.yellow} fill="none" strokeWidth={1} dot={false} name="均价" />
@@ -99,6 +137,7 @@ function MiniChart({ stock, period }: { stock: WatchStock; period: string }) {
             <ComposedChart data={data} margin={{ top: 0, right: 24, left: 0, bottom: 0 }}>
               <XAxis dataKey="label" tick={false} axisLine={false} />
               <YAxis yAxisId="vol" domain={[0, volMax * 1.2]} hide />
+              <Tooltip content={<ChartHoverTip />} />
               <Bar yAxisId="vol" dataKey="vol" barSize={2}>
                 {data.map((e, i) => { const prev = i > 0 ? data[i - 1].price : e.price; return <Cell key={i} fill={e.price >= prev ? COLORS.up : COLORS.down} />; })}
               </Bar>
