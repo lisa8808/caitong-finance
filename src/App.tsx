@@ -18,6 +18,8 @@ import { mockStocks } from './data/mockData';
 import { StockItem } from './types';
 import { SideNavItem } from './components/SideNav';
 
+const SMART_ANALYSIS_ENABLED = false;
+
 function App() {
   const [selectedStock, setSelectedStock] = useState<StockItem>(mockStocks[0]);
   const [activePage, setActivePage] = useState<SideNavItem>('智询');
@@ -31,7 +33,7 @@ function App() {
   return (
     <div className="h-screen w-screen flex flex-col bg-primary-bg overflow-hidden">
       <TitleBar rightContent={
-        (activePage === '市场' || activePage === '自选') ? (
+        SMART_ANALYSIS_ENABLED && (activePage === '市场' || activePage === '自选') ? (
           <button
             onClick={() => setShowMarketAi(!showMarketAi)}
             className={`px-3.5 py-1 text-[11px] rounded-md flex items-center gap-1.5 font-semibold transition-all duration-200 shadow-lg ${
