@@ -1,0 +1,27 @@
+{
+  "summary": {
+    "total": 100,
+    "passed": 100,
+    "failed": 0,
+    "blockedExternal": 0,
+    "passRate": 1,
+    "factorStates": {
+      "executable": 55,
+      "recognized_unexecuted": 32,
+      "unrecognized": 8,
+      "integration": 5
+    }
+  },
+  "regression": {
+    "total": 114,
+    "passed": 114,
+    "failed": 0,
+    "passRate": 1
+  },
+  "combined": {
+    "total": 214,
+    "passed": 214,
+    "failed": 0,
+    "blockedExternal": 0
+  }
+}

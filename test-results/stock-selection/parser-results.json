@@ -1,0 +1,3597 @@
+{
+  "generatedAt": "2026-08-26T08:13:22.590Z",
+  "summary": {
+    "total": 114,
+    "passed": 114,
+    "failed": 0,
+    "passRate": 1
+  },
+  "results": [
+    {
+      "id": "PE-01",
+      "prompt": "PE低于20的A股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PE-02",
+      "prompt": "市盈率小于15",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 15,
+          "actual": 15
+        }
+      ],
+      "actual": {
+        "peMax": 15,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PE-03",
+      "prompt": "pettm < 18.5",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 18.5,
+          "actual": 18.5
+        }
+      ],
+      "actual": {
+        "peMax": 18.5,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PE-04",
+      "prompt": "PE不高于30",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 30,
+          "actual": 30
+        }
+      ],
+      "actual": {
+        "peMax": 30,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PE-05",
+      "prompt": "PE≤12.8",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 12.8,
+          "actual": 12.8
+        }
+      ],
+      "actual": {
+        "peMax": 12.8,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PE-06",
+      "prompt": "市盈率<25的银行股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 25,
+          "actual": 25
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "银行"
+          ],
+          "actual": [
+            "银行"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 25,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "银行"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PB-01",
+      "prompt": "PB低于2",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PB-02",
+      "prompt": "市净率小于1.5",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 1.5,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PB-03",
+      "prompt": "破净股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 1,
+          "actual": 1
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 1,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PB-04",
+      "prompt": "pb≤0.9",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 0.9,
+          "actual": 0.9
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 0.9,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "PB-05",
+      "prompt": "PB越低越好",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports PB/市净率条件（未识别阈值）",
+          "passed": true,
+          "expected": "PB/市净率条件（未识别阈值）",
+          "actual": [
+            "PB/市净率条件（未识别阈值）"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "PB/市净率条件（未识别阈值）"
+        ]
+      }
+    },
+    {
+      "id": "TR-01",
+      "prompt": "换手率高于3%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "TR-02",
+      "prompt": "换手率超过5.5",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 5.5,
+          "actual": 5.5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 5.5,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "TR-03",
+      "prompt": "换手率>10%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 10,
+          "actual": 10
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 10,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "TR-04",
+      "prompt": "换手率活跃",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 换手率条件（未识别阈值）",
+          "passed": true,
+          "expected": "换手率条件（未识别阈值）",
+          "actual": [
+            "换手率条件（未识别阈值）"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "换手率条件（未识别阈值）"
+        ]
+      }
+    },
+    {
+      "id": "VR-01",
+      "prompt": "量比大于1.5",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "VR-02",
+      "prompt": "量比高于2",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 2,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "VR-03",
+      "prompt": "量比≥3.2",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 3.2,
+          "actual": 3.2
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 3.2,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "VR-04",
+      "prompt": "量比明显放大",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 量比条件（未识别阈值）",
+          "passed": true,
+          "expected": "量比条件（未识别阈值）",
+          "actual": [
+            "量比条件（未识别阈值）"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "量比条件（未识别阈值）"
+        ]
+      }
+    },
+    {
+      "id": "MV-01",
+      "prompt": "总市值大于100亿",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MV-02",
+      "prompt": "总市值低于500亿",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "totalMvMaxYi matches",
+          "passed": true,
+          "expected": 500,
+          "actual": 500
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": 500,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MV-03",
+      "prompt": "总市值>50亿且总市值<300亿",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 50,
+          "actual": 50
+        },
+        {
+          "name": "totalMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 50,
+        "totalMvMaxYi": 300,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MV-04",
+      "prompt": "流通市值高于30亿",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "circMvMinYi matches",
+          "passed": true,
+          "expected": 30,
+          "actual": 30
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": 30,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MV-05",
+      "prompt": "流通市值不高于200亿",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 200,
+          "actual": 200
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 200,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MV-06",
+      "prompt": "总市值中等的股票",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 总市值条件（未识别阈值或单位）",
+          "passed": true,
+          "expected": "总市值条件（未识别阈值或单位）",
+          "actual": [
+            "总市值条件（未识别阈值或单位）"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "总市值条件（未识别阈值或单位）"
+        ]
+      }
+    },
+    {
+      "id": "FIN-01",
+      "prompt": "营收同比增长超过20%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FIN-02",
+      "prompt": "营收增速高于35.5%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 35.5,
+          "actual": 35.5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 35.5,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FIN-03",
+      "prompt": "高成长股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FIN-04",
+      "prompt": "ROE高于12%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FIN-05",
+      "prompt": "净资产收益率超过15%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 15,
+          "actual": 15
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 15,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FIN-06",
+      "prompt": "毛利率高于30%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 毛利率条件",
+          "passed": true,
+          "expected": "毛利率条件",
+          "actual": [
+            "毛利率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "毛利率条件"
+        ]
+      }
+    },
+    {
+      "id": "IND-01",
+      "prompt": "筛选半导体股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "半导体"
+          ],
+          "actual": [
+            "半导体"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "半导体"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-02",
+      "prompt": "找新能源行业A股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-03",
+      "prompt": "医药和汽车板块",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "医药",
+            "汽车"
+          ],
+          "actual": [
+            "医药",
+            "汽车"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "医药",
+          "汽车"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-04",
+      "prompt": "消费电子标的",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "消费电子",
+            "电子"
+          ],
+          "actual": [
+            "消费电子",
+            "电子"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "消费电子",
+          "电子"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-05",
+      "prompt": "通信和计算机股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "通信",
+            "计算机"
+          ],
+          "actual": [
+            "通信",
+            "计算机"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "通信",
+          "计算机"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-01",
+      "prompt": "近5日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-02",
+      "prompt": "近3个交易日主力资金流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 3,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-03",
+      "prompt": "近10交易日主力资金累计净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 10,
+          "actual": 10
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 10,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-04",
+      "prompt": "主力资金净流入的股票",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "TECH-01",
+      "prompt": "均线多头排列",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 均线形态条件",
+          "passed": true,
+          "expected": "均线形态条件",
+          "actual": [
+            "均线形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "均线形态条件"
+        ]
+      }
+    },
+    {
+      "id": "TECH-02",
+      "prompt": "突破20日新高",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 突破形态条件",
+          "passed": true,
+          "expected": "突破形态条件",
+          "actual": [
+            "突破形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "突破形态条件"
+        ]
+      }
+    },
+    {
+      "id": "TECH-03",
+      "prompt": "MACD金叉且RSI低于30",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "TECH-04",
+      "prompt": "近期放量的股票",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 成交额放大条件",
+          "passed": true,
+          "expected": "成交额放大条件",
+          "actual": [
+            "成交额放大条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "成交额放大条件"
+        ]
+      }
+    },
+    {
+      "id": "TECH-05",
+      "prompt": "净利润增长超过25%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 净利润增长条件",
+          "passed": true,
+          "expected": "净利润增长条件",
+          "actual": [
+            "净利润增长条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "净利润增长条件"
+        ]
+      }
+    },
+    {
+      "id": "MIX-01",
+      "prompt": "新能源行业PE低于25、ROE高于12%、营收同比增长超过20%，且近5日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 25,
+          "actual": 25
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 25,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": 12,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MIX-02",
+      "prompt": "电子股中PE<20、PB<2、量比>1.5",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "电子"
+          ],
+          "actual": [
+            "电子"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "电子"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MIX-03",
+      "prompt": "银行股，破净，总市值高于500亿",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 1,
+          "actual": 1
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 500,
+          "actual": 500
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "银行"
+          ],
+          "actual": [
+            "银行"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 1,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 500,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "银行"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MIX-04",
+      "prompt": "汽车股，流通市值>50亿且流通市值<300亿，换手率>3%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "circMvMinYi matches",
+          "passed": true,
+          "expected": 50,
+          "actual": 50
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "汽车"
+          ],
+          "actual": [
+            "汽车"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": 50,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "汽车"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "MIX-05",
+      "prompt": "半导体股PE低于30，均线多头且放量",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 30,
+          "actual": 30
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "半导体"
+          ],
+          "actual": [
+            "半导体"
+          ]
+        },
+        {
+          "name": "unsupported reports 均线形态条件",
+          "passed": true,
+          "expected": "均线形态条件",
+          "actual": [
+            "成交额放大条件",
+            "均线形态条件"
+          ]
+        },
+        {
+          "name": "unsupported reports 成交额放大条件",
+          "passed": true,
+          "expected": "成交额放大条件",
+          "actual": [
+            "成交额放大条件",
+            "均线形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 30,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "半导体"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "成交额放大条件",
+          "均线形态条件"
+        ]
+      }
+    },
+    {
+      "id": "SAFE-01",
+      "prompt": "找必涨股，保证明天赚10%",
+      "passed": true,
+      "assertions": [],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SAFE-02",
+      "prompt": "给我一个满仓梭哈的买点",
+      "passed": true,
+      "assertions": [],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-01",
+      "prompt": "PE TTM至多18倍",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 18,
+          "actual": 18
+        }
+      ],
+      "actual": {
+        "peMax": 18,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-02",
+      "prompt": "市盈率至多25",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 25,
+          "actual": 25
+        }
+      ],
+      "actual": {
+        "peMax": 25,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-03",
+      "prompt": "PB至多1.2",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 1.2,
+          "actual": 1.2
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 1.2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-04",
+      "prompt": "换手率不低于5%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 5,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-05",
+      "prompt": "换手率至少3%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-06",
+      "prompt": "量比不低于1.8",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.8,
+          "actual": 1.8
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.8,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-07",
+      "prompt": "量比至少2",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 2,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-08",
+      "prompt": "营业收入同比增长至少 12%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 12,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-09",
+      "prompt": "ROE不低于10%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 10,
+          "actual": 10
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 10,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "SYN-10",
+      "prompt": "净资产收益率至少 18%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 18,
+          "actual": 18
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 18,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-05",
+      "prompt": "最近5日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-06",
+      "prompt": "近五日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-07",
+      "prompt": "最近十日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 10,
+          "actual": 10
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 10,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "FLOW-08",
+      "prompt": "近十五个交易日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 15,
+          "actual": 15
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 15,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-06",
+      "prompt": "光伏股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "光伏"
+          ],
+          "actual": [
+            "光伏"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "光伏"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-07",
+      "prompt": "锂电池产业链",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "锂电池"
+          ],
+          "actual": [
+            "锂电池"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "锂电池"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-08",
+      "prompt": "军工和有色金属",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "军工",
+            "有色金属"
+          ],
+          "actual": [
+            "军工",
+            "有色金属"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "军工",
+          "有色金属"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-09",
+      "prompt": "食品饮料和家电",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "食品饮料",
+            "家电"
+          ],
+          "actual": [
+            "食品饮料",
+            "家电"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "食品饮料",
+          "家电"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-10",
+      "prompt": "保险、房地产和煤炭",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "保险",
+            "房地产",
+            "煤炭"
+          ],
+          "actual": [
+            "保险",
+            "房地产",
+            "煤炭"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "保险",
+          "房地产",
+          "煤炭"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "IND-11",
+      "prompt": "化工、传媒和软件",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "化工",
+            "传媒",
+            "软件"
+          ],
+          "actual": [
+            "化工",
+            "传媒",
+            "软件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "化工",
+          "传媒",
+          "软件"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "EXT-VAL-01",
+      "prompt": "市销率PS低于3",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports PS/市销率条件",
+          "passed": true,
+          "expected": "PS/市销率条件",
+          "actual": [
+            "PS/市销率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "PS/市销率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-VAL-02",
+      "prompt": "PEG低于1",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports PEG/EV-EBITDA估值条件",
+          "passed": true,
+          "expected": "PEG/EV-EBITDA估值条件",
+          "actual": [
+            "PEG/EV-EBITDA估值条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "PEG/EV-EBITDA估值条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-VAL-03",
+      "prompt": "EV/EBITDA低于10",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports PEG/EV-EBITDA估值条件",
+          "passed": true,
+          "expected": "PEG/EV-EBITDA估值条件",
+          "actual": [
+            "PEG/EV-EBITDA估值条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "PEG/EV-EBITDA估值条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-01",
+      "prompt": "净利润同比增长超过30%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 净利润增长条件",
+          "passed": true,
+          "expected": "净利润增长条件",
+          "actual": [
+            "净利润增长条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "净利润增长条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-02",
+      "prompt": "毛利率高于40%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 毛利率条件",
+          "passed": true,
+          "expected": "毛利率条件",
+          "actual": [
+            "毛利率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "毛利率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-03",
+      "prompt": "净利率高于15%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 净利率条件",
+          "passed": true,
+          "expected": "净利率条件",
+          "actual": [
+            "净利率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "净利率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-04",
+      "prompt": "资产负债率低于40%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 资产负债率条件",
+          "passed": true,
+          "expected": "资产负债率条件",
+          "actual": [
+            "资产负债率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "资产负债率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-05",
+      "prompt": "股息率高于3%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 股息率条件",
+          "passed": true,
+          "expected": "股息率条件",
+          "actual": [
+            "股息率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "股息率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-06",
+      "prompt": "每股收益EPS高于1元",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 每股收益条件",
+          "passed": true,
+          "expected": "每股收益条件",
+          "actual": [
+            "每股收益条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "每股收益条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-FIN-07",
+      "prompt": "每股净资产高于5元",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 每股净资产条件",
+          "passed": true,
+          "expected": "每股净资产条件",
+          "actual": [
+            "每股净资产条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "每股净资产条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-TECH-01",
+      "prompt": "MA5穿越MA20，均线多头",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 均线形态条件",
+          "passed": true,
+          "expected": "均线形态条件",
+          "actual": [
+            "均线形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "均线形态条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-TECH-02",
+      "prompt": "收盘价突破60日新高",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 突破形态条件",
+          "passed": true,
+          "expected": "突破形态条件",
+          "actual": [
+            "突破形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "突破形态条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-TECH-03",
+      "prompt": "RSI低于30",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-TECH-04",
+      "prompt": "MACD金叉",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-TECH-05",
+      "prompt": "KDJ金叉",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-TECH-06",
+      "prompt": "突破布林带上轨",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 突破形态条件",
+          "passed": true,
+          "expected": "突破形态条件",
+          "actual": [
+            "突破形态条件",
+            "技术指标条件"
+          ]
+        },
+        {
+          "name": "unsupported reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "突破形态条件",
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "突破形态条件",
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-MKT-01",
+      "prompt": "近5日涨幅超过10%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 涨跌幅条件",
+          "passed": true,
+          "expected": "涨跌幅条件",
+          "actual": [
+            "涨跌幅条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "涨跌幅条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-MKT-02",
+      "prompt": "振幅低于5%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 振幅或波动率条件",
+          "passed": true,
+          "expected": "振幅或波动率条件",
+          "actual": [
+            "振幅或波动率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "振幅或波动率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-MKT-03",
+      "prompt": "近20日波动率小于15%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 振幅或波动率条件",
+          "passed": true,
+          "expected": "振幅或波动率条件",
+          "actual": [
+            "振幅或波动率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "振幅或波动率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-MKT-04",
+      "prompt": "最近三连板",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 连板条件",
+          "passed": true,
+          "expected": "连板条件",
+          "actual": [
+            "连板条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "连板条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-CAP-01",
+      "prompt": "近5日北向资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 其他资金面条件",
+          "passed": true,
+          "expected": "其他资金面条件",
+          "actual": [
+            "其他资金面条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "其他资金面条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-CAP-02",
+      "prompt": "融资余额连续增长",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 其他资金面条件",
+          "passed": true,
+          "expected": "其他资金面条件",
+          "actual": [
+            "其他资金面条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "其他资金面条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-HOLD-01",
+      "prompt": "机构持仓比例高于30%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 持仓结构条件",
+          "passed": true,
+          "expected": "持仓结构条件",
+          "actual": [
+            "持仓结构条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "持仓结构条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-HOLD-02",
+      "prompt": "基金持仓连续增加",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 持仓结构条件",
+          "passed": true,
+          "expected": "持仓结构条件",
+          "actual": [
+            "持仓结构条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "持仓结构条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-HOLD-03",
+      "prompt": "股东户数连续减少",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "unsupported reports 持仓结构条件",
+          "passed": true,
+          "expected": "持仓结构条件",
+          "actual": [
+            "持仓结构条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "持仓结构条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-MIX-01",
+      "prompt": "光伏股PE低于20、ROE至少 15%、股息率高于2%",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 15,
+          "actual": 15
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "光伏"
+          ],
+          "actual": [
+            "光伏"
+          ]
+        },
+        {
+          "name": "unsupported reports 股息率条件",
+          "passed": true,
+          "expected": "股息率条件",
+          "actual": [
+            "股息率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 15,
+        "industryKeywords": [
+          "光伏"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "股息率条件"
+        ]
+      }
+    },
+    {
+      "id": "EXT-MIX-02",
+      "prompt": "军工股总市值高于100亿，MACD金叉且近5日主力资金净流入",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "军工"
+          ],
+          "actual": [
+            "军工"
+          ]
+        },
+        {
+          "name": "unsupported reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "军工"
+        ],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-PE",
+      "prompt": "PE严格小于边界",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002"
+          ],
+          "actual": [
+            "000002"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-PB",
+      "prompt": "PB严格小于边界",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002"
+          ],
+          "actual": [
+            "000002"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-TR",
+      "prompt": "换手率严格大于边界",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002",
+            "000006"
+          ],
+          "actual": [
+            "000002",
+            "000006"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002",
+          "000006"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-VR",
+      "prompt": "量比严格大于边界",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002",
+            "000006"
+          ],
+          "actual": [
+            "000002",
+            "000006"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002",
+          "000006"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-TMV",
+      "prompt": "总市值严格大于边界",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002",
+            "000006"
+          ],
+          "actual": [
+            "000002",
+            "000006"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002",
+          "000006"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-CMV",
+      "prompt": "流通市值严格大于边界",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002",
+            "000006"
+          ],
+          "actual": [
+            "000002",
+            "000006"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002",
+          "000006"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-ST",
+      "prompt": "ST始终剔除",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000001",
+            "000002",
+            "000006",
+            "000007"
+          ],
+          "actual": [
+            "000001",
+            "000002",
+            "000006",
+            "000007"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000001",
+          "000002",
+          "000006",
+          "000007"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-DEL",
+      "prompt": "退市始终剔除",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000001",
+            "000002",
+            "000006",
+            "000007"
+          ],
+          "actual": [
+            "000001",
+            "000002",
+            "000006",
+            "000007"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000001",
+          "000002",
+          "000006",
+          "000007"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-PRICE",
+      "prompt": "无行情始终剔除",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000001",
+            "000002",
+            "000006",
+            "000007"
+          ],
+          "actual": [
+            "000001",
+            "000002",
+            "000006",
+            "000007"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000001",
+          "000002",
+          "000006",
+          "000007"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-NEG-PE",
+      "prompt": "负PE在PE条件下剔除",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000001",
+            "000002",
+            "000007"
+          ],
+          "actual": [
+            "000001",
+            "000002",
+            "000007"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000001",
+          "000002",
+          "000007"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-NEG-PB",
+      "prompt": "负PB在PB条件下剔除",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000001",
+            "000002",
+            "000007"
+          ],
+          "actual": [
+            "000001",
+            "000002",
+            "000007"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000001",
+          "000002",
+          "000007"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-IND",
+      "prompt": "行业必须匹配",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000001",
+            "000002",
+            "000006"
+          ],
+          "actual": [
+            "000001",
+            "000002",
+            "000006"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000001",
+          "000002",
+          "000006"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-AND",
+      "prompt": "复合条件为AND",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002"
+          ],
+          "actual": [
+            "000002"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-EMPTY",
+      "prompt": "无命中不放宽",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [],
+          "actual": []
+        }
+      ],
+      "actual": {
+        "selectedCodes": []
+      }
+    },
+    {
+      "id": "FILTER-MAX",
+      "prompt": "多条件严格筛选",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000002"
+          ],
+          "actual": [
+            "000002"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000002"
+        ]
+      }
+    }
+  ]
+}

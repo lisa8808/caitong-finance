@@ -1,0 +1,15 @@
+{
+  "summary": {
+    "total": 100,
+    "passed": 100,
+    "failed": 0,
+    "blockedExternal": 0,
+    "passRate": 1
+  },
+  "combined": {
+    "total": 314,
+    "passed": 314,
+    "failed": 0,
+    "blockedExternal": 0
+  }
+}

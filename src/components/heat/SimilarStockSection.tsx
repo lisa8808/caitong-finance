@@ -39,7 +39,7 @@ export default function SimilarStockSection({ stocks, onSelect, selectedCode }: 
             <HelpCircle size={12} className="cursor-help" />
           </button>
         </div>
-        <span className="text-secondary text-[10px]">匹配题材属性</span>
+        <span className="text-secondary text-[10px]">匹配连板属性</span>
       </div>
 
       <div className="space-y-1.5">
@@ -88,11 +88,11 @@ export default function SimilarStockSection({ stocks, onSelect, selectedCode }: 
           style={{ top: tipPosition.top, left: tipPosition.left }}
         >
           <span className="mb-1 block font-semibold text-white">相似股匹配逻辑</span>
-          <span className="block">1. 以当前选中股票的首个题材标签作为主属性。</span>
-          <span className="block">2. 从当日涨停池筛选主属性相同的股票，并排除当前股票，最多展示 8 只。</span>
-          <span className="block">3. 展示分 = max（60，96 − 候选排名序号 × 5）。</span>
-          <span className="mt-1 block text-neutral">候选顺序沿用当前热度股票列表；原始行情和题材来自页面顶部标注的数据源。</span>
-          <span className="mt-1 block text-yellow-400">该分数是本地规则生成的题材匹配排序分，不是东方财富或 Tushare 官方指标，也不是基本面或价格走势的综合相似度。</span>
+          <span className="block">1. 以当前选中的连板股作为比较基准。</span>
+          <span className="block">2. 综合连板高度、开板次数、涨幅和明涨停概率排序，相同题材优先。</span>
+          <span className="block">3. 排除当前股票，默认展示属性最接近的 8 只。</span>
+          <span className="mt-1 block text-neutral">原始行情和题材来自页面顶部标注的数据源。</span>
+          <span className="mt-1 block text-yellow-400">相似度是本地规则生成的连板属性排序分，不是东方财富或 Tushare 官方指标，也不构成投资建议。</span>
         </div>,
         document.body,
       )}

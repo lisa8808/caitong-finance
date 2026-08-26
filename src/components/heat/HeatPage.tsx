@@ -39,21 +39,31 @@ export default function HeatPage() {
 
   const filteredSimilarStocks = useMemo(() => {
     if (!selectedStock) return heatData.similarStocks;
-    const industry = selectedStock.题材[0];
-    if (!industry) return heatData.similarStocks;
     return heatData.heatStocks
-      .filter((s) => s.代码 !== selectedStock.代码 && s.题材[0] === industry)
+      .filter((stock) => stock.代码 !== selectedStock.代码)
+      .map((stock) => {
+        const hasSharedSubject = stock.题材.some((subject) => selectedStock.题材.includes(subject));
+        const distance = Math.abs(stock.连板数 - selectedStock.连板数) * 12
+          + Math.abs(stock.开板次数 - selectedStock.开板次数) * 4
+          + Math.abs(stock.涨幅 - selectedStock.涨幅) * 2
+          + Math.abs(stock.明涨停概率 - selectedStock.明涨停概率) * 0.2
+          + (hasSharedSubject ? 0 : 15);
+        const similarity = Math.max(60, Math.min(99, Math.round(99 - distance)));
+        return { stock, similarity, hasSharedSubject };
+      })
+      .sort((a, b) => b.similarity - a.similarity || b.stock.连板数 - a.stock.连板数)
       .slice(0, 8)
-      .map((s, index) => ({
-        代码: s.代码,
-        名称: s.名称,
-        现价: s.现价,
-        涨幅: s.涨幅,
-        题材标签: s.题材,
-        相似度: Math.max(60, 96 - index * 5),
-        行业地位: `${s.题材[0]}涨停股，${s.连板数}连板`,
+      .map(({ stock, similarity, hasSharedSubject }) => ({
+        代码: stock.代码,
+        名称: stock.名称,
+        现价: stock.现价,
+        涨幅: stock.涨幅,
+        题材标签: stock.题材,
+        相似度: similarity,
+        行业地位: `${stock.连板数}连板${hasSharedSubject ? '，题材匹配' : '，连板属性相近'}`,
       }));
   }, [selectedStock, heatData]);
+  const displayedSimilarStock = selectedSimilar ?? filteredSimilarStocks[0] ?? null;
 
   const startResize = (event: React.PointerEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -107,19 +117,22 @@ export default function HeatPage() {
         <div className="flex flex-col flex-1 overflow-hidden">
           <LimitUpTable
             stocks={heatData.heatStocks}
-            onSelectStock={setSelectedStock}
+            onSelectStock={(stock) => {
+              setSelectedStock(stock);
+              setSelectedSimilar(null);
+            }}
             selectedCode={selectedStock.代码}
           />
           <div className="flex-[1] overflow-auto scrollbar-thin min-h-0 border-t border-gray-700">
             <SimilarStockSection
               stocks={filteredSimilarStocks}
               onSelect={setSelectedSimilar}
-              selectedCode={selectedSimilar?.代码}
+              selectedCode={displayedSimilarStock?.代码}
             />
           </div>
         </div>
         <div className="w-80 border-l border-gray-700 flex flex-col bg-primary-nav overflow-hidden">
-          <StockAttributePanel stock={selectedStock} similarStock={selectedSimilar} />
+          <StockAttributePanel stock={selectedStock} similarStock={displayedSimilarStock} />
         </div>
       </div>
     </div>

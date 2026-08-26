@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { HelpCircle } from 'lucide-react';
 import { HeatStock } from '../../types/heat';
@@ -10,6 +10,7 @@ interface Props {
 }
 
 export default function LimitUpTable({ stocks, onSelectStock, selectedCode }: Props) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<'all' | '2' | '1' | '炸板'>('all');
   const [probabilitySort, setProbabilitySort] = useState<'desc' | 'asc' | null>(null);
   const [tipPosition, setTipPosition] = useState<{ top: number; left: number } | null>(null);
@@ -31,6 +32,13 @@ export default function LimitUpTable({ stocks, onSelectStock, selectedCode }: Pr
   const toggleProbabilitySort = () => {
     setProbabilitySort((current) => current === 'desc' ? 'asc' : 'desc');
   };
+
+  useEffect(() => {
+    const selectedRow = scrollContainerRef.current?.querySelector<HTMLElement>(
+      `[data-stock-code="${selectedCode}"]`,
+    );
+    selectedRow?.scrollIntoView({ block: 'nearest' });
+  }, [filteredStocks, selectedCode]);
 
   return (
     <>
@@ -54,7 +62,7 @@ export default function LimitUpTable({ stocks, onSelectStock, selectedCode }: Pr
         ))}
       </div>
 
-      <div className="flex-1 overflow-auto scrollbar-thin bg-primary-bg">
+      <div ref={scrollContainerRef} className="flex-1 overflow-auto scrollbar-thin bg-primary-bg">
         <table className="w-full text-xs">
           <thead className="sticky top-0 z-10 bg-primary-nav">
             <tr className="text-secondary">
@@ -102,11 +110,14 @@ export default function LimitUpTable({ stocks, onSelectStock, selectedCode }: Pr
             {filteredStocks.map((stock, idx) => (
               <tr
                 key={stock.代码}
+                data-stock-code={stock.代码}
                 onClick={() => onSelectStock(stock)}
                 className={`border-b border-gray-800 cursor-pointer transition-colors ${
                   idx % 2 === 0 ? 'bg-primary-bg' : 'bg-primary-chart'
                 } hover:bg-gray-700/50 ${
-                  selectedCode === stock.代码 ? 'bg-primary-chart border-l-2 border-l-yellow-500' : ''
+                  selectedCode === stock.代码
+                    ? '!bg-blue-500/20 border-l-4 border-l-blue-400 ring-1 ring-inset ring-blue-400/70 hover:!bg-blue-500/25'
+                    : ''
                 }`}
               >
                 <td className="py-1.5 px-2 text-neutral font-mono">{stock.代码}</td>

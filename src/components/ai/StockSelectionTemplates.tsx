@@ -3,6 +3,7 @@ export interface StockSelectionTemplate {
   desc: string;
   prompt: string;
   factors: string;
+  autoSubmit?: boolean;
 }
 
 interface Props {
@@ -35,6 +36,13 @@ const templates: StockSelectionTemplate[] = [
     prompt: '帮我筛选营收同比增长超过30%的半导体股',
     factors: '半导体 · 营收增长 > 30%',
   },
+  {
+    title: '自定义筛选',
+    desc: '组合多个条件后编辑执行',
+    prompt: '帮我筛选新能源行业中PE低于25、ROE高于12%、营收同比增长超过20%，且近5日主力资金净流入的A股',
+    factors: '行业 + 估值 + 成长 + 资金',
+    autoSubmit: false,
+  },
 ];
 
 export default function StockSelectionTemplates({ onClose, onSelect }: Props) {
@@ -51,7 +59,7 @@ export default function StockSelectionTemplates({ onClose, onSelect }: Props) {
             取消
           </button>
         </div>
-        <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-5">
           {templates.map((template) => (
             <button
               type="button"

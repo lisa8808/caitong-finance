@@ -10,7 +10,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '公用事业',
     概念名称: '绿色电力',
     是否重复: false,
-    来源: '政策长篇',
+    来源: '政策类长篇报道',
   },
   {
     id: 55,
@@ -21,7 +21,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '计算机',
     概念名称: '人工智能',
     是否重复: true,
-    来源: '新闻快讯',
+    来源: '财联社快讯',
   },
   {
     id: 56,
@@ -32,7 +32,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '计算机',
     概念名称: '人工智能',
     是否重复: true,
-    来源: '新闻快讯',
+    来源: '财联社快讯',
   },
   {
     id: 57,
@@ -43,7 +43,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '计算机',
     概念名称: '人工智能',
     是否重复: true,
-    来源: '新闻快讯',
+    来源: '财联社快讯',
   },
   {
     id: 58,
@@ -54,7 +54,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '计算机',
     概念名称: '人工智能',
     是否重复: true,
-    来源: '新闻快讯',
+    来源: '财联社快讯',
   },
   {
     id: 59,
@@ -66,7 +66,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '人力资源服务',
      标的名称: 'BOSS直聘（02076.HK）',
      是否重复: true,
-     来源: '新闻通讯',
+     来源: '东方财富资讯',
    },
    {
      id: 60,
@@ -78,7 +78,7 @@ export const hotspotData: HotspotItem[] = [
      概念名称: '人力资源服务',
      标的名称: 'BOSS直聘（02076.HK）',
     是否重复: true,
-    来源: '新闻通讯',
+    来源: '东方财富资讯',
   },
   {
     id: 61,
@@ -89,7 +89,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '金融',
     概念名称: '货币政策',
     是否重复: false,
-    来源: '新闻联播',
+    来源: '权威政策快讯',
   },
   {
     id: 62,
@@ -101,7 +101,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '无人驾驶',
      标的名称: '特斯拉（TSLA）',
     是否重复: false,
-    来源: '新闻快讯',
+    来源: '财联社快讯',
   },
   {
     id: 63,
@@ -112,7 +112,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '新能源',
     概念名称: '储能',
     是否重复: false,
-    来源: '政策长篇',
+    来源: '政策类长篇报道',
   },
   {
     id: 64,
@@ -124,7 +124,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '消费电子',
      标的名称: '苹果（AAPL）',
     是否重复: false,
-    来源: '新闻通讯',
+    来源: '东方财富资讯',
   },
   {
     id: 65,
@@ -135,7 +135,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '光伏',
     概念名称: '新能源',
     是否重复: false,
-    来源: '券商研报',
+    来源: '东方财富资讯',
   },
   {
     id: 66,
@@ -147,7 +147,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: 'HBC电池',
     标的名称: '隆基绿能（601012）',
     是否重复: false,
-    来源: '上市公告',
+    来源: '政策监管快讯',
   },
   {
     id: 67,
@@ -159,7 +159,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '酿酒',
     标的名称: '贵州茅台（600519）',
     是否重复: false,
-    来源: '上市公告',
+    来源: '政策监管快讯',
   },
   {
     id: 68,
@@ -171,7 +171,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '钠离子电池',
     标的名称: '宁德时代（300750）',
     是否重复: false,
-    来源: '新闻通讯',
+    来源: '东方财富资讯',
   },
   {
     id: 69,
@@ -183,7 +183,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '芯片',
     标的名称: '中芯国际（688981）',
     是否重复: false,
-    来源: '新闻联播',
+    来源: '权威政策快讯',
   },
   {
     id: 70,
@@ -194,7 +194,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '房地产',
     概念名称: '债务风险',
     是否重复: false,
-    来源: '上市公告',
+    来源: '政策监管快讯',
   },
   {
     id: 71,
@@ -206,7 +206,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '创新药',
     标的名称: '信达生物（01801）',
     是否重复: false,
-    来源: '上市公告',
+    来源: '政策监管快讯',
   },
   {
     id: 72,
@@ -217,7 +217,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '监管',
     概念名称: '财务造假',
     是否重复: false,
-    来源: '政策长篇',
+    来源: '政策类长篇报道',
   },
   {
     id: 73,
@@ -228,7 +228,7 @@ export const hotspotData: HotspotItem[] = [
     行业名称: '金融',
     概念名称: '汇率',
     是否重复: false,
-    来源: '新闻快讯',
+    来源: '财联社快讯',
   },
   {
     id: 74,
@@ -240,7 +240,7 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '混动技术',
     标的名称: '比亚迪（002594）',
     是否重复: false,
-    来源: '新闻通讯',
+    来源: '东方财富资讯',
   },
   {
     id: 75,
@@ -252,6 +252,6 @@ export const hotspotData: HotspotItem[] = [
     概念名称: '证券',
     标的名称: '中信证券（600030）',
     是否重复: false,
-    来源: '券商研报',
+    来源: '东方财富资讯',
   },
 ];

@@ -12,6 +12,7 @@ import { loadValueInvestingCommitteeReport } from '../../services/valueInvesting
 import { loadHoldingStocks } from '../../services/watchlistService';
 import { loadStockSelectionReport } from '../../services/stockSelectionService';
 import { loadMarketQuickInsights, MarketQuickInsights } from '../../services/marketQuickInsightService';
+import { loadGeneralChatAnswer } from '../../services/generalChatService';
 
 const ABNORMAL_MOVEMENT_SKILL_NAME = 'fi_abnormal_movement';
 const ABNORMAL_MOVEMENT_SKILL_TITLE = 'A股异动解读与归因分析 Skill';
@@ -73,6 +74,23 @@ const botReplies: Record<string, string> = {
   风控: '当前市场风险提示：1）人民币汇率波动风险，USDCNY逼近7.4关口；2）部分高位题材股获利盘回吐压力；3）地产链信用风险仍需警惕。建议设置5%止损线，避免追涨杀跌，关注中报业绩预告窗口期。',
   总结: '📊 今日市场热点行业复盘\n\nTOP1：通信设备  +3.82%\n  成交额 485亿 | 龙头：中兴通讯 +6.2%、烽火通信 +4.8%\n  驱动逻辑：5G-A商用加速推进，运营商资本开支超预期\n\nTOP2：半导体  +3.15%\n  成交额 620亿 | 龙头：中芯国际 +4.1%\n  驱动逻辑：国产替代政策持续加码\n\nTOP3：新能源车  +2.68%\n  成交额 410亿 | 龙头：比亚迪 +3.1%\n  驱动逻辑：5月新能源乘用车零售销量同比+38%',
 };
+
+type BusinessIntent = 'selection' | 'abnormal' | 'trend' | 'value' | 'review' | 'risk' | 'finance' | 'smalltalk' | 'unrelated';
+
+function classifyBusinessIntent(input: string): BusinessIntent {
+  const text = input.trim();
+  if (/(风控|风险诊断|风险预警|持仓安全|回撤|减仓|止盈|止损|该不该持有|该不该走)/.test(text)) return 'risk';
+  if (/(价值分析|护城河|安全边际|巴菲特|芒格|段永平|李录)/.test(text)) return 'value';
+  if (/(筛选|选股|找.*股|挑.*股|低估值|高成长|高ROE|PE低于|PB低于|市盈率|市净率)/i.test(text)) return 'selection';
+  if (/(异动|为什么.*(?:涨|跌)|大涨|大跌|涨停原因|跌停原因|连板原因|资金异动)/.test(text)) return 'abnormal';
+  if (/(趋势判断|趋势研判|趋势溯源|大盘趋势|个股趋势|行业趋势|板块趋势|持续上涨|持续下跌|趋势.*延续)/.test(text)) return 'trend';
+  if (/(复盘|盘后总结|市场总结|行情总结|交易总结|操作总结)/.test(text)) return 'review';
+  if (/(你好|您好|谢谢|你是谁|怎么用|帮助|能做什么)/.test(text)) return 'smalltalk';
+  if (/(股票|A股|港股|美股|指数|大盘|行业|板块|市场|行情|资金|估值|财报|营收|利润|现金流|持仓|涨跌|量化|投资|证券|基金|ETF|债券|汇率|利率|宏观|\b(?:PE|PB|ROE|MACD|RSI)\b|\b\d{6}(?:\.(?:SH|SZ|BJ))?\b)/i.test(text)) return 'finance';
+  return 'unrelated';
+}
+
+const OUT_OF_SCOPE_REPLY = '抱歉，您咨询的问题与当前业务无关';
 
 const quickActions = [
   { icon: Target, label: '标的筛选', key: '筛选' },
@@ -556,8 +574,8 @@ function buildAbnormalMovementReport(movementData: AbnormalMovementData, scope: 
     const type = stock.涨幅 >= 0 ? (absChange >= 9 ? '强势拉升' : '放量上涨') : (absChange >= 5 ? '快速下跌' : '回撤异动');
     const turnover = stock.换手 ? `换手率 ${stock.换手.toFixed(2)}%` : '换手率待同步';
     const volume = stock.量比 ? `量比 ${stock.量比.toFixed(2)}` : '量比待同步';
-    const amount = stock.成交额 ? `成交额 ${(stock.成交额 / 100000).toFixed(2)}亿元` : turnover;
-    const mainFlow = stock.主力净流入 === undefined ? volume : `主力净流入 ${(stock.主力净流入 / 10000).toFixed(2)}亿元`;
+    const amount = stock.成交额 ? `成交额 ${(stock.成交额 / 100_000_000).toFixed(2)}亿元` : turnover;
+    const mainFlow = stock.主力净流入 === undefined ? volume : `主力净流入 ${(stock.主力净流入 / 100_000_000).toFixed(2)}亿元`;
     return `| ${stock.证券代码} | ${stock.证券名称} | ${(stock as AbnormalMovementStock).所属板块 || inferSector(stock)} | ${type} | ${stock.涨幅 >= 0 ? '+' : ''}${stock.涨幅.toFixed(2)}% | ${absChange >= 5 ? '涨跌幅绝对值 >= 5%' : '当前列表相对波动居前'} | ${amount} / ${mainFlow} |`;
   }).join('\n');
 
@@ -1006,13 +1024,14 @@ export default function AiChatPage({ stocks }: Props) {
   const handleSend = (text: string) => {
     const trimmedText = text.trim();
     if (!trimmedText || isTyping) return;
+    const intent = classifyBusinessIntent(trimmedText);
     setResultQuery(trimmedText);
     addMessage('user', trimmedText);
     setInput('');
     setIsTyping(true);
     setReviewGeneratingTitle(null);
 
-    if (trimmedText.includes('价值分析') || trimmedText.includes('巴菲特') || trimmedText.includes('芒格') || trimmedText.includes('段永平') || trimmedText.includes('李录')) {
+    if (intent === 'value') {
       setTimeout(async () => {
         try {
           const data = await loadValueInvestingCommitteeReport(trimmedText);
@@ -1048,7 +1067,7 @@ export default function AiChatPage({ stocks }: Props) {
       return;
     }
 
-    if (/筛选|选股|找.*股|低估值|高成长/.test(trimmedText)) {
+    if (intent === 'selection') {
       setTimeout(async () => {
         try {
           const data = await loadStockSelectionReport(trimmedText);
@@ -1062,18 +1081,50 @@ export default function AiChatPage({ stocks }: Props) {
       return;
     }
 
-    const matchedKey = Object.keys(botReplies).find((k) => trimmedText.includes(k));
-    const reply = botReplies[matchedKey || ''] || botReplies.default;
+    if (intent === 'abnormal') {
+      setTimeout(async () => {
+        try {
+          const scope = stocks && stocks.length > 0 ? '当前传入股票列表' : '当前持仓 / 自选观察池';
+          const movementData = await loadAbnormalMovementData(displayStocks);
+          await streamAssistantMessage(buildAbnormalMovementReport(movementData, scope, trimmedText));
+        } catch (error) {
+          await streamAssistantMessage(`异动解读失败：${error instanceof Error ? error.message : '未知错误'}`);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 300);
+      return;
+    }
+
+    if (intent === 'finance' || intent === 'smalltalk' || intent === 'unrelated') {
+      setTimeout(async () => {
+        try {
+          await streamAssistantMessage(await loadGeneralChatAnswer(trimmedText, selectedAction));
+        } catch {
+          await streamAssistantMessage(OUT_OF_SCOPE_REPLY);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 300);
+      return;
+    }
+
+    const replyByIntent: Partial<Record<BusinessIntent, string>> = {
+      trend: botReplies['趋势'],
+      review: botReplies['复盘'],
+      risk: botReplies['风控'],
+    };
+    const reply = replyByIntent[intent] || OUT_OF_SCOPE_REPLY;
 
     setTimeout(async () => {
       await streamAssistantMessage(reply);
       setIsTyping(false);
-      if (matchedKey === '复盘' || matchedKey === '总结') {
+      if (intent === 'review') {
         const nowDate = new Date();
         const dateStr = nowDate.toLocaleDateString('zh-CN');
         const timeStr = nowDate.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
         const record: ReportRecord = {
-          summary: `${dateStr}A股${matchedKey === '复盘' ? '复盘' : '行业热点'}分析报告`,
+          summary: `${dateStr}A股复盘分析报告`,
           time: `${dateStr} ${timeStr}`,
           content: reply,
         };
@@ -1137,6 +1188,7 @@ export default function AiChatPage({ stocks }: Props) {
   const handleStockSelectionTemplate = (template: StockSelectionTemplate) => {
     setShowStockSelectionTemplates(false);
     setInput(template.prompt);
+    if (template.autoSubmit === false) return;
     setResultQuery(template.prompt);
     handleSend(template.prompt);
   };

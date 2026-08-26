@@ -1,0 +1,4040 @@
+{
+  "generatedAt": "2026-08-26T07:13:20.366Z",
+  "suite": {
+    "name": "fi_stock_selection_combinations_100",
+    "executableCombinations": 55,
+    "mixedCombinations": 15,
+    "filterCombinations": 25,
+    "apiCombinations": 5
+  },
+  "summary": {
+    "total": 100,
+    "passed": 100,
+    "failed": 0,
+    "blockedExternal": 0,
+    "passRate": 1
+  },
+  "combined": {
+    "total": 314,
+    "passed": 314,
+    "failed": 0,
+    "blockedExternal": 0
+  },
+  "results": [
+    {
+      "id": "C-E01",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、PB低于2",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E02",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、换手率高于3%",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E03",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、量比高于1.5",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E04",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、总市值高于100亿",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E05",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、流通市值低于300亿",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E06",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、营收同比增长超过20%",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E07",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、ROE高于12%",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E08",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、新能源行业",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E09",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PE低于20、近5日主力资金净流入",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E10",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、换手率高于3%",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E11",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、量比高于1.5",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E12",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、总市值高于100亿",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E13",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、流通市值低于300亿",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E14",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、营收同比增长超过20%",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E15",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、ROE高于12%",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E16",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、新能源行业",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E17",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "PB低于2、近5日主力资金净流入",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E18",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "换手率高于3%、量比高于1.5",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E19",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "换手率高于3%、总市值高于100亿",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E20",
+      "layer": "parser",
+      "category": "2因子全执行",
+      "prompt": "换手率高于3%、流通市值低于300亿",
+      "factorCount": 2,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E21",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E22",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、量比高于1.5",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E23",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、总市值高于100亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E24",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、流通市值低于300亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E25",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、营收同比增长超过20%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E26",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、ROE高于12%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E27",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、新能源行业",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E28",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、PB低于2、近5日主力资金净流入",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E29",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、量比高于1.5",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E30",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、总市值高于100亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E31",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、流通市值低于300亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E32",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、营收同比增长超过20%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E33",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、ROE高于12%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E34",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、新能源行业",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E35",
+      "layer": "parser",
+      "category": "3因子全执行",
+      "prompt": "PE低于20、换手率高于3%、近5日主力资金净流入",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E36",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E37",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、总市值高于100亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E38",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、流通市值低于300亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E39",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、营收同比增长超过20%",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E40",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、ROE高于12%",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E41",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、新能源行业",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E42",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、近5日主力资金净流入",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E43",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、总市值高于100亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E44",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、流通市值低于300亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E45",
+      "layer": "parser",
+      "category": "4因子全执行",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、营收同比增长超过20%",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E46",
+      "layer": "parser",
+      "category": "5因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E47",
+      "layer": "parser",
+      "category": "5因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、流通市值低于300亿",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E48",
+      "layer": "parser",
+      "category": "5因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、营收同比增长超过20%",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E49",
+      "layer": "parser",
+      "category": "5因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、ROE高于12%",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E50",
+      "layer": "parser",
+      "category": "5因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、新能源行业",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E51",
+      "layer": "parser",
+      "category": "6因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿、流通市值低于300亿",
+      "factorCount": 6,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E52",
+      "layer": "parser",
+      "category": "6因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿、营收同比增长超过20%",
+      "factorCount": 6,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E53",
+      "layer": "parser",
+      "category": "6因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿、ROE高于12%",
+      "factorCount": 6,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E54",
+      "layer": "parser",
+      "category": "6因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿、新能源行业",
+      "factorCount": 6,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-E55",
+      "layer": "parser",
+      "category": "6因子全执行",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿、近5日主力资金净流入",
+      "factorCount": 6,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "C-M01",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、MACD金叉",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M02",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、均线多头排列",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "reports 均线形态条件",
+          "passed": true,
+          "expected": "均线形态条件",
+          "actual": [
+            "均线形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "均线形态条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M03",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、流通市值低于300亿、放量突破20日新高",
+      "factorCount": 6,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        },
+        {
+          "name": "reports 成交额放大条件",
+          "passed": true,
+          "expected": "成交额放大条件",
+          "actual": [
+            "成交额放大条件",
+            "突破形态条件"
+          ]
+        },
+        {
+          "name": "reports 突破形态条件",
+          "passed": true,
+          "expected": "突破形态条件",
+          "actual": [
+            "成交额放大条件",
+            "突破形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "成交额放大条件",
+          "突破形态条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M04",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、总市值高于100亿、毛利率高于40%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "reports 毛利率条件",
+          "passed": true,
+          "expected": "毛利率条件",
+          "actual": [
+            "毛利率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "毛利率条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M05",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、营收同比增长超过20%、净利润同比增长超过30%",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "reports 净利润增长条件",
+          "passed": true,
+          "expected": "净利润增长条件",
+          "actual": [
+            "净利润增长条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "净利润增长条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M06",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、新能源行业、股息率高于3%",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        },
+        {
+          "name": "reports 股息率条件",
+          "passed": true,
+          "expected": "股息率条件",
+          "actual": [
+            "股息率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "股息率条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M07",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、ROE高于12%、资产负债率低于45%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "roeMin matches",
+          "passed": true,
+          "expected": 12,
+          "actual": 12
+        },
+        {
+          "name": "reports 资产负债率条件",
+          "passed": true,
+          "expected": "资产负债率条件",
+          "actual": [
+            "资产负债率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": 12,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "资产负债率条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M08",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、近5日主力资金净流入、近5日北向资金净流入",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "mainNetInflowDays matches",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "reports 其他资金面条件",
+          "passed": true,
+          "expected": "其他资金面条件",
+          "actual": [
+            "其他资金面条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": 5,
+        "unsupportedConditions": [
+          "其他资金面条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M09",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、流通市值低于300亿、机构持仓比例高于30%",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        },
+        {
+          "name": "reports 持仓结构条件",
+          "passed": true,
+          "expected": "持仓结构条件",
+          "actual": [
+            "持仓结构条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "持仓结构条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M10",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PB低于2、换手率高于3%、近20日波动率低于15%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "reports 振幅或波动率条件",
+          "passed": true,
+          "expected": "振幅或波动率条件",
+          "actual": [
+            "振幅或波动率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "振幅或波动率条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M11",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、换手率高于3%、流通市值低于300亿、MACD金叉",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        },
+        {
+          "name": "reports 技术指标条件",
+          "passed": true,
+          "expected": "技术指标条件",
+          "actual": [
+            "技术指标条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "技术指标条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M12",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、新能源行业、均线多头排列",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "volumeRatioMin matches",
+          "passed": true,
+          "expected": 1.5,
+          "actual": 1.5
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        },
+        {
+          "name": "reports 均线形态条件",
+          "passed": true,
+          "expected": "均线形态条件",
+          "actual": [
+            "均线形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": 1.5,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "均线形态条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M13",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PB低于2、流通市值低于300亿、放量突破20日新高",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "circMvMaxYi matches",
+          "passed": true,
+          "expected": 300,
+          "actual": 300
+        },
+        {
+          "name": "reports 成交额放大条件",
+          "passed": true,
+          "expected": "成交额放大条件",
+          "actual": [
+            "成交额放大条件",
+            "突破形态条件"
+          ]
+        },
+        {
+          "name": "reports 突破形态条件",
+          "passed": true,
+          "expected": "突破形态条件",
+          "actual": [
+            "成交额放大条件",
+            "突破形态条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": 300,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "成交额放大条件",
+          "突破形态条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M14",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、换手率高于3%、新能源行业、毛利率高于40%",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "turnoverRateMin matches",
+          "passed": true,
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "industryKeywords matches",
+          "passed": true,
+          "expected": [
+            "新能源"
+          ],
+          "actual": [
+            "新能源"
+          ]
+        },
+        {
+          "name": "reports 毛利率条件",
+          "passed": true,
+          "expected": "毛利率条件",
+          "actual": [
+            "毛利率条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": null,
+        "turnoverRateMin": 3,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [
+          "新能源"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "毛利率条件"
+        ]
+      }
+    },
+    {
+      "id": "C-M15",
+      "layer": "parser",
+      "category": "支持+缺失混合",
+      "prompt": "PE低于20、PB低于2、总市值高于100亿、营收同比增长超过20%、净利润同比增长超过30%",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "peMax matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "pbMax matches",
+          "passed": true,
+          "expected": 2,
+          "actual": 2
+        },
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 100,
+          "actual": 100
+        },
+        {
+          "name": "revenueGrowthMin matches",
+          "passed": true,
+          "expected": 20,
+          "actual": 20
+        },
+        {
+          "name": "reports 净利润增长条件",
+          "passed": true,
+          "expected": "净利润增长条件",
+          "actual": [
+            "净利润增长条件"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": 20,
+        "pbMax": 2,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 100,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": 20,
+        "roeMin": null,
+        "industryKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": [
+          "净利润增长条件"
+        ]
+      }
+    },
+    {
+      "id": "C-F01",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F02",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、PB低于2、量比高于1.5",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F03",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、PB低于2、总市值高于100亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F04",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、PB低于2、流通市值低于300亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F05",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、PB低于2、新能源行业",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F06",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、换手率高于3%、量比高于1.5",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F07",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、换手率高于3%、总市值高于100亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F08",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、换手率高于3%、流通市值低于300亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F09",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、换手率高于3%、新能源行业",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F10",
+      "layer": "filter",
+      "category": "3因子AND夹具",
+      "prompt": "PE低于20、量比高于1.5、总市值高于100亿",
+      "factorCount": 3,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F11",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F12",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、总市值高于100亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F13",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、流通市值低于300亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F14",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、新能源行业",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F15",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、总市值高于100亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F16",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、流通市值低于300亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F17",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、新能源行业",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F18",
+      "layer": "filter",
+      "category": "4因子AND夹具",
+      "prompt": "PE低于20、PB低于2、总市值高于100亿、流通市值低于300亿",
+      "factorCount": 4,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F19",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、总市值高于100亿",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F20",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、流通市值低于300亿",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F21",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、量比高于1.5、新能源行业",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F22",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、总市值高于100亿、流通市值低于300亿",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F23",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、总市值高于100亿、新能源行业",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F24",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、换手率高于3%、流通市值低于300亿、新能源行业",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-F25",
+      "layer": "filter",
+      "category": "5因子AND夹具",
+      "prompt": "PE低于20、PB低于2、量比高于1.5、总市值高于100亿、流通市值低于300亿",
+      "factorCount": 5,
+      "passed": true,
+      "assertions": [
+        {
+          "name": "仅全部满足者入选",
+          "passed": true,
+          "expected": [
+            "100001"
+          ],
+          "actual": [
+            "100001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "C-A01",
+      "layer": "api",
+      "category": "真实组合接口",
+      "prompt": "PE低于1、PB低于1、换手率高于3%",
+      "factorCount": 3,
+      "passed": true,
+      "status": "passed",
+      "durationMs": 873,
+      "assertions": [
+        {
+          "name": "组合规则与报告断言",
+          "passed": true,
+          "expected": "全部通过",
+          "actual": {
+            "parsedRules": {
+              "peMax": 1,
+              "pbMax": 1,
+              "turnoverRateMin": 3,
+              "volumeRatioMin": null,
+              "totalMvMinYi": null,
+              "totalMvMaxYi": null,
+              "circMvMinYi": null,
+              "circMvMaxYi": null,
+              "revenueGrowthMin": null,
+              "roeMin": null,
+              "industryKeywords": [],
+              "mainNetInflowDays": null,
+              "unsupportedConditions": []
+            },
+            "selected": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "C-A02",
+      "layer": "api",
+      "category": "真实组合接口",
+      "prompt": "新能源行业、PE低于1、ROE高于12%、营收增长超过20%",
+      "factorCount": 4,
+      "passed": true,
+      "status": "passed",
+      "durationMs": 776,
+      "assertions": [
+        {
+          "name": "组合规则与报告断言",
+          "passed": true,
+          "expected": "全部通过",
+          "actual": {
+            "parsedRules": {
+              "peMax": 1,
+              "pbMax": null,
+              "turnoverRateMin": null,
+              "volumeRatioMin": null,
+              "totalMvMinYi": null,
+              "totalMvMaxYi": null,
+              "circMvMinYi": null,
+              "circMvMaxYi": null,
+              "revenueGrowthMin": 20,
+              "roeMin": 12,
+              "industryKeywords": [
+                "新能源"
+              ],
+              "mainNetInflowDays": null,
+              "unsupportedConditions": []
+            },
+            "selected": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "C-A03",
+      "layer": "api",
+      "category": "真实组合接口",
+      "prompt": "PE低于1、总市值高于100亿、近5日主力资金净流入",
+      "factorCount": 3,
+      "passed": true,
+      "status": "passed",
+      "durationMs": 1008,
+      "assertions": [
+        {
+          "name": "组合规则与报告断言",
+          "passed": true,
+          "expected": "全部通过",
+          "actual": {
+            "parsedRules": {
+              "peMax": 1,
+              "pbMax": null,
+              "turnoverRateMin": null,
+              "volumeRatioMin": null,
+              "totalMvMinYi": 100,
+              "totalMvMaxYi": null,
+              "circMvMinYi": null,
+              "circMvMaxYi": null,
+              "revenueGrowthMin": null,
+              "roeMin": null,
+              "industryKeywords": [],
+              "mainNetInflowDays": 5,
+              "unsupportedConditions": []
+            },
+            "selected": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "C-A04",
+      "layer": "api",
+      "category": "真实组合接口",
+      "prompt": "PE低于1、MACD金叉、毛利率高于40%、股息率高于3%",
+      "factorCount": 4,
+      "passed": true,
+      "status": "passed",
+      "durationMs": 814,
+      "assertions": [
+        {
+          "name": "组合规则与报告断言",
+          "passed": true,
+          "expected": "全部通过",
+          "actual": {
+            "parsedRules": {
+              "peMax": 1,
+              "pbMax": null,
+              "turnoverRateMin": null,
+              "volumeRatioMin": null,
+              "totalMvMinYi": null,
+              "totalMvMaxYi": null,
+              "circMvMinYi": null,
+              "circMvMaxYi": null,
+              "revenueGrowthMin": null,
+              "roeMin": null,
+              "industryKeywords": [],
+              "mainNetInflowDays": null,
+              "unsupportedConditions": [
+                "技术指标条件",
+                "毛利率条件",
+                "股息率条件"
+              ]
+            },
+            "selected": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "C-A05",
+      "layer": "api",
+      "category": "真实组合接口",
+      "prompt": "光伏股、PE低于0、PB低于0、ROE高于50%、近5日主力资金净流入",
+      "factorCount": 5,
+      "passed": true,
+      "status": "passed",
+      "durationMs": 798,
+      "assertions": [
+        {
+          "name": "组合规则与报告断言",
+          "passed": true,
+          "expected": "全部通过",
+          "actual": {
+            "parsedRules": {
+              "peMax": 0,
+              "pbMax": 0,
+              "turnoverRateMin": null,
+              "volumeRatioMin": null,
+              "totalMvMinYi": null,
+              "totalMvMaxYi": null,
+              "circMvMinYi": null,
+              "circMvMaxYi": null,
+              "revenueGrowthMin": null,
+              "roeMin": 50,
+              "industryKeywords": [
+                "光伏"
+              ],
+              "mainNetInflowDays": 5,
+              "unsupportedConditions": []
+            },
+            "selected": 0
+          }
+        }
+      ]
+    }
+  ]
+}

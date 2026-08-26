@@ -21,13 +21,12 @@ export interface SourceCategory {
   children: string[];
 }
 
-export type HotspotSource = '全部' | '同花顺' | '华尔街见闻' | '财新网';
-
 export const SOURCE_TREE: SourceCategory[] = [
-  { label: '政策法规', children: ['新闻联播', '政策长篇'] },
-  { label: '新闻资讯', children: ['新闻快讯', '新闻通讯'] },
-  { label: '研报公告', children: ['券商研报', '上市公告'] },
-  { label: '互动问答', children: ['上证e', '深圳e'] },
+  { label: '政策法规', children: ['权威政策快讯', '政策类长篇报道'] },
+  { label: '新闻资讯', children: ['财联社快讯', '东方财富资讯', '政策监管快讯'] },
+  { label: '互动问答', children: ['上证e互动问答', '深证易互动问答'] },
 ];
 
 export const ALL_SOURCES = SOURCE_TREE.flatMap((cat) => cat.children);
+
+export type HotspotSource = '全部' | typeof ALL_SOURCES[number];

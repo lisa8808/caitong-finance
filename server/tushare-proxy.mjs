@@ -15,6 +15,8 @@ import {
   getEastmoneyQuotes,
   searchEastmoneyStocks,
 } from './eastmoney-provider.mjs';
+import { filterStockSelectionCandidates, parseStockSelectionRules as parseStockSelectionRulesCore } from './stock-selection-rules.mjs';
+import { getTencentQuotes, getThsHotReasons } from './tencent-market-provider.mjs';
 
 const execFileAsync = promisify(execFile);
 
@@ -41,6 +43,9 @@ const CACHE_TTL = 30_000;
 const cache = new Map();
 const STOCK_SELECTION_SNAPSHOT_PATH = path.join(os.tmpdir(), 'caitong-stock-selection-market.json');
 const STOCK_SELECTION_SNAPSHOT_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
+const OPENAI_API_URL = process.env.OPENAI_API_URL || 'https://api.openai.com/v1/responses';
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
 
 function sendJson(res, status, data) {
   res.writeHead(status, {
@@ -75,6 +80,57 @@ function readJsonBody(req) {
     });
     req.on('error', reject);
   });
+}
+
+const GENERAL_CHAT_SKILL_ROLES = {
+  '筛选': '你是「标的筛选」助手，定位是将用户的自然语言条件转换为可执行的 A 股量化筛选条件，并解释筛选结果。',
+  '异动': '你是「异动解读」助手，定位是识别 A 股个股、行业和市场的异常涨跌、连板与资金异动，并进行证据化归因。',
+  '趋势': '你是「趋势判断」助手，定位是对已形成持续性的市场、行业或个股行情进行趋势研判、溯源和风险边界分析。',
+  '价值': '你是「价值分析」助手，定位是从商业模式、护城河、管理层、财务质量和安全边际视角评估上市公司的长期价值。',
+  '复盘': '你是「复盘总结」助手，定位是对 A 股市场、板块、个股和交易行为进行结构化复盘，形成可归档的总结。',
+  '风控': '你是「风控提示」助手，定位是识别持仓与市场风险、进行风险分级和预警，并提供不构成投资承诺的风险应对建议。',
+};
+
+async function getGeneralChatAnswer(prompt = '', skill = '') {
+  const input = String(prompt).trim();
+  if (!input) throw new Error('问题不能为空');
+  if (!OPENAI_API_KEY) throw new Error('通用模型未配置 OPENAI_API_KEY');
+  const role = GENERAL_CHAT_SKILL_ROLES[String(skill)] || GENERAL_CHAT_SKILL_ROLES['筛选'];
+  const instructions = `${role}当用户询问你的角色、身份、定位或能力时，必须严格以当前角色回答，不得介绍成其他模块或泛化的通用助手。对非本模块的通用问题仍可准确、简洁地回答；不确定时明确说明，不要编造信息。`;
+  const usesChatCompletions = OPENAI_API_URL.includes('/chat/completions');
+
+  const response = await fetch(OPENAI_API_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(usesChatCompletions
+      ? {
+        model: OPENAI_MODEL,
+        messages: [
+          { role: 'system', content: instructions },
+          { role: 'user', content: input },
+        ],
+      }
+      : { model: OPENAI_MODEL, instructions, input }),
+  });
+  const payload = await response.json();
+  if (!response.ok) {
+    throw new Error(payload.error?.message || '通用模型请求失败');
+  }
+  const responseOutput = Array.isArray(payload.output)
+    ? payload.output.flatMap((item) => Array.isArray(item.content) ? item.content : [])
+      .filter((item) => item.type === 'output_text' && typeof item.text === 'string')
+      .map((item) => item.text)
+      .join('\n')
+    : '';
+  const messageContent = payload.choices?.[0]?.message?.content;
+  const content = typeof messageContent === 'string'
+    ? messageContent
+    : payload.output_text || responseOutput;
+  if (!content?.trim()) throw new Error('通用模型未返回有效内容');
+  return content.trim();
 }
 
 function parseValueInvestingTarget(prompt = '') {
@@ -583,17 +639,51 @@ async function getLatestDailyByCode(tsCode) {
 async function getMainNetFlow(tsCode, tradeDate) {
   const rows = await safeTushare('moneyflow', { ts_code: tsCode, trade_date: tradeDate }, 'trade_date,buy_lg_amount,buy_elg_amount,sell_lg_amount,sell_elg_amount');
   const row = rows[0] || {};
-  return Number(row.buy_lg_amount || 0) + Number(row.buy_elg_amount || 0) - Number(row.sell_lg_amount || 0) - Number(row.sell_elg_amount || 0);
+  return (Number(row.buy_lg_amount || 0) + Number(row.buy_elg_amount || 0) - Number(row.sell_lg_amount || 0) - Number(row.sell_elg_amount || 0)) * 10_000;
 }
 
-function buildAbnormalCause(stock) {
-  const direction = stock.涨幅 >= 0 ? '上行' : '下行';
-  const category = stock.涨幅 >= 0 ? '资金驱动 / 情绪扩散' : '资金流出 / 风险偏好下降';
-  const flowText = stock.主力净流入 >= 0 ? '主力净流入为正' : '主力净流出';
-  const volumeText = stock.量比 > 1 ? `量比${stock.量比.toFixed(2)}，成交活跃度高于常态` : '量比未明显放大';
+function fallbackEvidence(stock) {
+  const flowDirection = Number(stock.主力净流入 || 0) >= 0 ? '净流入' : '净流出';
+  return [
+    {
+      title: `主力资金${flowDirection}，量比${Number(stock.量比 || 0).toFixed(2)}`,
+      source: stock.信息来源 || '行情与资金数据', category: '资金炒作', confidence: 5,
+      publishedAt: stock.行情时间 || '',
+    },
+    {
+      title: '短线交易拥挤或市场情绪扩散',
+      source: '量价行为推断', category: '市场情绪', confidence: 4,
+      publishedAt: stock.行情时间 || '',
+    },
+  ];
+}
+
+async function getAnnouncementEvidence(tsCode, tradeDate) {
+  const endDate = String(tradeDate || '').replace(/-/g, '');
+  const rows = await safeTushare('anns', { ts_code: tsCode, start_date: dateBefore(14), end_date: endDate }, 'ts_code,ann_date,title,url');
+  return rows.slice(0, 2).map((row) => ({
+    title: row.title || '公司公告', source: 'Tushare / 交易所公告', category: '公司公告',
+    confidence: 9, publishedAt: row.ann_date || '', url: row.url,
+  }));
+}
+
+async function attachAbnormalEvidence(stock, tradeDate, hotReason = '') {
+  const evidence = [];
+  if (hotReason) evidence.push({
+    title: hotReason, source: '同花顺强势股题材归因', category: '市场情绪', confidence: 7,
+    publishedAt: tradeDate,
+  });
+  const announcements = await getAnnouncementEvidence(toTsCode(stock.证券代码), tradeDate);
+  evidence.push(...announcements);
+  for (const item of fallbackEvidence(stock)) {
+    if (evidence.length >= 3) break;
+    evidence.push(item);
+  }
   return {
-    直接诱因: `${stock.所属板块 || '相关'}方向${direction}，${flowText}，${volumeText}`,
-    诱因分类: category,
+    ...stock,
+    直接诱因: evidence[0]?.title || '纯资金情绪炒作，无基本面 / 政策催化',
+    诱因分类: evidence[0]?.category || '资金炒作',
+    证据: evidence,
   };
 }
 
@@ -621,11 +711,11 @@ async function enrichAbnormalRows(dailyRows, tradeDate) {
       昨收: Number(row.pre_close || 0),
       量比: Number(dailyBasic.volume_ratio || 0),
       所属板块: basic.industry || '未分类行业',
-      成交额: Number(row.amount || 0),
+      成交额: Number(row.amount || 0) * 1000,
       主力净流入: await getMainNetFlow(row.ts_code, tradeDate),
       信息来源: 'Tushare daily / daily_basic / moneyflow',
     };
-    return { ...stock, ...buildAbnormalCause(stock) };
+    return attachAbnormalEvidence(stock, tradeDate);
   }));
 }
 
@@ -638,6 +728,8 @@ async function getTushareAbnormalMovement(codes) {
     dailyRows = (await Promise.all(requestedCodes.map(getLatestDailyByCode))).filter(Boolean);
     tradeDate = dailyRows.map((row) => String(row.trade_date)).sort().at(-1) || tradeDate;
   } else {
+    const probe = await getLatestDailyByCode('000001.SZ');
+    tradeDate = String(probe?.trade_date || tradeDate);
     dailyRows = await safeTushare('daily', { trade_date: tradeDate }, 'ts_code,trade_date,open,high,low,close,pre_close,change,pct_chg,amount');
   }
 
@@ -655,7 +747,7 @@ async function getTushareAbnormalMovement(codes) {
   };
 }
 
-function eastmoneyAbnormalStock(quote, index) {
+function quoteToAbnormalStock(quote, index, source, industry = '') {
   const stock = {
     序号: index + 1,
     证券代码: quote.code,
@@ -673,31 +765,45 @@ function eastmoneyAbnormalStock(quote, index) {
     所属板块: quote.industry || '未分类行业',
     成交额: quote.amount,
     主力净流入: quote.mainNetFlow,
-    信息来源: '东方财富实时行情 / 资金流',
+    行情时间: quote.quoteTime || '',
+    信息来源: source,
   };
-  return { ...stock, ...buildAbnormalCause(stock) };
+  return stock;
 }
 
 async function getAbnormalMovement(codes) {
   try {
-    const quotes = codes.length > 0
-      ? await retryEastmoney(() => getEastmoneyQuotes(codes))
-      : await getEastmoneyMarketQuotes(200, 'f3');
-    const stocks = quotes
-      .filter((quote) => Number.isFinite(quote.pctChange))
+    const probe = await getLatestDailyByCode('000001.SZ');
+    const tradeDate = String(probe?.trade_date || await getLatestTradeDate());
+    const hotRows = await getThsHotReasons(tradeDate);
+    const hotMap = new Map(hotRows.map((row) => [row.code, row]));
+    const requestedCodes = codes.length > 0 ? codes : hotRows.map((row) => row.code);
+    const quotes = await getTencentQuotes(requestedCodes);
+    const basics = await safeTushare('stock_basic', { list_status: 'L' }, 'ts_code,name,industry');
+    const basicMap = new Map(basics.map((row) => [toLocalCode(row.ts_code), row]));
+    const candidates = quotes
+      .filter((quote) => !quote.isStale && Number.isFinite(quote.pctChange))
       .sort((a, b) => Math.abs(b.pctChange) - Math.abs(a.pctChange))
-      .slice(0, 8)
-      .map(eastmoneyAbnormalStock);
+      .slice(0, 8);
+    const stocks = await Promise.all(candidates.map(async (quote, index) => {
+      const basic = basicMap.get(quote.code) || {};
+      const stock = quoteToAbnormalStock({
+        ...quote,
+        mainNetFlow: await getMainNetFlow(toTsCode(quote.code), tradeDate),
+      }, index, '腾讯财经实时行情 + Tushare资金流', basic.industry || '未分类行业');
+      return attachAbnormalEvidence(stock, tradeDate, hotMap.get(quote.code)?.reason || '');
+    }));
     if (stocks.length > 0) {
       return {
-        tradeDate: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-        source: '东方财富实时行情接口（Tushare备用）',
+        tradeDate,
+        source: '腾讯财经实时行情 + 同花顺题材归因 + Tushare资金流/公告',
         isRealData: true,
         stocks,
+        dataStatus: { quote: '腾讯财经可用', catalyst: '同花顺/Tushare可用', eastmoney: '已移出主链' },
       };
     }
   } catch (error) {
-    console.warn(`Eastmoney abnormal movement fallback: ${error instanceof Error ? error.message : error}`);
+    console.warn(`Tencent/THS abnormal movement fallback: ${error instanceof Error ? error.message : error}`);
   }
   return getTushareAbnormalMovement(codes);
 }
@@ -1056,12 +1162,46 @@ function parseStockSelectionRules(prompt) {
     return null;
   };
   const peMax = numberAfter([/PE(?:TTM)?\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)/i, /市盈率\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)/]);
+  const pbMax = numberAfter([/PB\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)/i, /市净率\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)/])
+    ?? (text.includes('破净') ? 1 : null);
+  const turnoverRateMin = numberAfter([/换手率\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)%?/]);
+  const volumeRatioMin = numberAfter([/量比\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)/]);
+  const totalMvMinYi = numberAfter([/总市值\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)\s*亿/]);
+  const totalMvMaxYi = numberAfter([/总市值\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)\s*亿/]);
+  const circMvMinYi = numberAfter([/流通市值\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)\s*亿/]);
+  const circMvMaxYi = numberAfter([/流通市值\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)\s*亿/]);
   const revenueGrowthMin = numberAfter([/营收(?:同比)?(?:增长|增速)?\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)%?/])
     ?? (text.includes('高成长') ? 20 : null);
   const roeMin = numberAfter([/ROE\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)%?/i, /净资产收益率\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)%?/]);
   const industryKeywords = ['半导体', '消费电子', '电子', '新能源', '医药', '银行', '证券', '汽车', '通信', '计算机']
     .filter((keyword) => text.includes(keyword));
-  return { peMax, revenueGrowthMin, roeMin, industryKeywords };
+  const fundFlowMatch = text.match(/近\s*(\d+)\s*(?:个)?(?:交易)?日[^，,；;]*主力资金[^，,；;]*(?:净)?流入/);
+  const mainNetInflowDays = fundFlowMatch ? Number(fundFlowMatch[1]) : null;
+  const unsupportedConditions = [
+    [/(成交额放大|放量)/, '成交额放大条件'],
+    [/(均线|突破|RSI|MACD|超跌)/i, '技术形态条件'],
+    [/(利润增长|净利润增长|毛利率)/, '利润或毛利率条件'],
+  ].filter(([pattern]) => pattern.test(text)).map(([, label]) => label);
+  if (pbMax === null && /(?:\bPB\b|市净率)/i.test(text)) unsupportedConditions.push('PB/市净率条件（未识别阈值）');
+  if (turnoverRateMin === null && text.includes('换手率')) unsupportedConditions.push('换手率条件（未识别阈值）');
+  if (volumeRatioMin === null && text.includes('量比')) unsupportedConditions.push('量比条件（未识别阈值）');
+  if (totalMvMinYi === null && totalMvMaxYi === null && text.includes('总市值')) unsupportedConditions.push('总市值条件（未识别阈值或单位）');
+  if (circMvMinYi === null && circMvMaxYi === null && text.includes('流通市值')) unsupportedConditions.push('流通市值条件（未识别阈值或单位）');
+  return {
+    peMax,
+    pbMax,
+    turnoverRateMin,
+    volumeRatioMin,
+    totalMvMinYi,
+    totalMvMaxYi,
+    circMvMinYi,
+    circMvMaxYi,
+    revenueGrowthMin,
+    roeMin,
+    industryKeywords,
+    mainNetInflowDays,
+    unsupportedConditions,
+  };
 }
 
 function stockSelectionIndustryTerms(keywords) {
@@ -1105,6 +1245,76 @@ async function getEastmoneyFinancialIndicator(code) {
     return payload?.result?.data?.[0] || null;
   } finally {
     clearTimeout(timeout);
+  }
+}
+
+async function getEastmoneyDailyFundFlow(code, days) {
+  const localCode = toLocalCode(code);
+  const market = localCode.startsWith('6') ? 1 : 0;
+  const url = new URL('https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get');
+  url.searchParams.set('secid', `${market}.${localCode}`);
+  url.searchParams.set('fields1', 'f1,f2,f3,f7');
+  url.searchParams.set('fields2', 'f51,f52,f53,f54,f55,f56,f57,f58,f59,f60,f61,f62,f63,f64,f65');
+  url.searchParams.set('lmt', String(Math.max(days, 5)));
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10_000);
+  try {
+    const response = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        Referer: 'https://quote.eastmoney.com/',
+        Origin: 'https://quote.eastmoney.com',
+        'User-Agent': 'Mozilla/5.0',
+      },
+    });
+    if (!response.ok) throw new Error(`Eastmoney fund flow HTTP ${response.status}`);
+    const payload = await response.json();
+    const rows = payload?.data?.klines || [];
+    if (rows.length < days) throw new Error(`Eastmoney fund flow rows insufficient: ${rows.length}/${days}`);
+    return {
+      amount: rows.slice(-days).reduce((sum, line) => {
+        const mainNet = Number(String(line).split(',')[1]);
+        return sum + (Number.isFinite(mainNet) ? mainNet : 0);
+      }, 0),
+      source: '东方财富',
+    };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function getTushareDailyFundFlow(code, days) {
+  const rows = await safeTushare(
+    'moneyflow',
+    { ts_code: toTsCode(code) },
+    'ts_code,trade_date,buy_lg_amount,buy_elg_amount,sell_lg_amount,sell_elg_amount',
+  );
+  const recentRows = rows
+    .sort((a, b) => String(b.trade_date).localeCompare(String(a.trade_date)))
+    .slice(0, days);
+  if (recentRows.length < days) throw new Error(`Tushare moneyflow rows insufficient: ${recentRows.length}/${days}`);
+  return {
+    amount: recentRows.reduce((sum, row) => sum + (
+      Number(row.buy_lg_amount || 0)
+      + Number(row.buy_elg_amount || 0)
+      - Number(row.sell_lg_amount || 0)
+      - Number(row.sell_elg_amount || 0)
+    ) * 10_000, 0),
+    source: 'Tushare',
+  };
+}
+
+async function getRecentMainNetFlow(code, days) {
+  try {
+    return await getEastmoneyDailyFundFlow(code, days);
+  } catch (eastmoneyError) {
+    try {
+      return await getTushareDailyFundFlow(code, days);
+    } catch (tushareError) {
+      const eastmoneyDetail = eastmoneyError instanceof Error ? eastmoneyError.message : String(eastmoneyError);
+      const tushareDetail = tushareError instanceof Error ? tushareError.message : String(tushareError);
+      throw new Error(`东方财富：${eastmoneyDetail}；Tushare：${tushareDetail}`);
+    }
   }
 }
 
@@ -1177,7 +1387,7 @@ function writeStockSelectionSnapshot(rows) {
 }
 
 async function getStockSelection(prompt) {
-  const rules = parseStockSelectionRules(prompt);
+  const rules = parseStockSelectionRulesCore(prompt);
   const industryTerms = stockSelectionIndustryTerms(rules.industryKeywords);
   const marketRows = [];
   let marketSnapshotUpdatedAt = new Date().toISOString();
@@ -1219,13 +1429,7 @@ async function getStockSelection(prompt) {
   }
   if (marketRows.length === 0) throw new Error('实时全市场行情与最近成功快照均不可用，请稍后重试');
 
-  let candidates = marketRows.filter((row) => (
-    row.price > 0
-    && !String(row.name).includes('ST')
-    && !String(row.name).includes('退')
-    && (!rules.peMax || (row.pe > 0 && row.pe < rules.peMax))
-    && (!industryTerms.length || industryTerms.some((keyword) => String(row.industry).includes(keyword)))
-  ));
+  let candidates = filterStockSelectionCandidates(marketRows, rules, industryTerms);
   candidates.sort((a, b) => (a.pe || Number.MAX_VALUE) - (b.pe || Number.MAX_VALUE));
 
   const needsFinancials = rules.revenueGrowthMin !== null || rules.roeMin !== null;
@@ -1251,42 +1455,84 @@ async function getStockSelection(prompt) {
     }));
   }
 
-  const selected = enriched.filter((row) => (
+  const financialMatches = enriched.filter((row) => (
     (rules.revenueGrowthMin === null || (row.revenueGrowth !== null && row.revenueGrowth > rules.revenueGrowthMin))
     && (rules.roeMin === null || (row.roe !== null && row.roe > rules.roeMin))
+  ));
+  const fundFlowFailures = [];
+  let fullyEnriched = financialMatches;
+  if (rules.mainNetInflowDays !== null) {
+    fullyEnriched = [];
+    for (const [index, row] of financialMatches.entries()) {
+      try {
+        const fundFlow = await getRecentMainNetFlow(row.code, rules.mainNetInflowDays);
+        fullyEnriched.push({ ...row, mainNetAmount: fundFlow.amount, fundFlowSource: fundFlow.source });
+      } catch (error) {
+        fundFlowFailures.push(`${row.code} ${row.name}：${error instanceof Error ? error.message : String(error)}`);
+      }
+      if (index < financialMatches.length - 1) await new Promise((resolve) => setTimeout(resolve, 1_050));
+    }
+  }
+  const selected = fullyEnriched.filter((row) => (
+    rules.mainNetInflowDays === null || (row.mainNetAmount !== null && row.mainNetAmount > 0)
   )).slice(0, 10);
   const generatedAt = new Date().toLocaleString('zh-CN', { hour12: false });
   const scope = rules.industryKeywords.length ? `${rules.industryKeywords.join('、')}行业` : '全市场';
   const parsedRows = [
     rules.peMax !== null ? `| PE低于${rules.peMax} | PE_TTM 小于阈值且为正 | pe_ttm / pe | < ${rules.peMax} |` : null,
+    rules.pbMax !== null ? `| PB低于${rules.pbMax} | PB 小于阈值且为正 | pb | < ${rules.pbMax} |` : null,
+    rules.turnoverRateMin !== null ? `| 换手率高于${rules.turnoverRateMin}% | 当日换手率 | turnover_rate | > ${rules.turnoverRateMin}% |` : null,
+    rules.volumeRatioMin !== null ? `| 量比高于${rules.volumeRatioMin} | 当日量比 | volume_ratio | > ${rules.volumeRatioMin} |` : null,
+    rules.totalMvMinYi !== null || rules.totalMvMaxYi !== null ? `| 总市值范围 | 实时总市值 | total_mv | ${rules.totalMvMinYi !== null ? `> ${rules.totalMvMinYi}亿` : ''}${rules.totalMvMinYi !== null && rules.totalMvMaxYi !== null ? ' 且 ' : ''}${rules.totalMvMaxYi !== null ? `< ${rules.totalMvMaxYi}亿` : ''} |` : null,
+    rules.circMvMinYi !== null || rules.circMvMaxYi !== null ? `| 流通市值范围 | 实时流通市值 | circ_mv | ${rules.circMvMinYi !== null ? `> ${rules.circMvMinYi}亿` : ''}${rules.circMvMinYi !== null && rules.circMvMaxYi !== null ? ' 且 ' : ''}${rules.circMvMaxYi !== null ? `< ${rules.circMvMaxYi}亿` : ''} |` : null,
     rules.revenueGrowthMin !== null ? `| ${textIncludes(prompt, '高成长') ? '高成长' : '营收增长'} | 最新财报营收同比增长 | TOTALOPERATEREVETZ / q_sales_yoy | > ${rules.revenueGrowthMin}% |` : null,
     rules.roeMin !== null ? `| ROE高于${rules.roeMin}% | 最新财报净资产收益率 | roe | > ${rules.roeMin}% |` : null,
     rules.industryKeywords.length ? `| ${rules.industryKeywords.join('、')}股 | 行业分类同义映射 | industry | ${industryTerms.join(' / ')} |` : null,
+    rules.mainNetInflowDays !== null ? `| 近${rules.mainNetInflowDays}日主力资金净流入 | 最近${rules.mainNetInflowDays}个交易日主力净额累计 | main_net_amount | > 0 |` : null,
   ].filter(Boolean);
   const factorRows = [
     rules.peMax !== null ? `1. 估值：\`pe_ttm/pe > 0 且 < ${rules.peMax}\`` : null,
+    rules.pbMax !== null ? `2. 估值：\`pb > 0 且 < ${rules.pbMax}\`` : null,
+    rules.turnoverRateMin !== null ? `3. 交易活跃度：\`turnover_rate > ${rules.turnoverRateMin}%\`` : null,
+    rules.volumeRatioMin !== null ? `4. 交易活跃度：\`volume_ratio > ${rules.volumeRatioMin}\`` : null,
+    rules.totalMvMinYi !== null || rules.totalMvMaxYi !== null ? `5. 总市值：${rules.totalMvMinYi !== null ? `\`> ${rules.totalMvMinYi}亿\`` : ''}${rules.totalMvMinYi !== null && rules.totalMvMaxYi !== null ? '，' : ''}${rules.totalMvMaxYi !== null ? `\`< ${rules.totalMvMaxYi}亿\`` : ''}` : null,
+    rules.circMvMinYi !== null || rules.circMvMaxYi !== null ? `6. 流通市值：${rules.circMvMinYi !== null ? `\`> ${rules.circMvMinYi}亿\`` : ''}${rules.circMvMinYi !== null && rules.circMvMaxYi !== null ? '，' : ''}${rules.circMvMaxYi !== null ? `\`< ${rules.circMvMaxYi}亿\`` : ''}` : null,
     rules.revenueGrowthMin !== null ? `2. 成长：最新财报营收同比增长\`> ${rules.revenueGrowthMin}%\`` : null,
     rules.roeMin !== null ? `3. 盈利能力：最新财报\`roe > ${rules.roeMin}%\`` : null,
     rules.industryKeywords.length ? `4. 范围：行业分类匹配“${industryTerms.join('”或“')}”` : null,
-    '5. 默认风控过滤：剔除 ST/*ST、退市标的及无有效行情标的。',
+    rules.mainNetInflowDays !== null ? `5. 资金：近${rules.mainNetInflowDays}个交易日主力净流入累计\`> 0\`` : null,
+    '6. 默认风控过滤：剔除 ST/*ST、退市标的及无有效行情标的。',
   ].filter(Boolean);
   const stockRows = selected.length
     ? selected.map((row) => {
       const indicators = [
         `PE ${formatSelectionNumber(row.pe)}`,
+        rules.pbMax !== null ? `PB ${formatSelectionNumber(row.pb)}` : null,
+        rules.turnoverRateMin !== null ? `换手率 ${formatSelectionNumber(row.turnoverRate)}%` : null,
+        rules.volumeRatioMin !== null ? `量比 ${formatSelectionNumber(row.volumeRatio)}` : null,
+        rules.totalMvMinYi !== null || rules.totalMvMaxYi !== null ? `总市值 ${(row.totalMv / 100_000_000).toFixed(2)}亿` : null,
+        rules.circMvMinYi !== null || rules.circMvMaxYi !== null ? `流通市值 ${(row.circMv / 100_000_000).toFixed(2)}亿` : null,
         row.revenueGrowth !== null ? `营收同比 ${formatSelectionNumber(row.revenueGrowth)}%` : null,
         row.roe !== null ? `ROE ${formatSelectionNumber(row.roe)}%` : null,
+        rules.mainNetInflowDays !== null && row.mainNetAmount !== null
+          ? `近${rules.mainNetInflowDays}日主力净流入 ${(row.mainNetAmount / 100_000_000).toFixed(2)}亿（${row.fundFlowSource}）`
+          : null,
         `涨跌幅 ${formatSelectionNumber(row.pctChange)}%`,
       ].filter(Boolean).join('；');
       return `| ${toTsCode(row.code)} | ${row.name} | ${row.industry || '未分类'} | ${indicators} | 满足当前量化条件 |`;
     })
     : ['| -- | 当前条件下暂无匹配标的 | -- | 严格条件下无完整数据命中 | 未放宽用户阈值 |'];
+  const fundFlowSources = [...new Set(fullyEnriched.map((row) => row.fundFlowSource).filter(Boolean))];
+  const missingItems = [
+    ...rules.unsupportedConditions.map((condition) => `- 未执行：${condition}，当前解析器尚未支持。`),
+    ...fundFlowFailures.map((failure) => `- 资金数据缺失：${failure}`),
+  ];
   const content = [
     '# A股自然语言量化选股报告',
     '',
     `- 生成时间：${generatedAt}`,
     `- 报告范围：${scope}`,
-    `- 数据来源：${usedTushareMarketFallback ? '东方财富 + Tushare全市场行情与估值；' : '东方财富全市场行情与估值；'}东方财富F10财务指标，Tushare作为财务降级源`,
+    `- 数据来源：${usedTushareMarketFallback ? '东方财富 + Tushare全市场行情与估值；' : '东方财富全市场行情与估值；'}东方财富F10财务指标，Tushare作为财务降级源${rules.mainNetInflowDays !== null ? `；近${rules.mainNetInflowDays}日主力资金来自${fundFlowSources.join(' + ') || '未取得数据'}` : ''}`,
     `- 行情快照：${new Date(marketSnapshotUpdatedAt).toLocaleString('zh-CN', { hour12: false })}${usedPersistedSnapshot ? '（数据源波动，使用最近成功快照）' : ''}`,
     '',
     '## 用户需求解析',
@@ -1308,6 +1554,7 @@ async function getStockSelection(prompt) {
     '',
     '## 风险提示',
     '本内容仅为量化选股数据筛选结果，不构成任何投资建议。',
+    ...missingItems.map((item) => item.replace(/^- /, '- 数据完整性提示：')),
   ].join('\n');
   return { success: true, content, selectedStocks: selected, parsedRules: rules };
 }
@@ -1747,6 +1994,15 @@ const server = http.createServer(async (req, res) => {
       }
       const body = await readJsonBody(req);
       sendJson(res, 200, { data: await getStockSelection(body.prompt || '') });
+      return;
+    }
+    if (url.pathname === '/api/general-chat') {
+      if (req.method !== 'POST') {
+        sendJson(res, 405, { error: 'Method not allowed' });
+        return;
+      }
+      const body = await readJsonBody(req);
+      sendJson(res, 200, { data: { content: await getGeneralChatAnswer(body.prompt || '', body.skill || '') } });
       return;
     }
     if (url.pathname === '/api/stocks/search') {
