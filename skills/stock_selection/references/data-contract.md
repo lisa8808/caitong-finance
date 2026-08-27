@@ -36,10 +36,6 @@ interface StockSelectionSkillRequest {
   };
   candidates?: StockCandidate[];
 }
-
-// The frontend should derive contextText from the latest selection turn only.
-// Do not send the entire chat transcript: unrelated market discussion can contain
-// words such as “资金” or “行业” that are not screening constraints.
 ```
 
 ## StockCandidate

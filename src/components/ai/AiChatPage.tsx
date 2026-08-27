@@ -10,7 +10,7 @@ import { holdingStocks } from '../../data/watchlistData';
 import { AbnormalMovementData, AbnormalMovementStock, loadAbnormalMovementData } from '../../services/abnormalMovementService';
 import { loadValueInvestingCommitteeReport } from '../../services/valueInvestingCommitteeService';
 import { loadHoldingStocks } from '../../services/watchlistService';
-import { buildStockSelectionContext, loadStockSelectionReport, StockSelectionContext } from '../../services/stockSelectionService';
+import { loadStockSelectionReport, StockSelectionContext } from '../../services/stockSelectionService';
 import { loadMarketQuickInsights, MarketQuickInsights } from '../../services/marketQuickInsightService';
 import { loadGeneralChatAnswer } from '../../services/generalChatService';
 
@@ -1083,8 +1083,10 @@ export default function AiChatPage({ stocks }: Props) {
     if (intent === 'selection') {
       setTimeout(async () => {
         try {
-          const previousSelectionContext = buildStockSelectionContext(messages);
-          const data = await loadStockSelectionReport(trimmedText, selectionContextRules, previousSelectionContext);
+          const previousSelectionReport = [...messages]
+            .reverse()
+            .find((message) => message.role === 'assistant' && message.content.includes('# A股自然语言量化选股报告'))?.content;
+          const data = await loadStockSelectionReport(trimmedText, selectionContextRules, previousSelectionReport);
           if (data.parsedRules) setSelectionContextRules(data.parsedRules);
           await streamAssistantMessage(data.content);
         } catch (error) {

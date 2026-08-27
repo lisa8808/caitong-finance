@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-27T03:31:15.503Z",
+  "generatedAt": "2026-08-27T03:54:39.156Z",
   "summary": {
-    "total": 119,
-    "passed": 119,
+    "total": 124,
+    "passed": 124,
     "failed": 0,
     "passRate": 1
   },
@@ -33,6 +33,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -62,6 +63,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -91,6 +93,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -120,6 +123,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -149,6 +153,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -190,6 +195,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -219,6 +225,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -248,6 +255,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -277,6 +285,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -306,6 +315,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -337,6 +347,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "PB/市净率条件（未识别阈值）"
         ]
@@ -368,6 +379,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -397,6 +409,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -426,6 +439,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -457,6 +471,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "换手率条件（未识别阈值）"
         ]
@@ -488,6 +503,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -517,6 +533,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -546,6 +563,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -577,6 +595,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "量比条件（未识别阈值）"
         ]
@@ -608,6 +627,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -637,6 +657,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -672,6 +693,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -701,6 +723,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -730,6 +753,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -761,8 +785,64 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "总市值条件（未识别阈值或单位）"
+        ]
+      }
+    },
+    {
+      "id": "MV-07",
+      "prompt": "超跌反弹大市值股票",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "totalMvMinYi matches",
+          "passed": true,
+          "expected": 500,
+          "actual": 500
+        },
+        {
+          "name": "semanticConditions matches",
+          "passed": true,
+          "expected": [
+            "大市值",
+            "超跌反弹"
+          ],
+          "actual": [
+            "大市值",
+            "超跌反弹"
+          ]
+        },
+        {
+          "name": "unsupported reports 超跌反弹K线条件（待历史行情验证）",
+          "passed": true,
+          "expected": "超跌反弹K线条件（待历史行情验证）",
+          "actual": [
+            "超跌反弹K线条件（待历史行情验证）"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": 500,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "industryExcludeKeywords": [],
+        "mainNetInflowDays": null,
+        "semanticConditions": [
+          "大市值",
+          "超跌反弹"
+        ],
+        "unsupportedConditions": [
+          "超跌反弹K线条件（待历史行情验证）"
         ]
       }
     },
@@ -792,6 +872,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -821,6 +902,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -850,6 +932,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -879,6 +962,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -908,6 +992,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -939,6 +1024,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "毛利率条件"
         ]
@@ -976,6 +1062,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1011,6 +1098,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1049,6 +1137,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1087,6 +1176,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1125,6 +1215,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1154,6 +1245,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1183,6 +1275,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 3,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1212,6 +1305,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 10,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1241,6 +1335,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1272,6 +1367,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "均线形态条件"
         ]
@@ -1305,6 +1401,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "突破形态条件"
         ]
@@ -1338,6 +1435,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "技术指标条件"
         ]
@@ -1371,6 +1469,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "成交额放大条件"
         ]
@@ -1404,6 +1503,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "净利润增长条件"
         ]
@@ -1465,6 +1565,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1518,6 +1619,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1565,6 +1667,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1618,6 +1721,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1677,6 +1781,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "成交额放大条件",
           "均线形态条件"
@@ -1702,6 +1807,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1724,6 +1830,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1753,6 +1860,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1782,6 +1890,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1811,6 +1920,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1840,6 +1950,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1869,6 +1980,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1898,6 +2010,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1927,6 +2040,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1956,6 +2070,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -1985,6 +2100,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2014,6 +2130,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2043,6 +2160,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2072,6 +2190,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2101,6 +2220,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 10,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2130,6 +2250,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 15,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2165,6 +2286,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2200,6 +2322,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2238,6 +2361,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2276,6 +2400,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2317,6 +2442,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2358,6 +2484,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2393,6 +2520,7 @@
           "银行"
         ],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2428,6 +2556,7 @@
           "银行"
         ],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2466,6 +2595,7 @@
           "保险"
         ],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2501,6 +2631,7 @@
           "银行"
         ],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": []
       }
     },
@@ -2532,6 +2663,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "PS/市销率条件"
         ]
@@ -2565,6 +2697,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "PEG/EV-EBITDA估值条件"
         ]
@@ -2598,6 +2731,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "PEG/EV-EBITDA估值条件"
         ]
@@ -2631,6 +2765,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "净利润增长条件"
         ]
@@ -2664,6 +2799,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "毛利率条件"
         ]
@@ -2697,6 +2833,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "净利率条件"
         ]
@@ -2730,6 +2867,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "资产负债率条件"
         ]
@@ -2763,6 +2901,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "股息率条件"
         ]
@@ -2796,6 +2935,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "每股收益条件"
         ]
@@ -2829,6 +2969,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "每股净资产条件"
         ]
@@ -2862,6 +3003,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "均线形态条件"
         ]
@@ -2895,6 +3037,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "突破形态条件"
         ]
@@ -2928,6 +3071,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "技术指标条件"
         ]
@@ -2961,6 +3105,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "技术指标条件"
         ]
@@ -2994,6 +3139,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "技术指标条件"
         ]
@@ -3037,6 +3183,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "突破形态条件",
           "技术指标条件"
@@ -3071,6 +3218,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "涨跌幅条件"
         ]
@@ -3104,6 +3252,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "振幅或波动率条件"
         ]
@@ -3137,6 +3286,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "振幅或波动率条件"
         ]
@@ -3170,6 +3320,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "连板条件"
         ]
@@ -3203,6 +3354,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "其他资金面条件"
         ]
@@ -3236,6 +3388,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "其他资金面条件"
         ]
@@ -3269,6 +3422,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "持仓结构条件"
         ]
@@ -3302,6 +3456,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "持仓结构条件"
         ]
@@ -3335,6 +3490,7 @@
         "industryKeywords": [],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "持仓结构条件"
         ]
@@ -3392,6 +3548,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "股息率条件"
         ]
@@ -3449,6 +3606,7 @@
         ],
         "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
+        "semanticConditions": [],
         "unsupportedConditions": [
           "技术指标条件"
         ]
@@ -3855,6 +4013,70 @@
         "selectedCodes": [
           "000007"
         ]
+      }
+    },
+    {
+      "id": "CONTEXT-PE",
+      "prompt": "上一轮PE条件可继承",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-SIZE",
+      "prompt": "上一轮大市值条件可继承",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-SEMANTIC",
+      "prompt": "上一轮技术语义可继承",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-OVERRIDE",
+      "prompt": "本轮明确市值阈值覆盖默认口径",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
       }
     }
   ]
