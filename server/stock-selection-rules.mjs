@@ -21,7 +21,7 @@ export function parseStockSelectionRules(prompt) {
     ?? (text.includes('破净') ? 1 : null);
   const turnoverRateMin = numberAfter([/换手率\s*(?:大于|高于|超过|不低于|至少|>|≥)\s*(\d+(?:\.\d+)?)%?/]);
   const volumeRatioMin = numberAfter([/量比\s*(?:大于|高于|超过|不低于|至少|>|≥)\s*(\d+(?:\.\d+)?)/]);
-  const totalMvMinYi = numberAfter([/总市值\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)\s*亿/]);
+  let totalMvMinYi = numberAfter([/总市值\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)\s*亿/]);
   const totalMvMaxYi = numberAfter([/总市值\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)\s*亿/]);
   const circMvMinYi = numberAfter([/流通市值\s*(?:大于|高于|超过|>|≥)\s*(\d+(?:\.\d+)?)\s*亿/]);
   const circMvMaxYi = numberAfter([/流通市值\s*(?:低于|小于|不高于|<|≤)\s*(\d+(?:\.\d+)?)\s*亿/]);
@@ -41,11 +41,17 @@ export function parseStockSelectionRules(prompt) {
   const mainNetInflowDays = fundFlowMatch
     ? chineseNumber(fundFlowMatch[1])
     : /主力资金[^，,；;]*(?:净)?流入/.test(text) ? 5 : null;
+  const semanticConditions = [];
+  if (/大市值|大盘股|市值较大|大市值龙头/.test(text)) {
+    semanticConditions.push('大市值');
+    if (totalMvMinYi === null) totalMvMinYi = 500;
+  }
+  if (/超跌反弹|超跌回升|超跌修复/.test(text)) semanticConditions.push('超跌反弹');
   const unsupportedConditions = [
     [/(成交额放大|放量)/, '成交额放大条件'],
     [/(均线|多头排列|MA\d+)/i, '均线形态条件'],
     [/(突破|新高|新低)/, '突破形态条件'],
-    [/(RSI|MACD|KDJ|布林带|BOLL|超跌)/i, '技术指标条件'],
+    [/(RSI|MACD|KDJ|布林带|BOLL)/i, '技术指标条件'],
     [/(净利润|利润)(?:同比)?(?:增长|增速)/, '净利润增长条件'],
     [/毛利率/, '毛利率条件'],
     [/净利率/, '净利率条件'],
@@ -66,11 +72,36 @@ export function parseStockSelectionRules(prompt) {
   if (volumeRatioMin === null && text.includes('量比')) unsupportedConditions.push('量比条件（未识别阈值）');
   if (totalMvMinYi === null && totalMvMaxYi === null && text.includes('总市值')) unsupportedConditions.push('总市值条件（未识别阈值或单位）');
   if (circMvMinYi === null && circMvMaxYi === null && text.includes('流通市值')) unsupportedConditions.push('流通市值条件（未识别阈值或单位）');
+  if (semanticConditions.includes('超跌反弹')) unsupportedConditions.push('超跌反弹K线条件（待历史行情验证）');
   return {
     peMax, pbMax, turnoverRateMin, volumeRatioMin, totalMvMinYi, totalMvMaxYi,
     circMvMinYi, circMvMaxYi, revenueGrowthMin, roeMin, industryKeywords, industryExcludeKeywords,
-    mainNetInflowDays, unsupportedConditions,
+    mainNetInflowDays, semanticConditions, unsupportedConditions,
   };
+}
+
+export function mergeStockSelectionRules(currentRules, contextRules) {
+  if (!contextRules || typeof contextRules !== 'object') return currentRules;
+  const merged = { ...currentRules };
+  const scalarKeys = [
+    'peMax', 'pbMax', 'turnoverRateMin', 'volumeRatioMin',
+    'totalMvMinYi', 'totalMvMaxYi', 'circMvMinYi', 'circMvMaxYi',
+    'revenueGrowthMin', 'roeMin', 'mainNetInflowDays',
+  ];
+  for (const key of scalarKeys) {
+    if ((merged[key] === null || merged[key] === undefined)
+      && contextRules[key] !== null
+      && contextRules[key] !== undefined
+      && Number.isFinite(Number(contextRules[key]))) {
+      merged[key] = Number(contextRules[key]);
+    }
+  }
+  for (const key of ['industryKeywords', 'industryExcludeKeywords', 'semanticConditions', 'unsupportedConditions']) {
+    const current = Array.isArray(merged[key]) ? merged[key] : [];
+    const previous = Array.isArray(contextRules[key]) ? contextRules[key] : [];
+    merged[key] = [...new Set([...previous, ...current])];
+  }
+  return merged;
 }
 
 export function filterStockSelectionCandidates(rows, rules, industryTerms = [], excludeIndustryTerms = []) {
