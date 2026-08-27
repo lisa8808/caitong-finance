@@ -29,26 +29,21 @@ function getApiBaseUrl() {
 }
 
 function fallbackData(stocks: StockItem[]): TrendAnalysisData {
-  const rows = stocks
-    .filter((stock) => Math.abs(stock.涨幅) >= 3)
-    .map((stock) => ({
-      ts_code: stock.证券代码,
-      name: stock.证券名称,
-      industry: '页面当前行情未同步行业',
-      trend_type: stock.涨幅 >= 0 ? '震荡走强' as const : '持续下跌' as const,
-      trend_period: '2日' as const,
-      interval_pct_chg: stock.涨幅,
-      trend_stage: '启动' as const,
-      current_price: stock.现价,
-      latest_pct_chg: stock.涨幅,
-      is_holding: true,
-    }));
+  // A single-day quote cannot satisfy the skill's formed-trend criteria.
+  void stocks;
+  const rows: TrendRow[] = [];
   return {
     source: '页面当前行情数据（缺少多日序列，降级展示）',
     isRealData: false,
     fundamentalsSynced: false,
     rows,
   };
+}
+
+function getDateTime() {
+  const d = new Date();
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
 
 export async function loadTrendAnalysisData(stocks: StockItem[]): Promise<TrendAnalysisData> {
@@ -73,7 +68,7 @@ function safe(value: unknown) {
 }
 
 export function buildTrendAnalysisReport(data: TrendAnalysisData, scope: string, userInput: string) {
-  const generatedAt = new Date().toLocaleString('zh-CN', { hour12: false });
+  const generatedAt = getDateTime();
   const rows = data.rows.slice(0, 8);
   if (rows.length === 0) return '【当前全市场无成型可持续交易趋势，无异动演化行情，暂无趋势研判内容】';
   const trendRows = rows.map((row) => `| ${safe(row.ts_code)} | ${row.is_holding ? `【持仓】${safe(row.name)}` : safe(row.name)} | ${safe(row.industry || '未分类行业')} | ${safe(row.trend_type)} | ${safe(row.trend_period)} | ${row.interval_pct_chg >= 0 ? '+' : ''}${row.interval_pct_chg.toFixed(2)}% | ${row.trend_type === '连板趋势' ? `${row.limit_up_days || 2}连板` : `多日同向运行，斜率 ${row.slope?.toFixed(2) || '待同步'}`} | ${safe(row.trend_stage)} |`).join('\n');
