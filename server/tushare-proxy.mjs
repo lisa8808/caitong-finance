@@ -860,6 +860,74 @@ async function getAbnormalMovement(codes = [], focusCodes = []) {
   return getTushareAbnormalMovement(codes, focusCodes);
 }
 
+async function getTrendAnalysis(focusCodes = []) {
+  try {
+    const quotes = await getEastmoneyAllMarketQuotes();
+    const focusSet = new Set(focusCodes.map(toLocalCode));
+    const candidates = quotes
+      .filter((quote) => !quote.isStale && Number.isFinite(quote.pctChange))
+      .sort((a, b) => Number(focusSet.has(b.code)) - Number(focusSet.has(a.code)) || Math.abs(b.pctChange) - Math.abs(a.pctChange))
+      .slice(0, 24);
+    const basics = await safeTushare('stock_basic', { list_status: 'L' }, 'ts_code,name,industry');
+    const basicMap = new Map(basics.map((row) => [toLocalCode(row.ts_code), row]));
+    const rows = [];
+    for (const quote of candidates) {
+      const code = toLocalCode(quote.code);
+      let history = [];
+      try {
+        history = await getKlineRows(toTsCode(code), '日');
+      } catch {
+        history = [];
+      }
+      const closes = history.map((item) => Number(item.close || 0)).filter((value) => value > 0).slice(-6);
+      if (closes.length < 3) continue;
+      const changes = closes.slice(1).map((value, index) => closes[index] ? (value / closes[index] - 1) * 100 : 0);
+      const interval = closes[0] ? (closes[closes.length - 1] / closes[0] - 1) * 100 : 0;
+      const positiveDays = changes.filter((value) => value > 0.15).length;
+      const negativeDays = changes.filter((value) => value < -0.15).length;
+      const limitUpDays = changes.filter((value) => value >= 9.5).length;
+      const formed = limitUpDays >= 2 || positiveDays >= 3 || negativeDays >= 3 || Math.abs(interval) >= 8;
+      if (!formed) continue;
+      const positive = interval >= 0;
+      const stage = Math.abs(interval) >= 20 ? '高潮' : Math.abs(interval) >= 10 ? '发酵' : '启动';
+      rows.push({
+        ts_code: code,
+        name: quote.name || basicMap.get(code)?.name || code,
+        industry: quote.industry || basicMap.get(code)?.industry || '未分类行业',
+        trend_type: limitUpDays >= 2 ? '连板趋势' : positiveDays >= 3 ? (interval >= 3 ? '持续上涨' : '震荡走强') : '持续下跌',
+        trend_period: closes.length >= 6 ? '一周及以上' : closes.length >= 4 ? '3日' : '2日',
+        interval_pct_chg: Number(interval.toFixed(2)),
+        limit_up_days: limitUpDays || undefined,
+        slope: Number((interval / Math.max(changes.length, 1)).toFixed(2)),
+        fund_flow_days: positive ? positiveDays : negativeDays,
+        trend_stage: stage,
+        current_price: Number(quote.price || 0),
+        latest_pct_chg: Number(quote.pctChange || 0),
+        is_holding: focusSet.has(code),
+      });
+      if (rows.length >= 10) break;
+    }
+    if (rows.length > 0) {
+      return {
+        tradeDate: new Date().toISOString().slice(0, 10),
+        source: '东方财富实时行情 + 多日K线（Tushare/东方财富）',
+        isRealData: true,
+        fundamentalsSynced: false,
+        rows,
+      };
+    }
+  } catch (error) {
+    console.warn(`Trend analysis fallback: ${error instanceof Error ? error.message : error}`);
+  }
+  return {
+    tradeDate: new Date().toISOString().slice(0, 10),
+    source: '行情接口未返回成型趋势',
+    isRealData: false,
+    fundamentalsSynced: false,
+    rows: [],
+  };
+}
+
 async function getGroupPctChange(filterFn) {
   const rows = await tushare('stock_basic', { list_status: 'L' }, 'ts_code,symbol,name,industry,area,market');
   const members = rows.filter(filterFn).slice(0, 20);
@@ -1271,30 +1339,6 @@ function formatSelectionNumber(value, digits = 2) {
   return Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : '--';
 }
 
-function mergeStockSelectionRules(currentRules, contextRules) {
-  if (!contextRules || typeof contextRules !== 'object') return currentRules;
-  const merged = { ...currentRules };
-  const scalarKeys = [
-    'peMax', 'pbMax', 'turnoverRateMin', 'volumeRatioMin',
-    'totalMvMinYi', 'totalMvMaxYi', 'circMvMinYi', 'circMvMaxYi',
-    'revenueGrowthMin', 'roeMin', 'mainNetInflowDays',
-  ];
-  for (const key of scalarKeys) {
-    if ((merged[key] === null || merged[key] === undefined)
-      && contextRules[key] !== null
-      && contextRules[key] !== undefined
-      && Number.isFinite(Number(contextRules[key]))) {
-      merged[key] = Number(contextRules[key]);
-    }
-  }
-  for (const key of ['industryKeywords', 'industryExcludeKeywords', 'unsupportedConditions']) {
-    const current = Array.isArray(merged[key]) ? merged[key] : [];
-    const previous = Array.isArray(contextRules[key]) ? contextRules[key] : [];
-    merged[key] = [...new Set([...previous, ...current])];
-  }
-  return merged;
-}
-
 async function getEastmoneyFinancialIndicator(code) {
   const url = new URL('https://datacenter.eastmoney.com/securities/api/data/v1/get');
   const params = {
@@ -1462,11 +1506,8 @@ function writeStockSelectionSnapshot(rows) {
   return snapshot.updatedAt;
 }
 
-async function getStockSelection(prompt, contextRules, contextText = '') {
-  const parsedContextText = contextText ? parseStockSelectionRulesCore(contextText) : undefined;
-  const inheritedRules = mergeStockSelectionRules(parsedContextText, contextRules);
-  const rules = mergeStockSelectionRules(parseStockSelectionRulesCore(prompt), inheritedRules);
-  const inheritedContext = Boolean((contextRules && typeof contextRules === 'object') || parsedContextText);
+async function getStockSelection(prompt) {
+  const rules = parseStockSelectionRulesCore(prompt);
   const industryTerms = stockSelectionIndustryTerms(rules.industryKeywords);
   const excludeIndustryTerms = stockSelectionIndustryTerms(rules.industryExcludeKeywords);
   const marketRows = [];
@@ -1616,7 +1657,6 @@ async function getStockSelection(prompt, contextRules, contextText = '') {
     '',
     `- 生成时间：${generatedAt}`,
     `- 报告范围：${scope}`,
-    inheritedContext ? '- 条件继承：已沿用上一轮选股策略；本轮明确条件优先覆盖。' : null,
     `- 数据来源：${usedTushareMarketFallback ? '东方财富 + Tushare全市场行情与估值；' : '东方财富全市场行情与估值；'}东方财富F10财务指标，Tushare作为财务降级源${rules.mainNetInflowDays !== null ? `；近${rules.mainNetInflowDays}日主力资金来自${fundFlowSources.join(' + ') || '未取得数据'}` : ''}`,
     `- 行情快照：${new Date(marketSnapshotUpdatedAt).toLocaleString('zh-CN', { hour12: false })}${usedPersistedSnapshot ? '（数据源波动，使用最近成功快照）' : ''}`,
     '',
@@ -1640,7 +1680,7 @@ async function getStockSelection(prompt, contextRules, contextText = '') {
     '## 风险提示',
     '本内容仅为量化选股数据筛选结果，不构成任何投资建议。',
     ...missingItems.map((item) => item.replace(/^- /, '- 数据完整性提示：')),
-  ].filter((line) => line !== null).join('\n');
+  ].join('\n');
   return { success: true, content, selectedStocks: selected, parsedRules: rules };
 }
 
@@ -2064,6 +2104,11 @@ const server = http.createServer(async (req, res) => {
       sendJson(res, 200, { data: await getAbnormalMovement(codes, focusCodes) });
       return;
     }
+    if (url.pathname === '/api/trend-analysis') {
+      const focusCodes = (url.searchParams.get('focusCodes') || '').split(',').map((code) => code.trim()).filter(Boolean);
+      sendJson(res, 200, { data: await getTrendAnalysis(focusCodes) });
+      return;
+    }
     if (url.pathname === '/api/value-investing-committee') {
       if (req.method !== 'POST') {
         sendJson(res, 405, { error: 'Method not allowed' });
@@ -2079,7 +2124,7 @@ const server = http.createServer(async (req, res) => {
         return;
       }
       const body = await readJsonBody(req);
-      sendJson(res, 200, { data: await getStockSelection(body.prompt || '', body.contextRules, body.contextText || '') });
+      sendJson(res, 200, { data: await getStockSelection(body.prompt || '') });
       return;
     }
     if (url.pathname === '/api/general-chat') {

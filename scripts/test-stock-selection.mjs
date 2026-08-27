@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { filterStockSelectionCandidates, mergeStockSelectionRules, parseStockSelectionRules } from '../server/stock-selection-rules.mjs';
+import { filterStockSelectionCandidates, parseStockSelectionRules } from '../server/stock-selection-rules.mjs';
 
 const cases = [
   ['PE-01', 'PE低于20的A股', { peMax: 20 }],
@@ -28,7 +28,6 @@ const cases = [
   ['MV-04', '流通市值高于30亿', { circMvMinYi: 30 }],
   ['MV-05', '流通市值不高于200亿', { circMvMaxYi: 200 }],
   ['MV-06', '总市值中等的股票', {}, ['总市值条件（未识别阈值或单位）']],
-  ['MV-07', '超跌反弹大市值股票', { totalMvMinYi: 500, semanticConditions: ['大市值', '超跌反弹'] }, ['超跌反弹K线条件（待历史行情验证）']],
   ['FIN-01', '营收同比增长超过20%', { revenueGrowthMin: 20 }],
   ['FIN-02', '营收增速高于35.5%', { revenueGrowthMin: 35.5 }],
   ['FIN-03', '高成长股', { revenueGrowthMin: 20 }],
@@ -173,22 +172,7 @@ const filterCases = [
   };
 });
 
-const firstTurnRules = parseStockSelectionRules('超跌反弹大市值股票');
-const continuedRules = mergeStockSelectionRules(parseStockSelectionRules('按策略进行选股'), firstTurnRules);
-const contextAssertions = [
-  ['CONTEXT-PE', '上一轮PE条件可继承', mergeStockSelectionRules(parseStockSelectionRules('按策略进行选股'), parseStockSelectionRules('PE低于20的股票')).peMax === 20],
-  ['CONTEXT-SIZE', '上一轮大市值条件可继承', continuedRules.totalMvMinYi === 500],
-  ['CONTEXT-SEMANTIC', '上一轮技术语义可继承', continuedRules.semanticConditions.includes('超跌反弹')],
-  ['CONTEXT-OVERRIDE', '本轮明确市值阈值覆盖默认口径', mergeStockSelectionRules(parseStockSelectionRules('总市值高于100亿'), firstTurnRules).totalMvMinYi === 100],
-].map(([id, prompt, passed]) => ({
-  id,
-  prompt,
-  passed,
-  assertions: [{ name: 'context rule assertion', passed, expected: true, actual: passed }],
-  actual: { passed },
-}));
-
-const results = [...parserResults, ...filterCases, ...contextAssertions];
+const results = [...parserResults, ...filterCases];
 
 const passed = results.filter((item) => item.passed).length;
 const report = {

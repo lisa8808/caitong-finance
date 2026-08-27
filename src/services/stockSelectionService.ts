@@ -5,17 +5,11 @@ export interface StockSelectionResponse {
   parsedRules?: Record<string, unknown>;
 }
 
-export type StockSelectionContext = Record<string, unknown>;
-
 function getApiBaseUrl() {
   return (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 }
 
-export async function loadStockSelectionReport(
-  prompt: string,
-  contextRules?: StockSelectionContext,
-  contextText?: string,
-): Promise<StockSelectionResponse> {
+export async function loadStockSelectionReport(prompt: string): Promise<StockSelectionResponse> {
   const apiBaseUrl = getApiBaseUrl();
   if (!apiBaseUrl) throw new Error('VITE_API_BASE_URL is not configured');
 
@@ -25,7 +19,7 @@ export async function loadStockSelectionReport(
       const response = await fetch(`${apiBaseUrl}/api/stock-selection`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, contextRules, contextText }),
+        body: JSON.stringify({ prompt }),
       });
       if (!response.ok) {
         const payload = await response.json().catch(() => null) as { error?: string } | null;

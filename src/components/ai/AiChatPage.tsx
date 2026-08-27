@@ -10,9 +10,11 @@ import { holdingStocks } from '../../data/watchlistData';
 import { AbnormalMovementData, AbnormalMovementStock, loadAbnormalMovementData } from '../../services/abnormalMovementService';
 import { loadValueInvestingCommitteeReport } from '../../services/valueInvestingCommitteeService';
 import { loadHoldingStocks } from '../../services/watchlistService';
-import { loadStockSelectionReport, StockSelectionContext } from '../../services/stockSelectionService';
+import { loadStockSelectionReport } from '../../services/stockSelectionService';
 import { loadMarketQuickInsights, MarketQuickInsights } from '../../services/marketQuickInsightService';
 import { loadGeneralChatAnswer } from '../../services/generalChatService';
+import { buildTrendAnalysisReport, loadTrendAnalysisData } from '../../services/trendAnalysisService';
+import { findSentimentEvidence, summarizeSentiment } from '../../services/sentimentService';
 
 const ABNORMAL_MOVEMENT_SKILL_NAME = 'fi_abnormal_movement';
 const ABNORMAL_MOVEMENT_SKILL_TITLE = 'A股异动解读与归因分析 Skill';
@@ -83,7 +85,6 @@ function classifyBusinessIntent(input: string): BusinessIntent {
   if (/(风控|风险诊断|风险预警|持仓安全|回撤|减仓|止盈|止损|该不该持有|该不该走)/.test(text)) return 'risk';
   if (/(价值分析|护城河|安全边际|巴菲特|芒格|段永平|李录)/.test(text)) return 'value';
   if (/(筛选|选股|找.*股|挑.*股|排除.*股|剔除.*股|非(?:银行|证券|保险|医药|汽车|电子|消费电子|新能源|半导体).*股|低估值|高成长|高ROE|PE低于|PB低于|市盈率|市净率)/i.test(text)) return 'selection';
-  if (/(上一步|上一轮|刚才|前面).*(策略|条件|规则)|(继续|沿用|保持).*(筛选|选股|条件|策略)/.test(text)) return 'selection';
   if (/(异动|为什么.*(?:涨|跌)|大涨|大跌|涨停原因|跌停原因|连板原因|资金异动)/.test(text)) return 'abnormal';
   if (/(趋势判断|趋势研判|趋势溯源|大盘趋势|个股趋势|行业趋势|板块趋势|持续上涨|持续下跌|趋势.*延续)/.test(text)) return 'trend';
   if (/(复盘|盘后总结|市场总结|行情总结|交易总结|操作总结)/.test(text)) return 'review';
@@ -584,26 +585,40 @@ function buildAbnormalMovementReport(movementData: AbnormalMovementData, scope: 
 
   const attributionRows = abnormalStocks.map((stock) => {
     const sector = (stock as AbnormalMovementStock).所属板块 || inferSector(stock);
-    const cause = stock.直接诱因 || (stock.涨幅 >= 0 ? `${sector}方向资金关注度提升，短线情绪扩散` : `${sector}方向承压，短线资金兑现或避险偏好抬升`);
-    const category = stock.诱因分类 || (stock.涨幅 >= 0 ? '资金驱动 / 情绪扩散' : '资金流出 / 风险偏好下降');
+    const sentimentEvidence = findSentimentEvidence(stock);
+    const sentimentCause = sentimentEvidence.length
+      ? `舆情催化：${sentimentEvidence[0].title}（情绪${sentimentEvidence[0].score >= 0 ? '+' : ''}${sentimentEvidence[0].score}）`
+      : '舆情模块暂无直接命中，需结合资金和公告复核';
+    const flowCause = stock.直接诱因 || (stock.涨幅 >= 0 ? `${sector}方向资金关注度提升，短线情绪扩散` : `${sector}方向承压，短线资金兑现或避险偏好抬升`);
+    const cause = `${sentimentCause}；${flowCause}`;
+    const category = stock.诱因分类 || (sentimentEvidence.length ? '市场情绪' : (stock.涨幅 >= 0 ? '资金炒作' : '市场情绪'));
     const weight = Math.min(90, Math.max(45, Math.round(Math.abs(stock.涨幅) * 8 + (stock.量比 || 1) * 5)));
-    const sentiment = Math.max(-10, Math.min(10, Math.round(stock.涨幅)));
+    const sentiment = summarizeSentiment(sentimentEvidence) ?? Math.max(-10, Math.min(10, Math.round(stock.涨幅)));
     const confidence = Math.min(92, Math.max(60, 62 + Math.round(Math.abs(stock.涨幅) * 3)));
     const holdingPrefix = stock.是否持仓 ? '【持仓】' : '';
-    return `| ${stock.证券代码} | ${holdingPrefix}${cause} | ${category} | ${stock.信息来源 || movementData.source} | ${weight}% | ${sentiment} | ${confidence} | 日内短效 |`;
+    const evidenceSource = sentimentEvidence.length
+      ? `舆情模块：${sentimentEvidence.map((item) => `${item.source}（${item.publishedAt}）`).join('、')}`
+      : (stock.信息来源 || movementData.source);
+    return `| ${stock.证券代码} | ${holdingPrefix}${cause} | ${category} | ${evidenceSource} | ${weight}% | ${sentiment} | ${confidence} | 日内短效 |`;
   }).join('\n');
 
   const sectors = Array.from(new Set(abnormalStocks.map((stock) => stock.所属板块 || inferSector(stock)))).slice(0, 3);
   const avgChange = abnormalStocks.reduce((sum, stock) => sum + stock.涨幅, 0) / abnormalStocks.length;
   const leadingNames = abnormalStocks.slice(0, 3).map((stock) => stock.证券名称).join('、');
   const globalSentiment = Math.max(-10, Math.min(10, Math.round(avgChange)));
+  const globalEvidence = abnormalStocks.flatMap((stock) => findSentimentEvidence(stock));
+  const uniqueEvidence = Array.from(new Map(globalEvidence.map((item) => [item.title, item])).values()).slice(0, 4);
+  const sentimentSummary = summarizeSentiment(uniqueEvidence);
+  const sentimentRow = uniqueEvidence.length
+    ? `| 舆情催化与异动共振 | ${sectors.join('、')} / ${uniqueEvidence.map((item) => item.industry).filter((value, index, values) => values.indexOf(value) === index).join('、')} | 市场情绪 | 舆情模块命中${uniqueEvidence.length}条：${uniqueEvidence.map((item) => `${item.title}（${item.score >= 0 ? '+' : ''}${item.score}）`).join('；')} | 72% | ${sentimentSummary ?? 0} | 74 | 情绪扩散 |`
+    : '';
 
   return `# ${templateTitle}
 
 - 生成时间：${generatedAt}
 - 报告范围：${scope}
 - 交易日期：${movementData.tradeDate || '最新可用交易日'}
-- 数据来源：${movementData.source}${movementData.isRealData ? '' : '（接口不可用时回退）'}
+- 数据来源：${movementData.source}${movementData.isRealData ? '' : '（接口不可用时回退）'}；舆情模块${uniqueEvidence.length ? `命中${uniqueEvidence.length}条样例数据` : '暂无直接命中'}
 - 触发来源：智询界面 / 异动解读快捷动作
 - 调用技能：${ABNORMAL_MOVEMENT_SKILL_NAME}（${skillTitle}）
 - 用户输入：${userInput}
@@ -626,11 +641,12 @@ ${attributionRows}
 | 全局归因主题 | 影响板块 / 标的 | 归因分类 | 核心证据 | 市场影响权重 | 情绪值 | 置信度分值 | 异动性质 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 短线资金集中交易波动居前标的 | ${sectors.join('、')} / ${leadingNames} | 资金驱动 / 情绪扩散 | 当前列表中波动居前标的集中在 ${sectors.join('、')}，平均涨跌幅 ${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(2)}% | 78% | ${globalSentiment} | 76 | 短期脉冲 |
+${sentimentRow}
 
 ## 短期异动影响小结
 
 - 本次异动解读只解释短期异常波动和可能归因，不输出买卖建议、仓位建议或长期趋势判断。
-- 当前可见异动主要来自涨跌幅居前标的的资金情绪扩散，仍需结合实时成交额、主力净流入、公告和新闻源复核。
+- 当前可见异动主要来自涨跌幅居前标的的资金情绪扩散；舆情模块${uniqueEvidence.length ? `已提供${uniqueEvidence.length}条对应标题和情绪分值` : '暂未命中对应标的'}，仍需结合实时成交额、主力净流入、公告和新闻源复核。
 - 若后续连续多日放量同向运行，可标记为趋势雏形，进一步交由趋势判断能力分析。`;
 }
 
@@ -795,7 +811,6 @@ export default function AiChatPage({ stocks }: Props) {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showStockSelectionTemplates, setShowStockSelectionTemplates] = useState(false);
   const [selectedAction, setSelectedAction] = useState('筛选');
-  const [selectionContextRules, setSelectionContextRules] = useState<StockSelectionContext | undefined>();
   const conversationEpochRef = useRef(0);
   const [shareMessageIndex, setShareMessageIndex] = useState<number | null>(null);
   const [savedMessageIndexes, setSavedMessageIndexes] = useState<Set<number>>(() => new Set());
@@ -1083,11 +1098,7 @@ export default function AiChatPage({ stocks }: Props) {
     if (intent === 'selection') {
       setTimeout(async () => {
         try {
-          const previousSelectionReport = [...messages]
-            .reverse()
-            .find((message) => message.role === 'assistant' && message.content.includes('# A股自然语言量化选股报告'))?.content;
-          const data = await loadStockSelectionReport(trimmedText, selectionContextRules, previousSelectionReport);
-          if (data.parsedRules) setSelectionContextRules(data.parsedRules);
+          const data = await loadStockSelectionReport(trimmedText);
           await streamAssistantMessage(data.content);
         } catch (error) {
           await streamAssistantMessage(`标的筛选失败：${error instanceof Error ? error.message : '未知错误'}`);
@@ -1113,6 +1124,31 @@ export default function AiChatPage({ stocks }: Props) {
       return;
     }
 
+    if (intent === 'trend') {
+      setTimeout(async () => {
+        try {
+          const scope = stocks && stocks.length > 0 ? '基于当前传入股票列表（持仓优先）' : '全市场（持仓优先）';
+          const trendData = await loadTrendAnalysisData(displayStocks);
+          const reportContent = buildTrendAnalysisReport(trendData, scope, trimmedText);
+          await streamAssistantMessage(reportContent);
+          const record: ReportRecord = {
+            id: `${Date.now()}-趋势研判`,
+            summary: '趋势研判报告',
+            time: getDateTime(),
+            content: reportContent,
+            status: 'done',
+          };
+          setHistoryRecords((prev) => [record, ...prev]);
+          setSelectedReport(record);
+        } catch (error) {
+          await streamAssistantMessage(`趋势研判失败：${error instanceof Error ? error.message : '未知错误'}`);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 300);
+      return;
+    }
+
     if (intent === 'finance' || intent === 'smalltalk' || intent === 'unrelated') {
       setTimeout(async () => {
         try {
@@ -1127,7 +1163,6 @@ export default function AiChatPage({ stocks }: Props) {
     }
 
     const replyByIntent: Partial<Record<BusinessIntent, string>> = {
-      trend: botReplies['趋势'],
       review: botReplies['复盘'],
       risk: botReplies['风控'],
     };
@@ -1195,6 +1230,35 @@ export default function AiChatPage({ stocks }: Props) {
         await streamAssistantMessage(reportContent);
         setIsTyping(false);
       }, 900);
+    } else if (key === '趋势') {
+      const prompt = quickPrompts[key] || '分析一下当前大盘趋势';
+      const reportId = `${Date.now()}-趋势研判`;
+      const dateStr = new Date().toLocaleDateString('zh-CN');
+      const timeStr = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+      const pendingRecord: ReportRecord = {
+        id: reportId,
+        summary: `${dateStr}趋势研判报告`,
+        time: `${dateStr} ${timeStr}`,
+        content: '',
+        status: 'generating',
+      };
+      setInput(prompt);
+      setResultQuery(prompt);
+      setReviewGeneratingTitle('趋势研判');
+      setIsTyping(true);
+      addMessage('user', prompt);
+      setHistoryRecords((prev) => [pendingRecord, ...prev]);
+      setSelectedReport(null);
+      window.setTimeout(async () => {
+        const scope = stocks && stocks.length > 0 ? '基于当前传入股票列表（持仓优先）' : '全市场（持仓优先）';
+        const trendData = await loadTrendAnalysisData(displayStocks);
+        const reportContent = buildTrendAnalysisReport(trendData, scope, prompt);
+        const record: ReportRecord = { ...pendingRecord, content: reportContent, status: 'done' };
+        setReviewGeneratingTitle(null);
+        setHistoryRecords((prev) => prev.map((item) => item.id === reportId ? record : item));
+        await streamAssistantMessage(reportContent);
+        setIsTyping(false);
+      }, 500);
     } else {
       const prompt = quickPrompts[key] || '';
       setInput(prompt);
@@ -1272,7 +1336,6 @@ export default function AiChatPage({ stocks }: Props) {
     setMessages([{ role: 'assistant', content: INITIAL_ASSISTANT_MESSAGE, time: now() }]);
     setInput('');
     setResultQuery('');
-    setSelectionContextRules(undefined);
     setSelectedReport(null);
     setSelectedAction('筛选');
     setSavedMessageIndexes(new Set());
