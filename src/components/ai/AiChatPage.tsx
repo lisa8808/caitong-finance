@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
-import { Send, Bot, User, TrendingUp, Activity, ClipboardList, Target, ShieldAlert, Loader2, FileText, X, BadgeDollarSign, Share2, MessageCircle, MessageSquare, Copy, NotebookPen } from 'lucide-react';
+import { Send, Bot, User, TrendingUp, Activity, ClipboardList, Target, ShieldAlert, Loader2, FileText, X, BadgeDollarSign, Share2, MessageCircle, MessageSquare, Copy, NotebookPen, MessageSquarePlus } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import html2canvas from 'html2canvas';
@@ -18,6 +18,7 @@ const ABNORMAL_MOVEMENT_SKILL_NAME = 'fi_abnormal_movement';
 const ABNORMAL_MOVEMENT_SKILL_TITLE = 'A股异动解读与归因分析 Skill';
 const ABNORMAL_REPORT_TITLE = '异动解读报告';
 const SAVED_NOTES_KEY = 'caitong-ai-saved-notes';
+const INITIAL_ASSISTANT_MESSAGE = '您好！我是您的量化智能助手。您可以提出关于个股筛选、行业异动或策略建议的问题，例如：「帮我筛选 PE 低于 20 的高成长电子股」';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -780,7 +781,7 @@ export default function AiChatPage({ stocks }: Props) {
   const isFiltered = !!stocks;
 
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: '您好！我是您的量化智能助手。您可以提出关于个股筛选、行业异动或策略建议的问题，例如：「帮我筛选 PE 低于 20 的高成长电子股」', time: now() },
+    { role: 'assistant', content: INITIAL_ASSISTANT_MESSAGE, time: now() },
   ]);
   const [input, setInput] = useState('');
   const [resultQuery, setResultQuery] = useState('');
@@ -795,6 +796,7 @@ export default function AiChatPage({ stocks }: Props) {
   const [showStockSelectionTemplates, setShowStockSelectionTemplates] = useState(false);
   const [selectedAction, setSelectedAction] = useState('筛选');
   const [selectionContextRules, setSelectionContextRules] = useState<StockSelectionContext | undefined>();
+  const conversationEpochRef = useRef(0);
   const [shareMessageIndex, setShareMessageIndex] = useState<number | null>(null);
   const [savedMessageIndexes, setSavedMessageIndexes] = useState<Set<number>>(() => new Set());
   const [recordShareId, setRecordShareId] = useState<string | null>(null);
@@ -1006,11 +1008,18 @@ export default function AiChatPage({ stocks }: Props) {
   };
 
   const streamAssistantMessage = (content: string) => new Promise<void>((resolve) => {
+    const epoch = conversationEpochRef.current;
     let visibleLength = 0;
     setIsStreaming(true);
     setMessages((prev) => [...prev, { role: 'assistant', content: '', time: now() }]);
 
     streamTimerRef.current = window.setInterval(() => {
+      if (conversationEpochRef.current !== epoch) {
+        if (streamTimerRef.current !== null) window.clearInterval(streamTimerRef.current);
+        streamTimerRef.current = null;
+        resolve();
+        return;
+      }
       visibleLength = Math.min(visibleLength + 3, content.length);
       setMessages((prev) => prev.map((message, index) => (
         index === prev.length - 1 ? { ...message, content: content.slice(0, visibleLength) } : message
@@ -1254,6 +1263,26 @@ export default function AiChatPage({ stocks }: Props) {
     reader.readAsDataURL(file);
   };
 
+  const handleNewConversation = () => {
+    conversationEpochRef.current += 1;
+    if (streamTimerRef.current !== null) {
+      window.clearInterval(streamTimerRef.current);
+      streamTimerRef.current = null;
+    }
+    setMessages([{ role: 'assistant', content: INITIAL_ASSISTANT_MESSAGE, time: now() }]);
+    setInput('');
+    setResultQuery('');
+    setSelectionContextRules(undefined);
+    setSelectedReport(null);
+    setSelectedAction('筛选');
+    setSavedMessageIndexes(new Set());
+    setShareMessageIndex(null);
+    setReviewGeneratingTitle(null);
+    setIsTyping(false);
+    setIsStreaming(false);
+    setShareNotice('');
+  };
+
   return (
     <div className="flex-1 flex min-w-0 overflow-hidden">
       {shareNotice && (
@@ -1265,6 +1294,22 @@ export default function AiChatPage({ stocks }: Props) {
         </div>
       )}
       <div className="min-w-0 flex-1 flex flex-col bg-gradient-to-br from-indigo-900/20 via-gray-900 to-blue-900/20">
+        <div className="flex h-11 flex-shrink-0 items-center justify-between border-b border-gray-700/50 px-4">
+          <div className="flex items-center gap-2 text-xs font-medium text-[#E6EDF7]">
+            <Bot size={15} className="text-blue-400" />
+            <span>智询对话</span>
+          </div>
+          <button
+            type="button"
+            onClick={handleNewConversation}
+            aria-label="新建对话"
+            title="新建对话"
+            className="flex items-center gap-1.5 rounded-md border border-gray-700/70 px-2.5 py-1.5 text-xs text-gray-300 transition-colors hover:border-blue-500/60 hover:bg-blue-500/10 hover:text-blue-300"
+          >
+            <MessageSquarePlus size={14} />
+            <span>新建对话</span>
+          </button>
+        </div>
         <div className={`min-w-0 flex-1 p-4 ${messages.length > 1 ? 'overflow-auto scrollbar-thin space-y-4' : 'overflow-hidden'}`}>
           {messages.length <= 1 ? (
             <div className="flex flex-col items-center justify-center h-full gap-6 -mt-8">
