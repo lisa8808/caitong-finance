@@ -75,6 +75,10 @@ const cases = [
   ['IND-09', '食品饮料和家电', { industryKeywords: ['食品饮料', '家电'] }],
   ['IND-10', '保险、房地产和煤炭', { industryKeywords: ['保险', '房地产', '煤炭'] }],
   ['IND-11', '化工、传媒和软件', { industryKeywords: ['化工', '传媒', '软件'] }],
+  ['NEG-IND-01', '非银行股', { industryExcludeKeywords: ['银行'] }],
+  ['NEG-IND-02', '不是银行股', { industryExcludeKeywords: ['银行'] }],
+  ['NEG-IND-03', '排除银行、保险股', { industryExcludeKeywords: ['银行', '保险'] }],
+  ['NEG-IND-04', '银行股除外', { industryExcludeKeywords: ['银行'] }],
   ['EXT-VAL-01', '市销率PS低于3', {}, ['PS/市销率条件']],
   ['EXT-VAL-02', 'PEG低于1', {}, ['PEG/EV-EBITDA估值条件']],
   ['EXT-VAL-03', 'EV/EBITDA低于10', {}, ['PEG/EV-EBITDA估值条件']],
@@ -154,9 +158,10 @@ const filterCases = [
   ['FILTER-AND', '复合条件为AND', { peMax: 20, pbMax: 2, turnoverRateMin: 3, volumeRatioMin: 1.5 }, ['银行'], ['000002']],
   ['FILTER-EMPTY', '无命中不放宽', { peMax: 1 }, [], []],
   ['FILTER-MAX', '多条件严格筛选', { peMax: 21, totalMvMinYi: 100 }, ['银行'], ['000002']],
-].map(([id, prompt, partialRules, industryTerms, expectedCodes]) => {
+  ['FILTER-EXCLUDE-IND', '排除银行行业', {}, [], ['000007'], ['银行']],
+].map(([id, prompt, partialRules, industryTerms, expectedCodes, excludeIndustryTerms = []]) => {
   const rules = { ...parseStockSelectionRules(''), ...partialRules };
-  const actualCodes = filterStockSelectionCandidates(fixtureRows, rules, industryTerms).map((row) => row.code);
+  const actualCodes = filterStockSelectionCandidates(fixtureRows, rules, industryTerms, excludeIndustryTerms).map((row) => row.code);
   const passed = JSON.stringify(actualCodes) === JSON.stringify(expectedCodes);
   return {
     id,

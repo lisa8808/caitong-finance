@@ -28,8 +28,15 @@ export function parseStockSelectionRules(prompt) {
   const revenueGrowthMin = numberAfter([/(?:营收|营业收入)(?:同比)?(?:增长|增速)?\s*(?:大于|高于|超过|不低于|至少|>|≥)\s*(\d+(?:\.\d+)?)%?/])
     ?? (text.includes('高成长') ? 20 : null);
   const roeMin = numberAfter([/ROE\s*(?:大于|高于|超过|不低于|至少|>|≥)\s*(\d+(?:\.\d+)?)%?/i, /净资产收益率\s*(?:大于|高于|超过|不低于|至少|>|≥)\s*(\d+(?:\.\d+)?)%?/]);
-  const industryKeywords = ['半导体', '消费电子', '电子', '新能源', '光伏', '锂电池', '医药', '银行', '证券', '保险', '汽车', '军工', '食品饮料', '家电', '房地产', '有色金属', '煤炭', '化工', '传媒', '软件', '通信', '计算机']
-    .filter((keyword) => text.includes(keyword));
+  const industryVocabulary = ['半导体', '消费电子', '电子', '新能源', '光伏', '锂电池', '医药', '银行', '证券', '保险', '汽车', '军工', '食品饮料', '家电', '房地产', '有色金属', '煤炭', '化工', '传媒', '软件', '通信', '计算机'];
+  const industryExcludeKeywords = industryVocabulary.filter((keyword) => {
+    const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`(?:非|不是|不含|排除|剔除|去除|避开|不要|不选|不包括|不考虑)\\s*[^，,；;。]{0,12}(?:${escaped})(?:股|股票|行业|板块)?`).test(text)
+      || new RegExp(`(?:${escaped})(?:股|股票|行业|板块)?\\s*(?:除外|除开|不含)`).test(text);
+  }).filter((keyword, _, keywords) => !keywords.some((other) => other !== keyword && other.includes(keyword)));
+  const industryKeywords = industryVocabulary
+    .filter((keyword) => text.includes(keyword)
+      && !industryExcludeKeywords.some((excluded) => excluded === keyword || excluded.includes(keyword)));
   const fundFlowMatch = text.match(/(?:近|最近)\s*([\d一二三四五六七八九十]+)\s*(?:个)?(?:交易)?日[^，,；;]*主力资金[^，,；;]*(?:净)?流入/);
   const mainNetInflowDays = fundFlowMatch
     ? chineseNumber(fundFlowMatch[1])
@@ -61,12 +68,12 @@ export function parseStockSelectionRules(prompt) {
   if (circMvMinYi === null && circMvMaxYi === null && text.includes('流通市值')) unsupportedConditions.push('流通市值条件（未识别阈值或单位）');
   return {
     peMax, pbMax, turnoverRateMin, volumeRatioMin, totalMvMinYi, totalMvMaxYi,
-    circMvMinYi, circMvMaxYi, revenueGrowthMin, roeMin, industryKeywords,
+    circMvMinYi, circMvMaxYi, revenueGrowthMin, roeMin, industryKeywords, industryExcludeKeywords,
     mainNetInflowDays, unsupportedConditions,
   };
 }
 
-export function filterStockSelectionCandidates(rows, rules, industryTerms = []) {
+export function filterStockSelectionCandidates(rows, rules, industryTerms = [], excludeIndustryTerms = []) {
   return rows.filter((row) => (
     row.price > 0
     && !String(row.name).includes('ST')
@@ -83,5 +90,6 @@ export function filterStockSelectionCandidates(rows, rules, industryTerms = []) 
     && (rules.circMvMinYi === null || row.circMv > rules.circMvMinYi * 100_000_000)
     && (rules.circMvMaxYi === null || row.circMv < rules.circMvMaxYi * 100_000_000)
     && (!industryTerms.length || industryTerms.some((keyword) => String(row.industry).includes(keyword)))
+    && (!excludeIndustryTerms.length || !excludeIndustryTerms.some((keyword) => String(row.industry).includes(keyword)))
   ));
 }

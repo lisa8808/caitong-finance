@@ -246,8 +246,8 @@ export default function AccountPage() {
               {showAmount ? fmtCurrency(account.totalAssets) : '****'}
             </div>
             <div className="flex items-center gap-3 mt-1">
-              <span className="text-up text-sm font-mono">{totalProfitSign}{account.totalProfit.toLocaleString()}</span>
-              <span className="text-up text-sm font-mono">{totalProfitSign}{account.totalProfitPct.toFixed(2)}%</span>
+              <span className={`${account.totalProfit > 0 ? 'text-up' : account.totalProfit < 0 ? 'text-down' : 'text-neutral'} text-sm font-mono`}>{totalProfitSign}{account.totalProfit.toLocaleString()}</span>
+              <span className={`${account.totalProfitPct > 0 ? 'text-up' : account.totalProfitPct < 0 ? 'text-down' : 'text-neutral'} text-sm font-mono`}>{account.totalProfitPct >= 0 ? '+' : ''}{account.totalProfitPct.toFixed(2)}%</span>
               <span className="text-white/50 text-xs">累计总收益</span>
             </div>
           </div>
@@ -335,8 +335,8 @@ export default function AccountPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-sm text-secondary">本月收益</span>
-              <span className="text-xl font-bold text-up font-mono">{totalProfitSign}{account.totalProfit.toLocaleString()}</span>
-              <span className="text-sm text-up font-mono">{totalProfitSign}{account.totalProfitPct.toFixed(2)}%</span>
+              <span className={`${account.totalProfit > 0 ? 'text-up' : account.totalProfit < 0 ? 'text-down' : 'text-neutral'} text-xl font-bold font-mono`}>{totalProfitSign}{account.totalProfit.toLocaleString()}</span>
+              <span className={`${account.totalProfitPct > 0 ? 'text-up' : account.totalProfitPct < 0 ? 'text-down' : 'text-neutral'} text-sm font-mono`}>{account.totalProfitPct >= 0 ? '+' : ''}{account.totalProfitPct.toFixed(2)}%</span>
             </div>
             <p className="text-xs text-secondary mt-1">跑赢沪深300 +1.2%</p>
           </div>

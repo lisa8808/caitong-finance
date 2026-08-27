@@ -33,7 +33,12 @@ const strategies: StrategyCard[] = [
 ];
 
 type ColorVal = 'red' | 'green' | 'neutral';
-function pnlColor(v: string): ColorVal { if(v==='-')return'neutral'; if(v.startsWith('+'))return'green'; return'red'; }
+function pnlColor(v: string): ColorVal {
+  if (v === '-') return 'neutral';
+  if (v.startsWith('+')) return 'red';
+  if (v.startsWith('-')) return 'green';
+  return 'neutral';
+}
 const colorMap = { green:'#22c55e', red:'#ef4444', neutral:'#9ca3af' };
 const dotMap: Record<StrategyCard['status'],string> = { running:'#22c55e', ended:'#9ca3af', error:'#ef4444' };
 

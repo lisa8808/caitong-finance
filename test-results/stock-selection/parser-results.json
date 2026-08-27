@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-26T08:13:22.590Z",
+  "generatedAt": "2026-08-27T03:31:15.503Z",
   "summary": {
-    "total": 114,
-    "passed": 114,
+    "total": 119,
+    "passed": 119,
     "failed": 0,
     "passRate": 1
   },
@@ -31,6 +31,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -59,6 +60,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -87,6 +89,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -115,6 +118,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -143,6 +147,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -183,6 +188,7 @@
         "industryKeywords": [
           "银行"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -211,6 +217,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -239,6 +246,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -267,6 +275,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -295,6 +304,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -325,6 +335,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "PB/市净率条件（未识别阈值）"
@@ -355,6 +366,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -383,6 +395,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -411,6 +424,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -441,6 +455,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "换手率条件（未识别阈值）"
@@ -471,6 +486,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -499,6 +515,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -527,6 +544,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -557,6 +575,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "量比条件（未识别阈值）"
@@ -587,6 +606,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -615,6 +635,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -649,6 +670,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -677,6 +699,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -705,6 +728,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -735,6 +759,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "总市值条件（未识别阈值或单位）"
@@ -765,6 +790,7 @@
         "revenueGrowthMin": 20,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -793,6 +819,7 @@
         "revenueGrowthMin": 35.5,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -821,6 +848,7 @@
         "revenueGrowthMin": 20,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -849,6 +877,7 @@
         "revenueGrowthMin": null,
         "roeMin": 12,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -877,6 +906,7 @@
         "revenueGrowthMin": null,
         "roeMin": 15,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -907,6 +937,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "毛利率条件"
@@ -943,6 +974,7 @@
         "industryKeywords": [
           "半导体"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -977,6 +1009,7 @@
         "industryKeywords": [
           "新能源"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1014,6 +1047,7 @@
           "医药",
           "汽车"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1051,6 +1085,7 @@
           "消费电子",
           "电子"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1088,6 +1123,7 @@
           "通信",
           "计算机"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1116,6 +1152,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
         "unsupportedConditions": []
       }
@@ -1144,6 +1181,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 3,
         "unsupportedConditions": []
       }
@@ -1172,6 +1210,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 10,
         "unsupportedConditions": []
       }
@@ -1200,6 +1239,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
         "unsupportedConditions": []
       }
@@ -1230,6 +1270,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "均线形态条件"
@@ -1262,6 +1303,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "突破形态条件"
@@ -1294,6 +1336,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "技术指标条件"
@@ -1326,6 +1369,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "成交额放大条件"
@@ -1358,6 +1402,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "净利润增长条件"
@@ -1418,6 +1463,7 @@
         "industryKeywords": [
           "新能源"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
         "unsupportedConditions": []
       }
@@ -1470,6 +1516,7 @@
         "industryKeywords": [
           "电子"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1516,6 +1563,7 @@
         "industryKeywords": [
           "银行"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1568,6 +1616,7 @@
         "industryKeywords": [
           "汽车"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1626,6 +1675,7 @@
         "industryKeywords": [
           "半导体"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "成交额放大条件",
@@ -1650,6 +1700,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1671,6 +1722,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1699,6 +1751,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1727,6 +1780,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1755,6 +1809,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1783,6 +1838,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1811,6 +1867,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1839,6 +1896,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1867,6 +1925,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1895,6 +1954,7 @@
         "revenueGrowthMin": 12,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1923,6 +1983,7 @@
         "revenueGrowthMin": null,
         "roeMin": 10,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1951,6 +2012,7 @@
         "revenueGrowthMin": null,
         "roeMin": 18,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -1979,6 +2041,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
         "unsupportedConditions": []
       }
@@ -2007,6 +2070,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
         "unsupportedConditions": []
       }
@@ -2035,6 +2099,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 10,
         "unsupportedConditions": []
       }
@@ -2063,6 +2128,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 15,
         "unsupportedConditions": []
       }
@@ -2097,6 +2163,7 @@
         "industryKeywords": [
           "光伏"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -2131,6 +2198,7 @@
         "industryKeywords": [
           "锂电池"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -2168,6 +2236,7 @@
           "军工",
           "有色金属"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -2205,6 +2274,7 @@
           "食品饮料",
           "家电"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -2245,6 +2315,7 @@
           "房地产",
           "煤炭"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -2285,6 +2356,150 @@
           "传媒",
           "软件"
         ],
+        "industryExcludeKeywords": [],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "NEG-IND-01",
+      "prompt": "非银行股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryExcludeKeywords matches",
+          "passed": true,
+          "expected": [
+            "银行"
+          ],
+          "actual": [
+            "银行"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "industryExcludeKeywords": [
+          "银行"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "NEG-IND-02",
+      "prompt": "不是银行股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryExcludeKeywords matches",
+          "passed": true,
+          "expected": [
+            "银行"
+          ],
+          "actual": [
+            "银行"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "industryExcludeKeywords": [
+          "银行"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "NEG-IND-03",
+      "prompt": "排除银行、保险股",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryExcludeKeywords matches",
+          "passed": true,
+          "expected": [
+            "银行",
+            "保险"
+          ],
+          "actual": [
+            "银行",
+            "保险"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "industryExcludeKeywords": [
+          "银行",
+          "保险"
+        ],
+        "mainNetInflowDays": null,
+        "unsupportedConditions": []
+      }
+    },
+    {
+      "id": "NEG-IND-04",
+      "prompt": "银行股除外",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "industryExcludeKeywords matches",
+          "passed": true,
+          "expected": [
+            "银行"
+          ],
+          "actual": [
+            "银行"
+          ]
+        }
+      ],
+      "actual": {
+        "peMax": null,
+        "pbMax": null,
+        "turnoverRateMin": null,
+        "volumeRatioMin": null,
+        "totalMvMinYi": null,
+        "totalMvMaxYi": null,
+        "circMvMinYi": null,
+        "circMvMaxYi": null,
+        "revenueGrowthMin": null,
+        "roeMin": null,
+        "industryKeywords": [],
+        "industryExcludeKeywords": [
+          "银行"
+        ],
         "mainNetInflowDays": null,
         "unsupportedConditions": []
       }
@@ -2315,6 +2530,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "PS/市销率条件"
@@ -2347,6 +2563,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "PEG/EV-EBITDA估值条件"
@@ -2379,6 +2596,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "PEG/EV-EBITDA估值条件"
@@ -2411,6 +2629,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "净利润增长条件"
@@ -2443,6 +2662,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "毛利率条件"
@@ -2475,6 +2695,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "净利率条件"
@@ -2507,6 +2728,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "资产负债率条件"
@@ -2539,6 +2761,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "股息率条件"
@@ -2571,6 +2794,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "每股收益条件"
@@ -2603,6 +2827,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "每股净资产条件"
@@ -2635,6 +2860,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "均线形态条件"
@@ -2667,6 +2893,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "突破形态条件"
@@ -2699,6 +2926,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "技术指标条件"
@@ -2731,6 +2959,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "技术指标条件"
@@ -2763,6 +2992,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "技术指标条件"
@@ -2805,6 +3035,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "突破形态条件",
@@ -2838,6 +3069,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "涨跌幅条件"
@@ -2870,6 +3102,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "振幅或波动率条件"
@@ -2902,6 +3135,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "振幅或波动率条件"
@@ -2934,6 +3168,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "连板条件"
@@ -2966,6 +3201,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "其他资金面条件"
@@ -2998,6 +3234,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "其他资金面条件"
@@ -3030,6 +3267,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "持仓结构条件"
@@ -3062,6 +3300,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "持仓结构条件"
@@ -3094,6 +3333,7 @@
         "revenueGrowthMin": null,
         "roeMin": null,
         "industryKeywords": [],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "持仓结构条件"
@@ -3150,6 +3390,7 @@
         "industryKeywords": [
           "光伏"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": null,
         "unsupportedConditions": [
           "股息率条件"
@@ -3206,6 +3447,7 @@
         "industryKeywords": [
           "军工"
         ],
+        "industryExcludeKeywords": [],
         "mainNetInflowDays": 5,
         "unsupportedConditions": [
           "技术指标条件"
@@ -3590,6 +3832,28 @@
       "actual": {
         "selectedCodes": [
           "000002"
+        ]
+      }
+    },
+    {
+      "id": "FILTER-EXCLUDE-IND",
+      "prompt": "排除银行行业",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "selected codes match",
+          "passed": true,
+          "expected": [
+            "000007"
+          ],
+          "actual": [
+            "000007"
+          ]
+        }
+      ],
+      "actual": {
+        "selectedCodes": [
+          "000007"
         ]
       }
     }

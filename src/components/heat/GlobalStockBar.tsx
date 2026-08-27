@@ -3,15 +3,16 @@ import { globalStock, strategyTags } from '../../data/heatData';
 
 export default function GlobalStockBar() {
   const [activeTag, setActiveTag] = useState('龙头');
+  const changeColor = globalStock.涨跌幅 > 0 ? 'text-up' : globalStock.涨跌幅 < 0 ? 'text-down' : 'text-neutral';
 
   return (
     <div className="bg-primary-nav border-b border-gray-700">
       <div className="flex items-center px-3 py-2 gap-4 border-b border-gray-700/50">
         <span className="text-neutral text-sm font-mono font-semibold">{globalStock.代码}</span>
         <span className="text-neutral text-sm">{globalStock.名称}</span>
-        <span className="text-up text-sm font-mono font-semibold">{globalStock.现价.toFixed(2)}</span>
-        <span className="text-up text-sm font-mono">{globalStock.涨跌幅.toFixed(2)}%</span>
-        <span className="text-up text-xs font-mono">+{globalStock.涨跌额.toFixed(2)}</span>
+        <span className="text-price text-sm font-mono font-semibold">{globalStock.现价.toFixed(2)}</span>
+        <span className={`${changeColor} text-sm font-mono`}>{globalStock.涨跌幅 >= 0 ? '+' : ''}{globalStock.涨跌幅.toFixed(2)}%</span>
+        <span className={`${changeColor} text-xs font-mono`}>{globalStock.涨跌额 >= 0 ? '+' : ''}{globalStock.涨跌额.toFixed(2)}</span>
         <span className="text-secondary text-xs">
           振幅 <span className="text-neutral font-mono">{globalStock.振幅}%</span>
         </span>

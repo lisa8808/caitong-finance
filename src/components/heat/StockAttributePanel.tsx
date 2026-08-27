@@ -19,8 +19,8 @@ export default function StockAttributePanel({ stock, similarStock }: Props) {
           <span className="text-secondary text-xs font-mono">{similarStock.代码}</span>
         </div>
         <div className="flex items-center gap-3 mb-2">
-          <span className="text-up text-base font-mono font-bold">{similarStock.现价.toFixed(2)}</span>
-          <span className="text-up text-sm font-mono">+{similarStock.涨幅}%</span>
+          <span className={`${similarStock.涨幅 > 0 ? 'text-up' : similarStock.涨幅 < 0 ? 'text-down' : 'text-neutral'} text-base font-mono font-bold`}>{similarStock.现价.toFixed(2)}</span>
+          <span className={`${similarStock.涨幅 > 0 ? 'text-up' : similarStock.涨幅 < 0 ? 'text-down' : 'text-neutral'} text-sm font-mono`}>{similarStock.涨幅 >= 0 ? '+' : ''}{similarStock.涨幅}%</span>
         </div>
         <p className="text-secondary text-[10px]">属性解读 · 相似度分析</p>
       </div>

@@ -34,9 +34,10 @@ Do not use this skill for:
 1. Confirm the request is an A-share quantitative screening request.
 2. Reject trading advice, price prediction, or guaranteed-return requests.
 3. Parse natural language into factors, fields, thresholds, windows, and sort rules.
-4. Apply default risk filters: ST/*ST, delisting, suspension, warning names.
-5. Execute against available candidate rows when data exists; otherwise output executable rules and explain missing data.
-6. Return the five-section Markdown result.
+4. If the user refers to“上一步策略”“上一轮条件”“刚才的筛选”或“继续筛选”，inherit the previous parsed quantitative rules before applying new explicit conditions; current-turn conditions override the inherited values.
+5. Apply default risk filters: ST/*ST, delisting, suspension, warning names.
+6. Execute against available candidate rows when data exists; otherwise output executable rules and explain missing data.
+7. Return the five-section Markdown result.
 
 ## Required Output
 

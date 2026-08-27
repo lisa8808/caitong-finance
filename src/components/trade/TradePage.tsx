@@ -3,6 +3,11 @@ import { TrendingUp, Flame, Plus, Eye, Pencil, Trash2, Play, Rocket } from 'luci
 import { strategyCards, topicCards } from '../../data/tradeData';
 import MembershipModal from './MembershipModal';
 
+function returnColor(value: string | number) {
+  const numeric = typeof value === 'number' ? value : Number(String(value).replace(/[%+,]/g, ''));
+  return numeric > 0 ? 'text-up' : numeric < 0 ? 'text-down' : 'text-neutral';
+}
+
 export default function TradePage() {
   const [showMembership, setShowMembership] = useState(false);
 
@@ -24,9 +29,9 @@ export default function TradePage() {
                 <h3 className="text-neutral text-sm font-semibold mb-2">{topic.名称}</h3>
                 <p className="text-secondary text-xs mb-2 leading-relaxed">{topic.描述}</p>
                 <div className="mb-2 space-y-1">
-                  <div className="flex justify-between text-[11px]"><span className="text-secondary">年化收益</span><span className="text-up font-mono font-semibold">{topic.年化收益}</span></div>
-                  <div className="flex justify-between text-[11px]"><span className="text-secondary">累计收益</span><span className="text-up font-mono font-semibold">{topic.累计收益}</span></div>
-                  <div className="flex justify-between text-[11px]"><span className="text-secondary">最大回撤</span><span className="text-down font-mono">{topic.最大回撤}</span></div>
+                  <div className="flex justify-between text-[11px]"><span className="text-secondary">年化收益</span><span className={`${returnColor(topic.年化收益)} font-mono font-semibold`}>{topic.年化收益}</span></div>
+                  <div className="flex justify-between text-[11px]"><span className="text-secondary">累计收益</span><span className={`${returnColor(topic.累计收益)} font-mono font-semibold`}>{topic.累计收益}</span></div>
+                  <div className="flex justify-between text-[11px]"><span className="text-secondary">最大回撤</span><span className={`${returnColor(topic.最大回撤)} font-mono`}>{topic.最大回撤}</span></div>
                 </div>
                 <div className="flex gap-1.5">
                   <button onClick={(e) => { e.stopPropagation(); setShowMembership(true); }} className="flex-1 py-1.5 text-[10px] rounded bg-gray-800 text-white hover:bg-gray-700 transition-colors">查看</button>
@@ -61,7 +66,7 @@ export default function TradePage() {
                   {card.年化收益 && (
                     <div className="flex justify-between text-[11px] mb-2">
                       <span className="text-secondary">年化收益</span>
-                      <span className="text-up font-mono font-semibold">{card.年化收益}</span>
+                      <span className={`${returnColor(card.年化收益)} font-mono font-semibold`}>{card.年化收益}</span>
                     </div>
                   )}
                   {card.介绍 && (

@@ -12,6 +12,23 @@ interface StockSelectionSkillRequest {
     | "strategy_create"
     | "factor_page";
   userInput: string;
+  contextRules?: {
+    peMax?: number | null;
+    pbMax?: number | null;
+    turnoverRateMin?: number | null;
+    volumeRatioMin?: number | null;
+    totalMvMinYi?: number | null;
+    totalMvMaxYi?: number | null;
+    circMvMinYi?: number | null;
+    circMvMaxYi?: number | null;
+    revenueGrowthMin?: number | null;
+    roeMin?: number | null;
+    mainNetInflowDays?: number | null;
+    industryKeywords?: string[];
+    industryExcludeKeywords?: string[];
+    unsupportedConditions?: string[];
+  };
+  contextText?: string;
   scope?: {
     industries?: string[];
     concepts?: string[];

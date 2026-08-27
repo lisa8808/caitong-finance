@@ -21,6 +21,7 @@ const fundFlowData = [
 export default function StockDetail({ stock }: Props) {
   const [activeChart, setActiveChart] = useState<ChartTab>('分时');
   const [activeDetail, setActiveDetail] = useState<DetailTab>('资金流向');
+  const changeColor = stock.涨幅 > 0 ? 'text-up' : stock.涨幅 < 0 ? 'text-down' : 'text-neutral';
 
   return (
     <div className="w-80 bg-primary-nav border-l border-gray-700 flex flex-col overflow-hidden">
@@ -29,16 +30,16 @@ export default function StockDetail({ stock }: Props) {
           <div className="flex items-center gap-2">
             <span className="text-white font-semibold">{stock.证券名称}</span>
             <span className="text-secondary text-xs">{stock.证券代码}</span>
-            <TrendingUp size={14} className="text-up" />
+            <TrendingUp size={14} className={changeColor} />
           </div>
         </div>
         <div className="flex items-end gap-3">
           <span className="text-price text-2xl font-bold font-mono">{stock.现价.toFixed(3)}</span>
           <div className="flex flex-col items-end">
-            <span className="text-up text-sm font-mono">
+            <span className={`${changeColor} text-sm font-mono`}>
               {stock.涨跌 > 0 ? '+' : ''}{stock.涨跌.toFixed(3)}
             </span>
-            <span className="text-up text-sm font-mono">
+            <span className={`${changeColor} text-sm font-mono`}>
               {stock.涨幅 > 0 ? '+' : ''}{stock.涨幅.toFixed(2)}%
             </span>
           </div>

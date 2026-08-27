@@ -68,8 +68,8 @@ export default function SimilarStockSection({ stocks, onSelect, selectedCode }: 
             </div>
 
             <div className="flex flex-col items-end">
-              <span className="text-up text-xs font-mono font-semibold">{stock.现价.toFixed(2)}</span>
-              <span className="text-up text-[10px] font-mono">+{stock.涨幅}%</span>
+              <span className={`${stock.涨幅 > 0 ? 'text-up' : stock.涨幅 < 0 ? 'text-down' : 'text-neutral'} text-xs font-mono font-semibold`}>{stock.现价.toFixed(2)}</span>
+              <span className={`${stock.涨幅 > 0 ? 'text-up' : stock.涨幅 < 0 ? 'text-down' : 'text-neutral'} text-[10px] font-mono`}>{stock.涨幅 >= 0 ? '+' : ''}{stock.涨幅}%</span>
             </div>
 
             <button

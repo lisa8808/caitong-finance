@@ -4,6 +4,7 @@ export interface AbnormalMovementStock extends StockItem {
   所属板块?: string;
   成交额?: number;
   主力净流入?: number;
+  是否持仓?: boolean;
   直接诱因?: string;
   诱因分类?: string;
   信息来源?: string;
@@ -13,6 +14,7 @@ export interface AbnormalMovementData {
   tradeDate?: string;
   source: string;
   isRealData: boolean;
+  scope?: 'global_market' | 'watchlist' | 'stock';
   stocks: AbnormalMovementStock[];
 }
 
@@ -24,9 +26,11 @@ function fallbackData(stocks: StockItem[]): AbnormalMovementData {
   return {
     source: '页面当前行情数据',
     isRealData: false,
+    scope: 'global_market',
     stocks: [...stocks]
       .sort((a, b) => Math.abs(b.涨幅) - Math.abs(a.涨幅))
-      .slice(0, 5),
+      .slice(0, 5)
+      .map((stock) => ({ ...stock, 是否持仓: true })),
   };
 }
 
@@ -48,6 +52,7 @@ function normalizeStock(item: Partial<AbnormalMovementStock>, index: number): Ab
     所属板块: item.所属板块,
     成交额: item.成交额 === undefined ? undefined : Number(item.成交额),
     主力净流入: item.主力净流入 === undefined ? undefined : Number(item.主力净流入),
+    是否持仓: item.是否持仓 === true,
     直接诱因: item.直接诱因,
     诱因分类: item.诱因分类,
     信息来源: item.信息来源,
@@ -59,8 +64,8 @@ export async function loadAbnormalMovementData(stocks: StockItem[]): Promise<Abn
   const fallback = fallbackData(stocks);
   if (!apiBaseUrl) return fallback;
 
-  const codes = stocks.map((stock) => stock.证券代码).filter(Boolean).join(',');
-  const query = codes ? `?codes=${encodeURIComponent(codes)}` : '';
+  const holdingCodes = stocks.map((stock) => stock.证券代码).filter(Boolean).join(',');
+  const query = holdingCodes ? `?focusCodes=${encodeURIComponent(holdingCodes)}` : '';
 
   try {
     const response = await fetch(`${apiBaseUrl}/api/abnormal-movement${query}`);
@@ -72,6 +77,7 @@ export async function loadAbnormalMovementData(stocks: StockItem[]): Promise<Abn
       tradeDate: data.tradeDate,
       source: data.source || 'Tushare行情接口',
       isRealData: data.isRealData !== false,
+      scope: data.scope || 'global_market',
       stocks: data.stocks.map(normalizeStock),
     };
   } catch {
