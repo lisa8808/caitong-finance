@@ -26,7 +26,6 @@ interface StockSelectionSkillRequest {
     mainNetInflowDays?: number | null;
     industryKeywords?: string[];
     industryExcludeKeywords?: string[];
-    semanticConditions?: string[];
     unsupportedConditions?: string[];
   };
   contextText?: string;

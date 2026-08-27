@@ -15,11 +15,7 @@ import {
   getEastmoneyQuotes,
   searchEastmoneyStocks,
 } from './eastmoney-provider.mjs';
-import {
-  filterStockSelectionCandidates,
-  mergeStockSelectionRules,
-  parseStockSelectionRules as parseStockSelectionRulesCore,
-} from './stock-selection-rules.mjs';
+import { filterStockSelectionCandidates, parseStockSelectionRules as parseStockSelectionRulesCore } from './stock-selection-rules.mjs';
 import { getTencentQuotes, getThsHotReasons } from './tencent-market-provider.mjs';
 
 const execFileAsync = promisify(execFile);
@@ -1275,6 +1271,30 @@ function formatSelectionNumber(value, digits = 2) {
   return Number.isFinite(Number(value)) ? Number(value).toFixed(digits) : '--';
 }
 
+function mergeStockSelectionRules(currentRules, contextRules) {
+  if (!contextRules || typeof contextRules !== 'object') return currentRules;
+  const merged = { ...currentRules };
+  const scalarKeys = [
+    'peMax', 'pbMax', 'turnoverRateMin', 'volumeRatioMin',
+    'totalMvMinYi', 'totalMvMaxYi', 'circMvMinYi', 'circMvMaxYi',
+    'revenueGrowthMin', 'roeMin', 'mainNetInflowDays',
+  ];
+  for (const key of scalarKeys) {
+    if ((merged[key] === null || merged[key] === undefined)
+      && contextRules[key] !== null
+      && contextRules[key] !== undefined
+      && Number.isFinite(Number(contextRules[key]))) {
+      merged[key] = Number(contextRules[key]);
+    }
+  }
+  for (const key of ['industryKeywords', 'industryExcludeKeywords', 'unsupportedConditions']) {
+    const current = Array.isArray(merged[key]) ? merged[key] : [];
+    const previous = Array.isArray(contextRules[key]) ? contextRules[key] : [];
+    merged[key] = [...new Set([...previous, ...current])];
+  }
+  return merged;
+}
+
 async function getEastmoneyFinancialIndicator(code) {
   const url = new URL('https://datacenter.eastmoney.com/securities/api/data/v1/get');
   const params = {
@@ -1547,8 +1567,6 @@ async function getStockSelection(prompt, contextRules, contextText = '') {
     rules.volumeRatioMin !== null ? `| 量比高于${rules.volumeRatioMin} | 当日量比 | volume_ratio | > ${rules.volumeRatioMin} |` : null,
     rules.totalMvMinYi !== null || rules.totalMvMaxYi !== null ? `| 总市值范围 | 实时总市值 | total_mv | ${rules.totalMvMinYi !== null ? `> ${rules.totalMvMinYi}亿` : ''}${rules.totalMvMinYi !== null && rules.totalMvMaxYi !== null ? ' 且 ' : ''}${rules.totalMvMaxYi !== null ? `< ${rules.totalMvMaxYi}亿` : ''} |` : null,
     rules.circMvMinYi !== null || rules.circMvMaxYi !== null ? `| 流通市值范围 | 实时流通市值 | circ_mv | ${rules.circMvMinYi !== null ? `> ${rules.circMvMinYi}亿` : ''}${rules.circMvMinYi !== null && rules.circMvMaxYi !== null ? ' 且 ' : ''}${rules.circMvMaxYi !== null ? `< ${rules.circMvMaxYi}亿` : ''} |` : null,
-    rules.semanticConditions?.includes('大市值') ? `| 大市值（默认口径） | 实时总市值 | total_mv | > ${rules.totalMvMinYi}亿 |` : null,
-    rules.semanticConditions?.includes('超跌反弹') ? '| 超跌反弹 | 近期回撤与反弹幅度 | 日线K线序列 | 待历史K线验证 |' : null,
     rules.revenueGrowthMin !== null ? `| ${textIncludes(prompt, '高成长') ? `高成长（营收同比增长超过${rules.revenueGrowthMin}%）` : `营收同比增长超过${rules.revenueGrowthMin}%`} | 最新财报营收同比增长 | TOTALOPERATEREVETZ / q_sales_yoy | > ${rules.revenueGrowthMin}% |` : null,
     rules.roeMin !== null ? `| ROE高于${rules.roeMin}% | 最新财报净资产收益率 | roe | > ${rules.roeMin}% |` : null,
     rules.industryKeywords.length ? `| ${rules.industryKeywords.join('、')}股 | 行业分类同义映射 | industry | ${industryTerms.join(' / ')} |` : null,
@@ -1566,8 +1584,6 @@ async function getStockSelection(prompt, contextRules, contextText = '') {
     rules.roeMin !== null ? `3. 盈利能力：最新财报\`roe > ${rules.roeMin}%\`` : null,
     rules.industryKeywords.length ? `4. 范围：行业分类匹配“${industryTerms.join('”或“')}”` : null,
     rules.industryExcludeKeywords.length ? `4. 排除：行业分类不匹配“${excludeIndustryTerms.join('”或“')}”` : null,
-    rules.semanticConditions?.includes('大市值') ? `7. 规模：大市值按实时总市值 > ${rules.totalMvMinYi}亿执行（可在下一轮明确阈值覆盖）` : null,
-    rules.semanticConditions?.includes('超跌反弹') ? '8. 技术形态：超跌反弹已记录，需补充历史K线后验证，不会因缺失数据放宽其他条件。' : null,
     rules.mainNetInflowDays !== null ? `5. 资金：近${rules.mainNetInflowDays}个交易日主力净流入累计\`> 0\`` : null,
     '6. 默认风控过滤：剔除 ST/*ST、退市标的及无有效行情标的。',
   ].filter(Boolean);
