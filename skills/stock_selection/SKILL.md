@@ -34,12 +34,13 @@ Do not use this skill for:
 1. Confirm the request is an A-share quantitative screening request.
 2. Reject trading advice, price prediction, or guaranteed-return requests.
 3. Parse natural language into factors, fields, thresholds, windows, and sort rules.
-4. If the user refers to“上一步策略”“上一轮条件”“刚才的筛选”“按策略进行选股”或“标的筛选”，inherit the previous parsed quantitative rules before applying new explicit conditions; current-turn conditions override the inherited values. Treat a bare continuation request as a real screening run, never as an empty prompt.
-5. Convert qualitative size language into a stable default that can be carried forward: “大市值/大盘股/市值较大” means total market value > 500亿元 unless the user supplies another threshold. Keep the original semantic label alongside the numeric rule so the report explains the assumption.
-6. Preserve technical phrases such as “超跌反弹” in the inherited rule set and report them as pending historical-K-line validation. Missing K-line fields must be disclosed and must not erase the other inherited executable rules.
-7. Apply default risk filters: ST/*ST, delisting, suspension, warning names.
-8. Execute against available candidate rows when data exists; otherwise output executable rules and explain missing data.
-9. Return the five-section Markdown result.
+4. Maintain a conversation-level “last valid selection context”. When the user later says “标的筛选”“选股”“按策略进行选股”“按刚才策略”“继续筛选” or similar, treat it as an execution command and inherit that context before applying new explicit conditions. Search backward to the latest selection turn and its quantified assistant answer, skipping unrelated market/trend/risk chat; do not require the previous answer to contain a specific report title.
+5. Merge the inherited `contextRules` and `contextText` with the current prompt. Current-turn explicit numeric thresholds override the same inherited field; industry and exclusion lists combine by default so a new constraint can narrow the previous universe. Omitted fields remain inherited. A bare command must never reset valid conditions to null or produce an empty-filter report.
+6. Convert qualitative size language into a stable default that can be carried forward: “大市值/大盘股/市值较大” means total market value > 500亿元 unless the user supplies another threshold. Keep the original semantic label alongside the numeric rule so the report explains the assumption.
+7. Preserve technical phrases such as “超跌反弹” in the inherited rule set and report them as pending historical-K-line validation. Missing K-line fields must be disclosed and must not erase the other inherited executable rules.
+8. Apply default risk filters: ST/*ST, delisting, suspension, warning names.
+9. Execute against available candidate rows when data exists; otherwise output executable rules and explain missing data.
+10. Return the five-section Markdown result and explicitly state whether conditions were inherited, overridden, or unavailable.
 
 ## Required Output
 

@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { filterStockSelectionCandidates, mergeStockSelectionRules, parseStockSelectionRules } from '../server/stock-selection-rules.mjs';
+import { buildStockSelectionContext } from '../src/services/stockSelectionContext.mjs';
 
 const cases = [
   ['PE-01', 'PE低于20的A股', { peMax: 20 }],
@@ -180,6 +181,28 @@ const contextAssertions = [
   ['CONTEXT-SIZE', '上一轮大市值条件可继承', continuedRules.totalMvMinYi === 500],
   ['CONTEXT-SEMANTIC', '上一轮技术语义可继承', continuedRules.semanticConditions.includes('超跌反弹')],
   ['CONTEXT-OVERRIDE', '本轮明确市值阈值覆盖默认口径', mergeStockSelectionRules(parseStockSelectionRules('总市值高于100亿'), firstTurnRules).totalMvMinYi === 100],
+  ['CONTEXT-BARE-COMMAND', '裸标的筛选命令不清空上一轮条件', mergeStockSelectionRules(parseStockSelectionRules('标的筛选'), parseStockSelectionRules('PE低于20且高成长电子股')).peMax === 20],
+  ['CONTEXT-INDUSTRY', '裸选股命令继承行业与成长条件', (() => {
+    const rules = mergeStockSelectionRules(parseStockSelectionRules('选股'), parseStockSelectionRules('高成长电子股'));
+    return rules.revenueGrowthMin === 20 && rules.industryKeywords.includes('电子');
+  })()],
+  ['CONTEXT-BARE-LATEST', '最新裸标的筛选命令不遮蔽前一轮条件', (() => {
+    const previous = parseStockSelectionRules('超跌反弹大市值股票');
+    const latestCommand = parseStockSelectionRules('标的筛选');
+    return mergeStockSelectionRules(latestCommand, previous).totalMvMinYi === 500
+      && previous.semanticConditions.includes('超跌反弹');
+  })()],
+  ['CONTEXT-CHAT-GAP', '普通聊天不会切断最近一次有效选股上下文', (() => {
+    const context = buildStockSelectionContext([
+      { role: 'assistant', content: '您好' },
+      { role: 'user', content: '超跌反弹大市值股票' },
+      { role: 'assistant', content: '# A股自然语言量化选股报告\n总市值 > 500亿；超跌反弹待K线验证' },
+      { role: 'user', content: '当前大盘资金流向如何？' },
+      { role: 'assistant', content: '全市场主力资金净流入。' },
+      { role: 'user', content: '标的筛选' },
+    ]);
+    return context?.includes('超跌反弹大市值股票') && context.includes('500亿');
+  })()],
 ].map(([id, prompt, passed]) => ({
   id,
   prompt,

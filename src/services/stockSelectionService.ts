@@ -7,6 +7,16 @@ export interface StockSelectionResponse {
 
 export type StockSelectionContext = Record<string, unknown>;
 
+export interface StockSelectionContextMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
+// The helper is shared with the Node regression runner and intentionally kept as
+// a small runtime module; its declaration file documents the typed boundary.
+// @ts-ignore The adjacent .mjs.d.ts is consumed by editors, while Vite bundles the runtime module.
+export { buildStockSelectionContext } from './stockSelectionContext.mjs';
+
 function getApiBaseUrl() {
   return (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
 }

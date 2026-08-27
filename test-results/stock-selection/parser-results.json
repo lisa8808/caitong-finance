@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-27T03:54:39.156Z",
+  "generatedAt": "2026-08-27T04:31:57.469Z",
   "summary": {
-    "total": 124,
-    "passed": 124,
+    "total": 128,
+    "passed": 128,
     "failed": 0,
     "passRate": 1
   },
@@ -4066,6 +4066,70 @@
     {
       "id": "CONTEXT-OVERRIDE",
       "prompt": "本轮明确市值阈值覆盖默认口径",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-BARE-COMMAND",
+      "prompt": "裸标的筛选命令不清空上一轮条件",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-INDUSTRY",
+      "prompt": "裸选股命令继承行业与成长条件",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-BARE-LATEST",
+      "prompt": "最新裸标的筛选命令不遮蔽前一轮条件",
+      "passed": true,
+      "assertions": [
+        {
+          "name": "context rule assertion",
+          "passed": true,
+          "expected": true,
+          "actual": true
+        }
+      ],
+      "actual": {
+        "passed": true
+      }
+    },
+    {
+      "id": "CONTEXT-CHAT-GAP",
+      "prompt": "普通聊天不会切断最近一次有效选股上下文",
       "passed": true,
       "assertions": [
         {
